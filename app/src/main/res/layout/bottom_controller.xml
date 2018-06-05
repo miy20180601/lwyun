@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true">
+    <RadioGroup
+        android:id="@+id/radiogroup"
+        android:layout_width="match_parent"
+        android:layout_height="48.6667dp"
+        android:background="@color/white"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/controller_tab1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/bottom_tab1"
+            android:drawableTop="@drawable/selector_bottom_home"
+            android:drawablePadding="2dp"
+            style="@style/ControllerTab" />
+
+        <RadioButton
+            android:id="@+id/controller_tab2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="@string/bottom_tab2"
+            android:drawableTop="@drawable/selector_bottom_novice"
+            android:drawablePadding="2dp"
+            style="@style/ControllerTab" />
+
+        <RadioButton
+            android:id="@+id/controller_tab3"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/selector_bottom_mine"
+            android:text="@string/bottom_tab3"
+            android:layout_height="wrap_content"
+            style="@style/ControllerTab" />
+        <RadioButton
+            android:id="@+id/controller_tab4"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/selector_bottom_information"
+            android:drawablePadding="2dp"
+            android:text="@string/bottom_tab4"
+            style="@style/ControllerTab"/>
+        <RadioButton
+            android:id="@+id/controller_tab5"
+            android:paddingTop="6dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/selector_bottom_consultant"
+            android:drawablePadding="2dp"
+            android:text="@string/bottom_tab5"
+            style="@style/ControllerTab" />
+    </RadioGroup>
+</FrameLayout>

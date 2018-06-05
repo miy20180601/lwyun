@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:id="@+id/tv_profession"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingTop="3dp"
+          android:paddingBottom="3dp"
+          android:layout_marginRight="5dp"
+          android:gravity="center"
+          android:background="@drawable/shape_miaobian_touming_yuanjiao"
+          android:textColor="@color/tv_high_light"
+          tools:text="家庭纠纷"
+    />
