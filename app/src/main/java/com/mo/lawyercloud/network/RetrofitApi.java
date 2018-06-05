@@ -97,7 +97,7 @@ public interface RetrofitApi {
     @GET("home/index")
     Observable<BaseEntity<HomeBean>> homeIndex();
 
-    
+
 
 
 

@@ -265,6 +265,8 @@ public class LowyerRegisterActivity extends BaseActivity {
                 break;
             case R.id.tv_get_code:
                 if (TextUtils.isEmpty(mPhone)) {
+
+
                     NToast.shortToast(mContext, "请输入手机号");
                     return;
                 }
