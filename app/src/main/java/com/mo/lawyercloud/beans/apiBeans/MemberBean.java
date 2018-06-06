@@ -1,9 +1,11 @@
 package com.mo.lawyercloud.beans.apiBeans;
 
+import java.io.Serializable;
+
 /**
  * Created by Mohaifeng on 18/5/31.
  */
-public class MemberBean {
+public class MemberBean implements Serializable{
 
     /**
      * id : 6

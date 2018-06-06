@@ -1,5 +1,6 @@
 package com.mo.lawyercloud.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioGroup;
@@ -7,14 +8,22 @@ import android.widget.Toast;
 
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.base.BaseActivity;
+import com.mo.lawyercloud.base.Constant;
+import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.fragment.AdvisoryFragment;
 import com.mo.lawyercloud.fragment.HomeFragment;
 import com.mo.lawyercloud.fragment.InformationFragment;
 import com.mo.lawyercloud.fragment.MineUserFragment;
 import com.mo.lawyercloud.fragment.NoviceFragment;
+import com.mo.lawyercloud.network.BaseObserver;
+import com.mo.lawyercloud.network.RetrofitFactory;
+import com.mo.lawyercloud.utils.ACache;
+import com.mo.lawyercloud.utils.SPUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 
 public class MainActivity extends BaseActivity {
 
@@ -36,6 +45,9 @@ public class MainActivity extends BaseActivity {
     private AdvisoryFragment mAdvisoryFragment;
     private InformationFragment mInformationFragment;
     private MineUserFragment mMineUserFragment;
+    private ACache mACache;
+    private MemberBean mMemberBean;
+    private Boolean mIsLogin;
 
     @Override
     public int getLayoutId() {
@@ -44,6 +56,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
+        initIntent();
+
         if (savedInstanceState != null) {
             mHomeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag
                     (HomeFragment.class.getName());
@@ -70,6 +84,34 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        initIntent();
+    }
+
+    /*初始化一些页面数据*/
+    private void initIntent() {
+        mACache = ACache.get(this);
+        mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
+        mIsLogin = (Boolean) SPUtil.get(mContext, Constant.ISLOGIN, false);
+        if (mIsLogin && mMemberBean == null){
+            getMemberInfo();
+        }
+    }
+
+    private void getMemberInfo() {
+        Observable<BaseEntity<MemberBean>> observable = RetrofitFactory.getInstance()
+                .getUserInfo();
+        observable.compose(this.<BaseEntity<MemberBean>>rxSchedulers()).subscribe(new BaseObserver<MemberBean>() {
+
+            @Override
+            protected void onHandleSuccess(MemberBean memberBean, String msg) {
+                mACache.put(Constant.MEMBER_INFO,memberBean);
+            }
+        });
+    }
+
+    @Override
     public void initData() {
 
     }
@@ -87,7 +129,15 @@ public class MainActivity extends BaseActivity {
                         showFragment(FRAGMENT_NOVICE);
                         break;
                     case R.id.controller_tab3:
-                        showFragment(FRAGMENT_MINE);
+                        if (mIsLogin && mMemberBean != null){
+                            if (mMemberBean.getType() == 1){ //显示普通用户
+                                showFragment(FRAGMENT_MINE);
+                            }else { //显示律师
+
+                            }
+                        }else {
+                            startActivity(new Intent(mContext,LoginActivity.class));
+                        }
                         break;
                     case R.id.controller_tab4:
                         showFragment(FRAGMENT_INFORMATION);

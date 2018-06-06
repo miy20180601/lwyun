@@ -5,4 +5,9 @@ package com.mo.lawyercloud.base;
  */
 public class Constant {
     public final static String APP_URL= "http://solicitor.51feijin.com/api/";
+    public final static String MEMBER_INFO= "member_info";
+    public final static String ISLOGIN= "islogin";
+    public final static String TXSIG= "txSig"; //腾讯视频使用
+
+
 }

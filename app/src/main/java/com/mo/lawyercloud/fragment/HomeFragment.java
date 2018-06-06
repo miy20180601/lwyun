@@ -30,7 +30,7 @@ import butterknife.Unbinder;
 
 public class HomeFragment extends BaseFragment {
 
-    private static HomeFragment instance = null;
+
     @BindView(R.id.xbanner)
     XBanner mXbanner;
     @BindView(R.id.edit_search)
@@ -39,6 +39,7 @@ public class HomeFragment extends BaseFragment {
     //轮播图
     private List<String> imageList;
 
+    private static HomeFragment instance = null;
     public static HomeFragment getInstance() {
         if (instance == null) {
             instance = new HomeFragment();

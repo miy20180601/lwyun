@@ -58,6 +58,7 @@ public class InformationFragment extends BaseFragment {
         barTitle.setText("资讯页面");
         InformationPagerAdapter pagerAdapter = new InformationPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+        viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
     }
 
