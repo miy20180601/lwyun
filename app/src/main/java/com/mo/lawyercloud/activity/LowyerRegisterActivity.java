@@ -474,26 +474,6 @@ public class LowyerRegisterActivity extends BaseActivity {
     }
 
 
-    private void register() {
-        Map<String, String> params = new HashMap<>();
-        params.put("username", mPhone);
-        params.put("password", MD5util.getMd5Value(mPwd));
-        params.put("realName", mPhone);
-        params.put("type", "1");
-        params.put("mobileCode", mCode);
-        Gson gson = new Gson();
-        String strEntity = gson.toJson(params);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;" +
-                "charset=UTF-8"), strEntity);
-        Observable<BaseEntity<String>> observable = RetrofitFactory.getInstance().register(body);
-        observable.compose(this.<BaseEntity<String>>rxSchedulers()).subscribe(new BaseObserver<String>() {
-            @Override
-            protected void onHandleSuccess(String s, String msg) {
-                finish();
-            }
-        });
-    }
-
     /*获取验证码*/
     private void getMsmCode() {
         Observable<BaseEntity<RegisterResult>> observable = RetrofitFactory.getInstance().getMsmCode

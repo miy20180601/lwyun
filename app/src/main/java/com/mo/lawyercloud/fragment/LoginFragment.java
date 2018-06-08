@@ -16,13 +16,17 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.activity.ForgetPasswordActivity;
+import com.mo.lawyercloud.activity.MainActivity;
 import com.mo.lawyercloud.base.BaseFragment;
+import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
+import com.mo.lawyercloud.utils.ACache;
 import com.mo.lawyercloud.utils.MD5util;
 import com.mo.lawyercloud.utils.NToast;
+import com.mo.lawyercloud.utils.SPUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,7 +48,6 @@ public class LoginFragment extends BaseFragment {
     @BindView(R.id.edit_password)
     EditText mEditPassword;
 
-
     private String mPhone,mPwd;
 
     @Override
@@ -55,6 +58,10 @@ public class LoginFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        onEvent();
+    }
+
+    private void onEvent() {
         mEditPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,23 +112,36 @@ public class LoginFragment extends BaseFragment {
                     NToast.shortToast(mContext,"请输入完整密码");
                     return;
                 }
-                Map<String, String> params = new HashMap<>();
-                params.put("username", mPhone);
-                params.put("password", MD5util.getMd5Value(mPwd));
-                Gson gson=new Gson();
-                String strEntity = gson.toJson(params);
-                RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-                Observable<BaseEntity<RegisterResult>> observable = RetrofitFactory.getInstance().login(body);
-                observable.compose(this.<BaseEntity<RegisterResult>>rxSchedulers()).subscribe(new BaseObserver<RegisterResult>() {
-                    @Override
-                    protected void onHandleSuccess(RegisterResult registerResult, String msg) {
-                        NToast.shortToast(mContext,"登录成功");
-                    }
-                });
+                login();
 
                 break;
             case R.id.tv_protocol:
                 break;
         }
+    }
+
+    private void login() {
+        Map<String, String> params = new HashMap<>();
+        params.put("username", mPhone);
+        params.put("password", MD5util.getMd5Value(mPwd));
+        Gson gson=new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
+        Observable<BaseEntity<RegisterResult>> observable = RetrofitFactory.getInstance().login(body);
+        observable.compose(this.<BaseEntity<RegisterResult>>rxSchedulers()).subscribe(new BaseObserver<RegisterResult>() {
+            @Override
+            protected void onHandleSuccess(RegisterResult registerResult, String msg) {
+                NToast.shortToast(mContext,"登录成功");
+                startActivity(new Intent(mContext, MainActivity.class));
+                SPUtil.put(mContext,Constant.ISLOGIN,true);
+                SPUtil.put(mContext,Constant.TXSIG,registerResult.getTxSig());
+                getActivity().finish();
+            }
+
+            @Override
+            protected void onHandleError(int statusCode, String msg) {
+                NToast.shortToast(mContext,msg);
+            }
+        });
     }
 }

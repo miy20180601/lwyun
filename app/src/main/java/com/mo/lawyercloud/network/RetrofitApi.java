@@ -2,9 +2,13 @@ package com.mo.lawyercloud.network;
 
 
 import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
 import com.mo.lawyercloud.beans.apiBeans.HomeBean;
+import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
+import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
+import com.mo.lawyercloud.beans.apiBeans.WebViewBean;
 import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 
 import java.util.List;
@@ -97,9 +101,33 @@ public interface RetrofitApi {
     @GET("home/index")
     Observable<BaseEntity<HomeBean>> homeIndex();
 
+    /**
+     * 新手指引
+     */
+    @GET("guide")
+    Observable<BaseEntity<WebViewBean>> noviceGuidelines();
 
+    /**
+     * 关于我们
+     */
+    @GET("aboutus")
+    Observable<BaseEntity<WebViewBean>> aboutus();
 
+    /**
+     * 招聘信息
+     */
+    @GET("recruitment")
+    Observable<BaseEntity<BaseListEntity<RecruitmentBean>>> recruitment(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize);
 
+    /**
+     * 法规常识
+     */
+    @GET("legalKnowledge")
+    Observable<BaseEntity<BaseListEntity<LegalBean>>> legalKnowledge(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize);
 
 
 }

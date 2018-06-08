@@ -16,7 +16,7 @@ import com.mo.lawyercloud.fragment.RegulationFragment;
 
 public class InformationPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] mTitles = new String[]{"关于我们", "人才招聘","法律常规"};
+    private String[] mTitles = new String[]{"关于我们", "人才招聘","法规常识"};
 
     public InformationPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -25,19 +25,17 @@ public class InformationPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         //此处根据不同的position返回不同的Fragment
-        Fragment fragment;
 
         if (position==0) {
-            fragment = new AboutUsFragment();
+            return AboutUsFragment.getInstance();
         }else if (position == 1) {
-            fragment = new RecruitmentFragment();
+            return new RecruitmentFragment();
         }else {
-            fragment = new RegulationFragment();
+            return new RegulationFragment();
         }
 //        Bundle bundle = new Bundle();
 //        bundle.putString("type",position+"");
 //        fragment.setArguments(bundle);
-        return fragment;
     }
 
     @Override
