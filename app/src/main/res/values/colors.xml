@@ -8,4 +8,8 @@
     <color name="tv_hint">#C4C4C4</color>
     <color name="white">#ffffff</color>
     <color name="btn_bg_color">#2A3643</color>
+    <color name="cut_off_rule_color">#22e0e0e0</color>
+    <color name="green_color">#00ec00</color>
+    <color name="red_color">#ff0000</color>
+    <color name="time_man_col">#11e0e0e0</color>
 </resources>

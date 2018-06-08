@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MineLwyerActivity">
+
+    <include layout="@layout/common_titlebar" />
+    <View
+        style="@style/cut_off_rule_style" />
+    <!--头像-->
+    <RelativeLayout
+        android:id="@+id/rl_lwyer_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="头像"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_lwyer_avatar_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/lawyer_register_button_back" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/civ_lwyer_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/iv_lwyer_avatar_icon"
+            android:src="@mipmap/data_button_avatar_n" />
+
+
+    </RelativeLayout>
+    <View
+        style="@style/cut_off_rule_style" />
+
+    <!--电话-->
+    <RelativeLayout
+        android:id="@+id/rl_lwyer_phone"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="手机号码"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_lwyer_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/lawyer_register_button_back" />
+
+        <TextView
+            android:id="@+id/tv_lwyer_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/iv_lwyer_phone"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp"
+            tools:text="13999999999" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/cut_off_rule_style" />
+    <!--姓名-->
+    <RelativeLayout
+        android:id="@+id/rl_lwyer_nickname"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="姓名"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_lwyer_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/lawyer_register_button_back" />
+
+        <TextView
+            android:id="@+id/tv_lwyer_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/iv_lwyer_nickname"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp"
+            tools:text="张三" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/cut_off_rule_style" />
+    <!--性别-->
+    <RelativeLayout
+        android:id="@+id/rl_lwyer_sex"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="手机号码"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_lwyer_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/lawyer_register_button_back" />
+
+        <TextView
+            android:id="@+id/tv_lwyer_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@id/iv_lwyer_sex"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp"
+            tools:text="男" />
+
+    </RelativeLayout>
+    <View
+        style="@style/cut_off_rule_style" />
+    <!--执业机构-->
+    <RelativeLayout
+        android:id="@+id/rl_lwyer_corporation"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="执业机构"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_lwyer_corporation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/lawyer_register_button_back" />
+
+        <TextView
+            android:id="@+id/tv_lwyer_corporation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@id/iv_lwyer_corporation"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp"
+            tools:text="北京律师事务所" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/cut_off_rule_style" />
+    <!--所在地-->
+    <RelativeLayout
+        android:id="@+id/rl_lwyer_address"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="手机号码"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_lwyer_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/lawyer_register_button_back" />
+
+        <TextView
+            android:id="@+id/tv_lwyer_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toLeftOf="@id/iv_lwyer_address"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp"
+            tools:text="北京丰台区" />
+
+    </RelativeLayout>
+
+    <View
+        style="@style/cut_off_rule_style" />
+    <!--个人简介-->
+    <RelativeLayout
+        android:id="@+id/rl_lwyer_synopsis"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="个人简介"
+            android:textColor="@color/tv_high_light"
+            android:textSize="16sp" />
+
+
+        <ImageView
+            android:id="@+id/iv_lwyer_synopsis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/lawyer_register_button_back" />
+
+
+    </RelativeLayout>
+
+    <View
+        style="@style/cut_off_rule_style" />
+    <TextView
+        android:id="@+id/tv_lwyer_territory"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:textSize="16sp"
+        android:text="擅长领域"/>
+
+    <View
+        style="@style/cut_off_rule_style" />
+</LinearLayout>

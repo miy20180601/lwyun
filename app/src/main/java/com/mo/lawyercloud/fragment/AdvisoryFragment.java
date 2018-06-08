@@ -5,11 +5,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.activity.LawyerDetailsActivity;
 import com.mo.lawyercloud.adapter.LawyerProfileQuickAdapter;
+import com.mo.lawyercloud.adapter.interfaces.OnRecyclerViewItemClickListener;
 import com.mo.lawyercloud.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -52,12 +55,24 @@ public class AdvisoryFragment extends BaseFragment {
         mDatas.add(" ");
         mDatas.add(" ");
         mDatas.add(" ");
-        mQuickAdapter = new LawyerProfileQuickAdapter(mDatas);
+        mQuickAdapter = new LawyerProfileQuickAdapter(mDatas,onRecyclerViewItemClickListener);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mQuickAdapter);
 
     }
+    OnRecyclerViewItemClickListener onRecyclerViewItemClickListener =new OnRecyclerViewItemClickListener() {
+        @Override
+        public void onItemClick(View view, int position) {
+            Log.i("itemClickLinstener","position="+position);
+            startActivity(LawyerDetailsActivity.class);
+        }
+
+        @Override
+        public void onItemLongClick(View view, int position) {
+
+        }
+    };
 
     @OnClick({R.id.ll_family_affairs, R.id.ll_contractual_dispute, R.id.ll_infringement_disputes,
             R.id.ll_merger, R.id.ll_intellectual_property, R.id.ll_labor_dispute, R.id

@@ -1,6 +1,7 @@
 package com.mo.lawyercloud.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -44,6 +45,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         initViews(savedInstanceState);
         initData();
         onEvent();
+    }
+
+    /**
+     * [页面跳转]
+     *
+     * @param clz
+     */
+    public void startActivity(Class<?> clz) {
+        startActivity(clz, null);
+    }
+
+    /**
+     * [携带数据的页面跳转]
+     *
+     * @param clz
+     * @param bundle
+     */
+    public void startActivity(Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent();
+        intent.setClass(this, clz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
     }
 
     /**rxjava线程调度*/

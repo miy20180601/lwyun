@@ -18,5 +18,17 @@
         <item name="android:button">@null</item>
         <item name="android:textSize">10sp</item>
     </style>
+    <!-- 分割线的的style-->
+    <style name="cut_off_rule_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:textColor">@color/cut_off_rule_color</item>
 
+    </style>
+    <!-- button的style-->
+    <style name="button_style">
+        <item name="android:background">@drawable/shape_btn2_bg</item>
+        <item name="android:textColor">@color/tv_high_light</item>
+
+    </style>
 </resources>

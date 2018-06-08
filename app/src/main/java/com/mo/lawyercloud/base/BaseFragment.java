@@ -1,6 +1,7 @@
 package com.mo.lawyercloud.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -47,6 +48,29 @@ public abstract class BaseFragment extends Fragment {
         unbinder.unbind();
     }
 
+    /**
+     * [页面跳转]
+     *
+     * @param clz
+     */
+    public void startActivity(Class<?> clz) {
+        startActivity(clz, null);
+    }
+
+    /**
+     * [携带数据的页面跳转]
+     *
+     * @param clz
+     * @param bundle
+     */
+    public void startActivity(Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent();
+        intent.setClass(getContext(), clz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+    }
     /**rxjava线程调度*/
     public <T> ObservableTransformer<T,T> rxSchedulers() {
         return new ObservableTransformer<T, T>() {
