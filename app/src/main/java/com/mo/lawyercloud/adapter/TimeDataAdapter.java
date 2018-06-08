@@ -6,10 +6,9 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.mo.lawyercloud.R;
 
 import java.util.List;
-import com.mo.lawyercloud.R;
-import com.mo.lawyercloud.adapter.interfaces.OnRecyclerViewItemClickListener;
 
 /**
  * @author CUI
@@ -18,22 +17,13 @@ import com.mo.lawyercloud.adapter.interfaces.OnRecyclerViewItemClickListener;
  * layout item_time_layout.xml
  */
 public class TimeDataAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    OnRecyclerViewItemClickListener mListener;
-    public TimeDataAdapter( @Nullable List<String> data , OnRecyclerViewItemClickListener listener) {
+    public TimeDataAdapter( @Nullable List<String> data ) {
         super(R.layout.item_time_layout, data);
-        this.mListener=listener;
     }
 
     @Override
     protected void convert(BaseViewHolder helper, String item) {
       helper.setText(R.id.tv_time_data, item);
-      TextView tv_delete= helper.getView(R.id.tv_delete);
-      final int position = helper.getPosition();
-        tv_delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onItemClick(v,position);
-            }
-        });
+      helper.addOnClickListener(R.id.tv_delete);
     }
 }

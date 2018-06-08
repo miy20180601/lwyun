@@ -13,9 +13,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.TimeDataAdapter;
-import com.mo.lawyercloud.adapter.interfaces.OnRecyclerViewItemClickListener;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.utils.TimeUtils;
 
@@ -66,7 +66,7 @@ public class MineLwyerTimeActivity extends BaseActivity {
         barTvRight.setTextColor(getResources().getColor(R.color.green_color));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         rvTimeData.setLayoutManager(linearLayoutManager);
-        timeDataAdapter = new TimeDataAdapter(datalist, onRecyclerViewItemClickListener);
+        timeDataAdapter = new TimeDataAdapter(datalist);
         rvTimeData.setAdapter(timeDataAdapter);
         llAddTime.setVisibility(View.GONE);
         rvTimeData.setVisibility(View.VISIBLE);
@@ -75,19 +75,15 @@ public class MineLwyerTimeActivity extends BaseActivity {
         endTime= TimeUtils.INSTANCE.getTimeData("HH:mm");
         tvDateSelect.setText(date);
         tvTimeSelect.setText(startTime+"-"+endTime);
+        timeDataAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Log.i("itemClick","position="+position);
+            }
+        });
+
     }
 
-    OnRecyclerViewItemClickListener onRecyclerViewItemClickListener = new OnRecyclerViewItemClickListener() {
-        @Override
-        public void onItemClick(View view, int position) {
-            Log.i("itemClick","position="+position);
-        }
-
-        @Override
-        public void onItemLongClick(View view, int position) {
-
-        }
-    };
 
     @Override
     public void initData() {
