@@ -347,16 +347,16 @@ public class LowyerRegisterActivity extends BaseActivity {
                 .setContentTextSize(20)//设置滚轮文字大小
                 .setDividerColor(Color.LTGRAY)//设置分割线的颜色
                 .setSelectOptions(0, 1)//默认选中项
-                .setBgColor(Color.BLACK)
-                .setTitleBgColor(Color.DKGRAY)
+                .setBgColor(Color.WHITE)
+                .setTitleBgColor(Color.WHITE)
                 .setTitleColor(Color.LTGRAY)
-                .setCancelColor(Color.YELLOW)
-                .setSubmitColor(Color.YELLOW)
+                .setCancelColor(Color.parseColor("#0188ff"))
+                .setSubmitColor(Color.parseColor("#0188ff"))
                 .setTextColorCenter(Color.LTGRAY)
                 .isRestoreItem(true)//切换时是否还原，设置默认选中第一项。
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
 //                .setLabels("省", "市", "区")
-                .setBackgroundId(0x00000000) //设置外部遮罩颜色
+//                .setBackgroundId(0x11000000) //设置外部遮罩颜色
 //                .setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
 //                    @Override
 //                    public void onOptionsSelectChanged(int options1, int options2, int options3) {
@@ -379,7 +379,6 @@ public class LowyerRegisterActivity extends BaseActivity {
             switch (msg.what) {
                 case MSG_LOAD_DATA:
                     if (thread == null) {//如果已创建就不再重新创建子线程了
-
                         thread = new Thread(new Runnable() {
                             @Override
                             public void run() {

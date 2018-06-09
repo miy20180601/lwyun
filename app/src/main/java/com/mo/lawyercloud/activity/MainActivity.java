@@ -2,7 +2,9 @@ package com.mo.lawyercloud.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -45,9 +47,11 @@ public class MainActivity extends BaseActivity {
     private AdvisoryFragment mAdvisoryFragment;
     private InformationFragment mInformationFragment;
     private MineUserFragment mMineUserFragment;
-    private ACache mACache;
-    private MemberBean mMemberBean;
-    private Boolean mIsLogin;
+    //如果登录则不为空
+    private String mPhone;
+    private String mPwd;
+    protected MemberBean mMemberBean;
+
 
     @Override
     public int getLayoutId() {
@@ -56,7 +60,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        initIntent();
+        mPhone = (String) SPUtil.get(mContext, Constant.PHONE, null);
+        mPwd = (String) SPUtil.get(mContext, Constant.PASSWORD, null);
+        if (!TextUtils.isEmpty(mPhone) && !TextUtils.isEmpty(mPwd)) {
+            mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
+            login(mPhone, mPwd);
+        }
 
         if (savedInstanceState != null) {
             mHomeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag
@@ -84,31 +93,23 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        initIntent();
-    }
-
-    /*初始化一些页面数据*/
-    private void initIntent() {
-        mACache = ACache.get(this);
-        mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
-        mIsLogin = (Boolean) SPUtil.get(mContext, Constant.ISLOGIN, false);
-        if (mIsLogin && mMemberBean == null){
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        super.onNewIntent(intent);
+        mPhone = (String) SPUtil.get(mContext, Constant.PHONE, "");
+        mPwd = (String) SPUtil.get(mContext, Constant.PASSWORD, "");
+        if (getIntent().getBooleanExtra(Constant.ISLOGIN,false)){
             getMemberInfo();
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
+                }
+            },500);
+
         }
-    }
 
-    private void getMemberInfo() {
-        Observable<BaseEntity<MemberBean>> observable = RetrofitFactory.getInstance()
-                .getUserInfo();
-        observable.compose(this.<BaseEntity<MemberBean>>rxSchedulers()).subscribe(new BaseObserver<MemberBean>() {
-
-            @Override
-            protected void onHandleSuccess(MemberBean memberBean, String msg) {
-                mACache.put(Constant.MEMBER_INFO,memberBean);
-            }
-        });
     }
 
     @Override
@@ -129,14 +130,14 @@ public class MainActivity extends BaseActivity {
                         showFragment(FRAGMENT_NOVICE);
                         break;
                     case R.id.controller_tab3:
-                        if (mIsLogin && mMemberBean != null){
-                            if (mMemberBean.getType() == 1){ //显示普通用户
+                        if (!TextUtils.isEmpty(mPhone) && !TextUtils.isEmpty(mPwd)) {
+                            if (mMemberBean.getType() == 1) { //显示普通用户
                                 showFragment(FRAGMENT_MINE);
-                            }else { //显示律师
+                            } else { //显示律师
 
                             }
-                        }else {
-                            startActivity(new Intent(mContext,LoginActivity.class));
+                        } else {
+                            startActivity(new Intent(mContext, LoginActivity.class));
                         }
                         break;
                     case R.id.controller_tab4:
@@ -190,7 +191,8 @@ public class MainActivity extends BaseActivity {
             case FRAGMENT_INFORMATION:
                 if (mInformationFragment == null) {
                     mInformationFragment = InformationFragment.getInstance();
-                    ft.add(R.id.container, mInformationFragment, InformationFragment.class.getName());
+                    ft.add(R.id.container, mInformationFragment, InformationFragment.class
+                            .getName());
                 } else {
                     ft.show(mInformationFragment);
                 }
