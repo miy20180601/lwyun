@@ -84,7 +84,8 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.bar_tv_right:
                 // TODO: 2018/5/14 跳过登录
-                startActivity(new Intent(mContext,MainActivity.class));
+//                startActivity(new Intent(mContext,MainActivity.class));
+                startActivity(ConsultiveManActivity.class);
                 break;
         }
     }

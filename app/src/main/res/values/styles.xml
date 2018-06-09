@@ -23,6 +23,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0.5dp</item>
         <item name="android:textColor">@color/cut_off_rule_color</item>
+    </style>
 
     <!-- 自定义仿IOS的ActionSheet底部Dialog的样式 ，有模糊效果 -->
     <style name="ActionSheetDialogStyle" parent="@android:style/Theme.Dialog">
@@ -48,7 +49,6 @@
         <item name="android:windowExitAnimation">@anim/actionsheet_dialog_out</item>
     </style>
 
-    </style>
     <!-- button的style-->
     <style name="button_style">
         <item name="android:background">@drawable/shape_btn2_bg</item>
