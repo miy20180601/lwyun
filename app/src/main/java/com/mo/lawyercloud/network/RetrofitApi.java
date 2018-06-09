@@ -8,18 +8,22 @@ import com.mo.lawyercloud.beans.apiBeans.HomeBean;
 import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
+import com.mo.lawyercloud.beans.apiBeans.UploadFileBean;
 import com.mo.lawyercloud.beans.apiBeans.WebViewBean;
 import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 
@@ -96,6 +100,19 @@ public interface RetrofitApi {
     Observable<BaseEntity<String>> updatePassword(@Body RequestBody params);
 
     /**
+     * 修改用户资料
+     * realName     否       姓名
+     * gender       否       性别
+     * location     否       所在地
+     * company      否       执业机构
+     * resume       否       个人简历
+     * profession   否       律师专业
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @PUT("security/modifyInfo")
+    Observable<BaseEntity<Object>> modifyInfo(@Body RequestBody params);
+
+    /**
      * 首页内容
      */
     @GET("home/index")
@@ -128,6 +145,16 @@ public interface RetrofitApi {
     Observable<BaseEntity<BaseListEntity<LegalBean>>> legalKnowledge(
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize);
+
+
+    /**
+     * 上传头像
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("upload/avatar")
+    Observable<BaseEntity<UploadFileBean>> uploadAvatar(
+            @Body RequestBody params
+    );
 
 
 }

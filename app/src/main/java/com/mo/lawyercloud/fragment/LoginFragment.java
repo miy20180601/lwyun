@@ -20,6 +20,7 @@ import com.mo.lawyercloud.activity.MainActivity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
@@ -49,6 +50,7 @@ public class LoginFragment extends BaseFragment {
     EditText mEditPassword;
 
     private String mPhone,mPwd;
+    private ACache mACache;
 
     @Override
     public int getLayoutId() {
@@ -58,6 +60,7 @@ public class LoginFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mACache = ACache.get(mContext);
         onEvent();
     }
 
@@ -132,10 +135,10 @@ public class LoginFragment extends BaseFragment {
             @Override
             protected void onHandleSuccess(RegisterResult registerResult, String msg) {
                 NToast.shortToast(mContext,"登录成功");
-                startActivity(new Intent(mContext, MainActivity.class));
-                SPUtil.put(mContext,Constant.ISLOGIN,true);
+                SPUtil.put(mContext,Constant.PHONE,mPhone);
+                SPUtil.put(mContext,Constant.PASSWORD,MD5util.getMd5Value(mPwd));
                 SPUtil.put(mContext,Constant.TXSIG,registerResult.getTxSig());
-                getActivity().finish();
+                startActivity(new Intent(mContext, MainActivity.class).putExtra(Constant.ISLOGIN, true));
             }
 
             @Override
@@ -144,4 +147,6 @@ public class LoginFragment extends BaseFragment {
             }
         });
     }
+
+
 }

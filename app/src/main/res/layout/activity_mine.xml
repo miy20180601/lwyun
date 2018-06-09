@@ -151,7 +151,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="手机号码"
+            android:text="性别"
             android:textColor="@color/tv_high_light"
             android:textSize="16sp"/>
 
@@ -194,7 +194,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="手机号码"
+            android:text="所在地"
             android:textColor="@color/tv_high_light"
             android:textSize="16sp"/>
 
