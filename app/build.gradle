@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'lawyer'
-            keyPassword 'lawyer2018'
-            storeFile file('../keystore/lawyer.jks')
-            storePassword 'lawyer2018'
-        }
-    }
+//    signingConfigs {
+//        config {
+//            keyAlias 'lawyer'
+//            keyPassword 'lawyer2018'
+//            storeFile file('../keystore/lawyer.jks')
+//            storePassword 'lawyer2018'
+//        }
+//    }
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     buildToolsVersion rootProject.ext.android["buildToolsVersion"]
     defaultConfig {
@@ -24,7 +24,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.config
+//            signingConfig signingConfigs.config
         }
     }
     compileOptions {

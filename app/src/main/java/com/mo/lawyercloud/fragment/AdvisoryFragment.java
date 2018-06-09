@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.activity.LawyerDetailsActivity;
 import com.mo.lawyercloud.adapter.LawyerProfileQuickAdapter;
 import com.mo.lawyercloud.base.BaseFragment;
 
@@ -56,6 +59,13 @@ public class AdvisoryFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mQuickAdapter);
+        mQuickAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                Log.i("itemClickLinstener","position="+position);
+                startActivity(LawyerDetailsActivity.class);
+            }
+        });
 
     }
 

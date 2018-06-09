@@ -71,6 +71,10 @@
         </provider>
 
 
+        <activity android:name=".activity.LawyerDetailsActivity" />
+        <activity android:name=".activity.VideoAppointmentAcitivty" />
+        <activity android:name=".activity.MineLwyerActivity" />
+        <activity android:name=".activity.MineLwyerTimeActivity"></activity>
     </application>
 
 </manifest>

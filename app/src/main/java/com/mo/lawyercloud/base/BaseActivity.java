@@ -65,6 +65,30 @@ public abstract class BaseActivity extends AppCompatActivity {
         onEvent();
     }
 
+    /**
+     * [页面跳转]
+     *
+     * @param clz
+     */
+    public void startActivity(Class<?> clz) {
+        startActivity(clz, null);
+    }
+
+    /**
+     * [携带数据的页面跳转]
+     *
+     * @param clz
+     * @param bundle
+     */
+    public void startActivity(Class<?> clz, Bundle bundle) {
+        Intent intent = new Intent();
+        intent.setClass(this, clz);
+        if (bundle != null) {
+            intent.putExtras(bundle);
+        }
+        startActivity(intent);
+    }
+
     /**rxjava线程调度*/
     public <T> ObservableTransformer<T,T> rxSchedulers() {
         return new ObservableTransformer<T, T>() {
