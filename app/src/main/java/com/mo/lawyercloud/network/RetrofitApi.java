@@ -4,10 +4,12 @@ package com.mo.lawyercloud.network;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
+import com.mo.lawyercloud.beans.apiBeans.ContactBean;
 import com.mo.lawyercloud.beans.apiBeans.HomeBean;
 import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
+import com.mo.lawyercloud.beans.apiBeans.TimeMsgBean;
 import com.mo.lawyercloud.beans.apiBeans.UploadFileBean;
 import com.mo.lawyercloud.beans.apiBeans.WebViewBean;
 import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
@@ -15,15 +17,12 @@ import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 
@@ -59,7 +58,7 @@ public interface RetrofitApi {
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("security/register")
-    Observable<BaseEntity<String>> register(@Body RequestBody params
+    Observable<BaseEntity<RegisterResult>> register(@Body RequestBody params
     );
 
     /**
@@ -88,7 +87,7 @@ public interface RetrofitApi {
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("security/logout")
-    Observable<BaseEntity<String>> logout(@Body RequestBody params);
+    Observable<BaseEntity<Object>> logout();
 
     /**
      * 修改密码
@@ -97,7 +96,7 @@ public interface RetrofitApi {
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @PUT("security/password/edit")
-    Observable<BaseEntity<String>> updatePassword(@Body RequestBody params);
+    Observable<BaseEntity<Object>> updatePassword(@Body RequestBody params);
 
     /**
      * 修改用户资料
@@ -111,6 +110,13 @@ public interface RetrofitApi {
     @Headers("Content-Type: application/json; charset=utf-8")
     @PUT("security/modifyInfo")
     Observable<BaseEntity<Object>> modifyInfo(@Body RequestBody params);
+    /**
+     * 问题反馈
+     * 参数："content": "问题反馈反馈反馈"
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("feedback/submit")
+    Observable<BaseEntity<Object>> submitFeedback(@Body RequestBody params);
 
     /**
      * 首页内容
@@ -129,6 +135,11 @@ public interface RetrofitApi {
      */
     @GET("aboutus")
     Observable<BaseEntity<WebViewBean>> aboutus();
+    /**
+     * 客服信息
+     */
+    @GET("customerService")
+    Observable<BaseEntity<ContactBean>> customerService();
 
     /**
      * 招聘信息
@@ -155,7 +166,29 @@ public interface RetrofitApi {
     Observable<BaseEntity<UploadFileBean>> uploadAvatar(
             @Body RequestBody params
     );
-
-
+    /**
+     * 律师添加空闲时间
+     * {
+     "startTime":"1526353200000",
+     "endTime": "1526356800000"
+     }
+     ?pageNo=1&pageSize=10
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("timeMsg/list")
+    Observable<BaseEntity<TimeMsgBean>> getTimeMsgList(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize
+            );
+    /**
+     * 律师添加空闲时间
+     * {
+     "startTime":"1526353200000",
+     "endTime": "1526356800000"
+     }
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("timeMsg/create")
+    Observable<BaseEntity<Object>> createTimeMsg(@Body RequestBody params);
 }
 

@@ -23,6 +23,7 @@ import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.ACache;
 import com.mo.lawyercloud.utils.SPUtil;
+import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -134,6 +135,7 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.controller_tab3:
                         if (!TextUtils.isEmpty(mPhone) && !TextUtils.isEmpty(mPwd)) {
+                            Logger.i("mMemberBean.getType()="+mMemberBean.getType());
                             if (mMemberBean.getType() == 1) { //显示普通用户
                                 showFragment(FRAGMENT_MINE);
                             } else { //显示律师
@@ -157,6 +159,7 @@ public class MainActivity extends BaseActivity {
 
     private void showFragment(int index) {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
         hideFragment(ft);
         position = index;
         switch (index) {
@@ -183,18 +186,23 @@ public class MainActivity extends BaseActivity {
                 break;
 
             case FRAGMENT_MINE:
+
                 if (mMineUserFragment == null) {
                     mMineUserFragment = MineUserFragment.getInstance();
                     ft.add(R.id.container, mMineUserFragment, MineUserFragment.class.getName());
                 } else {
                     ft.show(mMineUserFragment);
                 }
+
+
                 break;
             case FRAGMENT_MINE_LOWYER:
-                if (mMineUserFragment == null) {
+                if (mMineLowyerFragment == null) {
+
                     mMineLowyerFragment = MineLowyerFragment.getInstance();
                     ft.add(R.id.container, mMineLowyerFragment, MineLowyerFragment.class.getName());
                 } else {
+
                     ft.show(mMineLowyerFragment);
                 }
                 break;

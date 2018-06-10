@@ -197,10 +197,10 @@ public class UserRegisterActivity extends BaseActivity {
         Gson gson=new Gson();
         String strEntity = gson.toJson(params);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-        Observable<BaseEntity<String>> observable = RetrofitFactory.getInstance().register(body);
-        observable.compose(this.<BaseEntity<String>>rxSchedulers()).subscribe(new BaseObserver<String>() {
+        Observable<BaseEntity<RegisterResult>> observable = RetrofitFactory.getInstance().register(body);
+        observable.compose(this.<BaseEntity<RegisterResult>>rxSchedulers()).subscribe(new BaseObserver<RegisterResult>() {
             @Override
-            protected void onHandleSuccess(String s, String msg) {
+            protected void onHandleSuccess(RegisterResult s, String msg) {
                 finish();
             }
         });

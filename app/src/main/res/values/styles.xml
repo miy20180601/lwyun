@@ -56,4 +56,18 @@
         <item name="android:textColor">@color/tv_high_light</item>
 
     </style>
+
+    <!-- button的style-->
+    <style name="mine_lwyer_style">
+        <item name="android:layout_width">180dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">right</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textColor">@color/tv_high_light</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
 </resources>

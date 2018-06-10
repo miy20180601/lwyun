@@ -78,7 +78,8 @@
         <activity android:name=".activity.MineWalletActivity" />
         <activity android:name=".activity.RechargeActivity" />
         <activity android:name=".activity.ChangePwdActivity" />
-        <activity android:name=".activity.ConsultiveManActivity"/>
+        <activity android:name=".activity.ConsultiveManActivity" />
+        <activity android:name=".activity.FeedbackActivity"></activity>
     </application>
 
 </manifest>
