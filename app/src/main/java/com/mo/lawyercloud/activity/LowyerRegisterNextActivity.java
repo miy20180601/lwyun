@@ -19,6 +19,7 @@ import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.SerializableMap;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
+import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.MD5util;
@@ -136,10 +137,10 @@ public class LowyerRegisterNextActivity extends BaseActivity {
         Gson gson=new Gson();
         String strEntity = gson.toJson(mParams);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
-        Observable<BaseEntity<String>> observable = RetrofitFactory.getInstance().register(body);
-        observable.compose(this.<BaseEntity<String>>rxSchedulers()).subscribe(new BaseObserver<String>() {
+        Observable<BaseEntity<RegisterResult>> observable = RetrofitFactory.getInstance().register(body);
+        observable.compose(this.<BaseEntity<RegisterResult>>rxSchedulers()).subscribe(new BaseObserver<RegisterResult>() {
             @Override
-            protected void onHandleSuccess(String s, String msg) {
+            protected void onHandleSuccess(RegisterResult s, String msg) {
                 finish();
             }
 

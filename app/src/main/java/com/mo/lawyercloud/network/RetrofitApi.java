@@ -4,10 +4,12 @@ package com.mo.lawyercloud.network;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
+import com.mo.lawyercloud.beans.apiBeans.ContactBean;
 import com.mo.lawyercloud.beans.apiBeans.HomeBean;
 import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
+import com.mo.lawyercloud.beans.apiBeans.TimeMsgBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveTimeBean;
 import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
 import com.mo.lawyercloud.beans.apiBeans.UploadFileBean;
@@ -17,12 +19,15 @@ import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 
@@ -192,6 +197,30 @@ public interface RetrofitApi {
     Observable<BaseEntity<UploadFileBean>> uploadAvatar(
             @Body RequestBody params
     );
+    /**
+     * 律师添加空闲时间
+     * {
+     "startTime":"1526353200000",
+     "endTime": "1526356800000"
+     }
+     ?pageNo=1&pageSize=10
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("timeMsg/list")
+    Observable<BaseEntity<TimeMsgBean>> getTimeMsgList(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize
+            );
+    /**
+     * 律师添加空闲时间
+     * {
+     "startTime":"1526353200000",
+     "endTime": "1526356800000"
+     }
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("timeMsg/create")
+    Observable<BaseEntity<Object>> createTimeMsg(@Body RequestBody params);
 
     /**
      * 通用图片上传

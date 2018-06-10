@@ -26,6 +26,7 @@
         android:layout_marginLeft="12dp"
         />
     <TextView
+        android:id="@+id/tv_contact_phone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="96155-00"
@@ -46,6 +47,7 @@
             android:layout_marginLeft="12dp"
             />
         <TextView
+            android:id="@+id/tv_contact_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="taobao@yahu.com"
@@ -66,6 +68,7 @@
             android:layout_marginLeft="12dp"
             />
         <TextView
+            android:id="@+id/tv_contact_wechat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="meixunlvshi"

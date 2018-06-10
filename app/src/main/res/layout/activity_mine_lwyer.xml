@@ -78,14 +78,10 @@
 
         <TextView
             android:id="@+id/tv_lwyer_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/iv_lwyer_phone"
-            android:textColor="@color/tv_high_light"
-            android:textSize="16sp"
-            tools:text="13999999999" />
+            tools:text="13999999999"
+            style="@style/mine_lwyer_style"
+            />
 
     </RelativeLayout>
 
@@ -119,13 +115,8 @@
 
         <TextView
             android:id="@+id/tv_lwyer_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/iv_lwyer_nickname"
-            android:textColor="@color/tv_high_light"
-            android:textSize="16sp"
+            style="@style/mine_lwyer_style"
             tools:text="张三" />
 
     </RelativeLayout>
@@ -145,7 +136,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="手机号码"
+            android:text="性别"
             android:textColor="@color/tv_high_light"
             android:textSize="16sp" />
 
@@ -160,13 +151,8 @@
 
         <TextView
             android:id="@+id/tv_lwyer_sex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@id/iv_lwyer_sex"
-            android:textColor="@color/tv_high_light"
-            android:textSize="16sp"
+            style="@style/mine_lwyer_style"
             tools:text="男" />
 
     </RelativeLayout>
@@ -200,13 +186,8 @@
 
         <TextView
             android:id="@+id/tv_lwyer_corporation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            style="@style/mine_lwyer_style"
             android:layout_toLeftOf="@id/iv_lwyer_corporation"
-            android:textColor="@color/tv_high_light"
-            android:textSize="16sp"
             tools:text="北京律师事务所" />
 
     </RelativeLayout>
@@ -226,7 +207,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="手机号码"
+            android:text="所在地"
             android:textColor="@color/tv_high_light"
             android:textSize="16sp" />
 
@@ -241,13 +222,8 @@
 
         <TextView
             android:id="@+id/tv_lwyer_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
             android:layout_toLeftOf="@id/iv_lwyer_address"
-            android:textColor="@color/tv_high_light"
-            android:textSize="16sp"
+            style="@style/mine_lwyer_style"
             tools:text="北京丰台区" />
 
     </RelativeLayout>
@@ -280,18 +256,14 @@
             android:layout_centerVertical="true"
             android:src="@mipmap/lawyer_register_button_back" />
 
-
+        <TextView
+            android:id="@+id/tv_lwyer_synopsis"
+            android:layout_toLeftOf="@id/iv_lwyer_synopsis"
+            style="@style/mine_lwyer_style"
+            tools:text="个人简介" />
     </RelativeLayout>
 
     <View
         style="@style/cut_off_rule_style" />
-    <TextView
-        android:id="@+id/tv_lwyer_territory"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:textSize="16sp"
-        android:text="擅长领域"/>
 
-    <View
-        style="@style/cut_off_rule_style" />
 </LinearLayout>

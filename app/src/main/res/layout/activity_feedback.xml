@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.FeedbackActivity">
+
+    <include layout="@layout/common_titlebar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/cut_off_rule_55_color"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:text="问题反馈"
+            android:textColor="@color/tv_high_light" />
+
+        <EditText
+            android:id="@+id/et_feeback_content"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:gravity="top"
+            android:hint="尊敬的用户：\n感谢使用我们的产品,如果再使用中遇到任何问题，或者任何的意见和建议。欢迎在这里告诉我们，您的每一条问题反馈对我们非常重要！"
+            android:padding="3dp"
+            android:textColorHint="@color/tv_high_light" />
+        <Button
+            android:id="@+id/bt_feeback_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="提交"
+            android:textColor="@color/tv_high_light"
+            android:background="@drawable/shape_btn_bg"/>
+    </LinearLayout>
+</LinearLayout>
