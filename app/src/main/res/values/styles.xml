@@ -22,8 +22,8 @@
     <!-- 分割线的的style-->
     <style name="cut_off_rule_style">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">0.5dp</item>
-        <item name="android:textColor">@color/cut_off_rule_color</item>
+        <item name="android:layout_height">2px</item>
+        <item name="android:background">#e6e6e6</item>
     </style>
 
     <!-- 自定义仿IOS的ActionSheet底部Dialog的样式 ，有模糊效果 -->
@@ -52,8 +52,19 @@
 
     <!-- button的style-->
     <style name="button_style">
-        <item name="android:background">@drawable/shape_btn2_bg</item>
+        <item name="android:background">@drawable/shape_btn_bg</item>
         <item name="android:textColor">@color/tv_high_light</item>
+    </style>
 
+    <style name="actionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:textColorPrimary">@android:color/primary_text_light</item>
+        <item name="actionBarSize">@dimen/actionBarSize</item>
+    </style>
+
+    <style name="customTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionBarTheme">@style/actionBarTheme</item>
+        <item name="colorPrimary">#FFA500</item>
+        <item name="actionBarSize">@dimen/actionBarSize</item>
+        <item name="colorPrimaryDark">#CCa500</item>
     </style>
 </resources>

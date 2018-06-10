@@ -8,6 +8,8 @@ import com.mo.lawyercloud.beans.apiBeans.HomeBean;
 import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
+import com.mo.lawyercloud.beans.apiBeans.ReserveTimeBean;
+import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
 import com.mo.lawyercloud.beans.apiBeans.UploadFileBean;
 import com.mo.lawyercloud.beans.apiBeans.WebViewBean;
 import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
@@ -15,15 +17,12 @@ import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 
@@ -146,6 +145,44 @@ public interface RetrofitApi {
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize);
 
+    /**
+     * 律师列表页
+     * name     否       律师姓名
+     * location   否       地区
+     * channel    否       擅长领域    多个以逗号分隔
+     * pageNo     否       页码  默认为1
+     * pageSize   否       显示数量    默认为10
+     */
+    @GET("home/solicitor/list")
+    Observable<BaseEntity<BaseListEntity<SolicitorDetailBean>>> solicitorList(
+            @Query("name") String name,
+            @Query("location") String location,
+            @Query("channel") String channel,
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize);
+
+    /**
+     * 律师详情页
+     * id   是   律师id
+     */
+    @GET("home/solicitor/info")
+    Observable<BaseEntity<SolicitorDetailBean>> solicitorInfo(
+            @Query("id") Integer id);
+
+    /**
+     * 获取对应律师的可预约时间
+     * id       是   律师id
+     * pageNo   否   默认为1
+     * pageSize 否   默认为5
+     */
+    @GET("timeMsg/listReserve")
+    Observable<BaseEntity<BaseListEntity<ReserveTimeBean>>> reserveTimeList(
+            @Query("id") Integer id,
+            @Query("pageNo") Integer pageNo,
+            @Query("pageSize") Integer pageSize
+
+    );
+
 
     /**
      * 上传头像
@@ -153,6 +190,24 @@ public interface RetrofitApi {
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("upload/avatar")
     Observable<BaseEntity<UploadFileBean>> uploadAvatar(
+            @Body RequestBody params
+    );
+
+    /**
+     * 通用图片上传
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("upload/image")
+    Observable<BaseEntity<UploadFileBean>> uploadImage(
+            @Body RequestBody params
+    );
+
+    /**
+     * 视频预约
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("order/submit")
+    Observable<BaseEntity<Object>> reserveSubmit(
             @Body RequestBody params
     );
 

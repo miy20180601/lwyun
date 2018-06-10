@@ -4,33 +4,49 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
 import com.mo.lawyercloud.fragment.ProfessionQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by Mohaifeng on 18/5/27.
  */
-public class LawyerProfileQuickAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+public class LawyerProfileQuickAdapter extends BaseQuickAdapter<SolicitorDetailBean, BaseViewHolder> {
 
-    public LawyerProfileQuickAdapter(@Nullable List<String> data) {
+
+    private final String[] mChannelArray;
+
+    public LawyerProfileQuickAdapter(@Nullable List<SolicitorDetailBean> data,String[]
+            channelArray) {
         super(R.layout.item_lawyer_profile, data);
+        mChannelArray = channelArray;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, final String item) {
-        helper.setText(R.id.tv_level, "lv.10");
-        helper.setText(R.id.tv_name, "张子龙");
+    protected void convert(BaseViewHolder helper, final SolicitorDetailBean item) {
+        CircleImageView ivAvatar = helper.getView(R.id.iv_avatar);
+        RequestOptions options = new RequestOptions();
+        options.error(R.mipmap.data_button_avatar_n);
+        Glide.with(mContext).load(item.getAvatar()).apply(options).into(ivAvatar);
 
         helper.setText(R.id.tv_level, "lv.10");
+        helper.setText(R.id.tv_name, item.getRealName());
+        helper.setText(R.id.tv_resume, item.getResume());
 
         List<String> datas = new ArrayList<>();
-        datas.add("家庭纠纷");
-        datas.add("公司并购");
+        String[] split = item.getChannels().split(",");
+        for (String s : split) {
+            datas.add(mChannelArray[Integer.parseInt(s)]);
+        }
         ProfessionQuickAdapter adapter = new ProfessionQuickAdapter(datas);
         RecyclerView recyclerView = helper.getView(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager

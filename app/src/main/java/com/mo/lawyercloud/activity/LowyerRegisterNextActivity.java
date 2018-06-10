@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
 import com.mo.lawyercloud.R;
-import com.mo.lawyercloud.adapter.GridSpacingItemDecoration;
+import com.mo.lawyercloud.adapter.itemDecoration.GridSpacingItemDecoration;
 import com.mo.lawyercloud.adapter.RegisterGoodAtQuickAdapter;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.beans.BaseEntity;

@@ -25,10 +25,12 @@
         android:layout_marginTop="8dp"
         android:background="#b18148"
         android:gravity="center"
-        android:padding="3dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:textSize="12sp"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/profile_image"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        app:layout_constraintStart_toStartOf="@+id/iv_avatar"
+        app:layout_constraintTop_toBottomOf="@+id/iv_avatar"
         tools:text="lv.10"/>
 
     <TextView
@@ -39,7 +41,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
         android:text="赵子龙"
-        app:layout_constraintStart_toEndOf="@+id/profile_image"
+        app:layout_constraintStart_toEndOf="@+id/iv_avatar"
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
@@ -79,15 +81,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
+        android:clickable="false"
         app:layout_constraintStart_toEndOf="@+id/tv_good_at"
         app:layout_constraintTop_toBottomOf="@+id/tv_resume"/>
     <View
         android:id="@+id/view_line"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#2a3542"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"/>
 </android.support.constraint.ConstraintLayout>

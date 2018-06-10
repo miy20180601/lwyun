@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:id="@+id/tv_item"
+          android:layout_width="match_parent"
+          android:layout_height="30dp"
+          android:gravity="center"
+          android:textSize="12sp"
+          android:background="@drawable/selector_reserve_channel"
+          android:textColor="@color/tv_high_light"
+          tools:text="家庭纠纷"
+    />

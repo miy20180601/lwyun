@@ -1,10 +1,12 @@
 package com.mo.lawyercloud.beans.apiBeans;
 
+import com.contrarywind.interfaces.IPickerViewData;
+
 /**
  * Created by Mohaifeng on 18/5/29.
  * 擅长领域
  */
-public class ChannelBean {
+public class ChannelBean implements IPickerViewData {
 
     /**
      * id : 1
@@ -38,5 +40,10 @@ public class ChannelBean {
 
     public void setIcon(String icon) {
         this.icon = icon;
+    }
+
+    @Override
+    public String getPickerViewText() {
+        return name;
     }
 }

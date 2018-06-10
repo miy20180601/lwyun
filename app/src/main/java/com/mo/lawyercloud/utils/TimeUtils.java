@@ -9,6 +9,7 @@ import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -18,6 +19,18 @@ import java.util.Locale;
  */
 public enum  TimeUtils {
     INSTANCE;
+
+    /**根据日期和传入格式，格式化时间*/
+    public static String dateFormatByType(Date date, String formatType) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatType);
+        //simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        return simpleDateFormat.format(date);
+    }
+    /**根据日期和传入格式，格式化时间*/
+    public static String dateFormatByType(long timestamp,String formatType) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(formatType);
+        return simpleDateFormat.format(new Date(timestamp));
+    }
 
     /**
      * 根据需求回调系统时间
@@ -36,7 +49,6 @@ public enum  TimeUtils {
      *
      * @param activity
      * @param themeResId
-     * @param tv
      * @param calendar
      */
     public void showDatePickerDialog(Activity activity, int themeResId, Calendar calendar,DatePickerDialog.OnDateSetListener listener) {
@@ -51,7 +63,6 @@ public enum  TimeUtils {
      * 时间选择
      * @param activity
      * @param themeResId
-     * @param tv
      * @param calendar
      */
     public void showTimePickerDialog(Activity activity,int themeResId, Calendar calendar,TimePickerDialog.OnTimeSetListener listener) {

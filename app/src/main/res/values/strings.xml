@@ -8,4 +8,16 @@
     <string name="bottom_tab5">咨询</string>
 
     <string name="double_click_exit">再按一次退出程序</string>
+
+    <string-array name="channel">
+        <item>全部</item>
+        <item>婚姻家事</item>
+        <item>合同纠纷</item>
+        <item>侵权纠纷</item>
+        <item>公司并购</item>
+        <item>知识产权</item>
+        <item>劳动争议</item>
+        <item>证券保险</item>
+        <item>刑事及其他</item>
+    </string-array>
 </resources>
