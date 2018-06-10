@@ -1,6 +1,7 @@
 package com.mo.lawyercloud.network;
 
 
+import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
@@ -63,7 +64,7 @@ public interface RetrofitApi {
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("security/register")
-    Observable<BaseEntity<String>> register(@Body RequestBody params
+    Observable<BaseEntity<RegisterResult>> register(@Body RequestBody params
     );
 
     /**
