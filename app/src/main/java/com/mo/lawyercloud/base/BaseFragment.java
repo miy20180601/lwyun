@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.mo.lawyercloud.utils.ACache;
 import com.mo.lawyercloud.utils.CommonUtils;
 
 import butterknife.ButterKnife;
@@ -32,6 +33,8 @@ public abstract class BaseFragment extends Fragment {
     private Unbinder unbinder;
     protected Context mContext;
 
+    protected ACache mACache;//缓存类，类似于sharepreference
+
     public abstract int getLayoutId();
     @Nullable
     @Override
@@ -39,6 +42,7 @@ public abstract class BaseFragment extends Fragment {
         mRootView =inflater.inflate(getLayoutId(),container,false);
         unbinder = ButterKnife.bind(this,mRootView);//绑定framgent
         mContext = getActivity();
+        mACache = ACache.get(mContext);
         return mRootView;
     }
 

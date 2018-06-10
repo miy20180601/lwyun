@@ -16,6 +16,7 @@ import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.fragment.AdvisoryFragment;
 import com.mo.lawyercloud.fragment.HomeFragment;
 import com.mo.lawyercloud.fragment.InformationFragment;
+import com.mo.lawyercloud.fragment.MineLowyerFragment;
 import com.mo.lawyercloud.fragment.MineUserFragment;
 import com.mo.lawyercloud.fragment.NoviceFragment;
 import com.mo.lawyercloud.network.BaseObserver;
@@ -33,8 +34,9 @@ public class MainActivity extends BaseActivity {
     private static final int FRAGMENT_HOME = 0;
     private static final int FRAGMENT_NOVICE = 1;
     private static final int FRAGMENT_MINE = 2;
-    private static final int FRAGMENT_INFORMATION = 3;
-    private static final int FRAGMENT_ADVISORY = 4;
+    private static final int FRAGMENT_MINE_LOWYER = 3;
+    private static final int FRAGMENT_INFORMATION = 4;
+    private static final int FRAGMENT_ADVISORY = 5;
     private static final String POSITION = "position";
     @BindView(R.id.radiogroup)
     RadioGroup mRadioGroup;
@@ -51,6 +53,7 @@ public class MainActivity extends BaseActivity {
     private String mPhone;
     private String mPwd;
     protected MemberBean mMemberBean;
+    private MineLowyerFragment mMineLowyerFragment;
 
 
     @Override
@@ -60,8 +63,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        mPhone = (String) SPUtil.get(mContext, Constant.PHONE, null);
-        mPwd = (String) SPUtil.get(mContext, Constant.PASSWORD, null);
+        mPhone = (String) SPUtil.get(mContext, Constant.PHONE, "");
+        mPwd = (String) SPUtil.get(mContext, Constant.PASSWORD, "");
         if (!TextUtils.isEmpty(mPhone) && !TextUtils.isEmpty(mPwd)) {
             mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
             login(mPhone, mPwd);
@@ -98,7 +101,7 @@ public class MainActivity extends BaseActivity {
         super.onNewIntent(intent);
         mPhone = (String) SPUtil.get(mContext, Constant.PHONE, "");
         mPwd = (String) SPUtil.get(mContext, Constant.PASSWORD, "");
-        if (getIntent().getBooleanExtra(Constant.ISLOGIN,false)){
+        if (getIntent().getBooleanExtra(Constant.ISLOGIN, false)) {
             getMemberInfo();
 
             new Handler().postDelayed(new Runnable() {
@@ -106,7 +109,7 @@ public class MainActivity extends BaseActivity {
                 public void run() {
                     mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
                 }
-            },500);
+            }, 500);
 
         }
 
@@ -134,7 +137,7 @@ public class MainActivity extends BaseActivity {
                             if (mMemberBean.getType() == 1) { //显示普通用户
                                 showFragment(FRAGMENT_MINE);
                             } else { //显示律师
-
+                                showFragment(FRAGMENT_MINE_LOWYER);
                             }
                         } else {
                             startActivity(new Intent(mContext, LoginActivity.class));
@@ -187,6 +190,14 @@ public class MainActivity extends BaseActivity {
                     ft.show(mMineUserFragment);
                 }
                 break;
+            case FRAGMENT_MINE_LOWYER:
+                if (mMineUserFragment == null) {
+                    mMineLowyerFragment = MineLowyerFragment.getInstance();
+                    ft.add(R.id.container, mMineLowyerFragment, MineLowyerFragment.class.getName());
+                } else {
+                    ft.show(mMineLowyerFragment);
+                }
+                break;
 
             case FRAGMENT_INFORMATION:
                 if (mInformationFragment == null) {
@@ -220,6 +231,9 @@ public class MainActivity extends BaseActivity {
         }
         if (mMineUserFragment != null) {
             ft.hide(mMineUserFragment);
+        }
+        if (mMineLowyerFragment != null){
+            ft.hide(mMineLowyerFragment);
         }
         if (mInformationFragment != null) {
             ft.hide(mInformationFragment);
