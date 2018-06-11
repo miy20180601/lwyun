@@ -87,6 +87,9 @@ public class MineLowyerFragment extends BaseFragment {
                 startActivity(MyLwyerActivity.class);
                 break;
             case R.id.rl_mine_lwyer_notification:
+                Bundle bundle =new Bundle();
+                bundle.putString("type","2");
+
                 startActivity(RequestNoticeActivity.class);
                 break;
             case R.id.rl_mine_lwyer_time:
@@ -117,7 +120,7 @@ public class MineLowyerFragment extends BaseFragment {
         }
     }
     public void logout(){
-        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().logout(null);
+        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().logout();
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
             @Override
             protected void onHandleSuccess(Object registerResult, String msg) {

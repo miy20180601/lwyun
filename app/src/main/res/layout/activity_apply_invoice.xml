@@ -52,23 +52,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:background="@color/white">
 
         <ImageView
             android:id="@+id/type_icon_iv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
+            android:layout_marginTop="15dp"
             android:src="@mipmap/application_icon_type" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="2dp"
-            android:layout_toRightOf="@+id/type_icon_iv"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -76,12 +75,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginLeft="38dp"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="发票类型:"
+                    android:text="抬头类型:"
                     android:textColor="@color/black_color" />
 
                 <RadioGroup
@@ -95,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
-                        android:text="纸质发票"
+                        android:text="个人"
                         android:textColor="@color/black_color"
 
                         android:textSize="11sp" />
@@ -104,13 +105,14 @@
                         android:id="@+id/rb_type_ele"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="电子增值税普通发票"
+                        android:text="公司"
                         android:textColor="@color/black_color"
                         android:textSize="11sp" />
                 </RadioGroup>
             </LinearLayout>
 
             <LinearLayout
+                android:layout_marginLeft="38dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -127,88 +129,75 @@
                     android:layout_marginLeft="10dp"
                     android:background="@color/cut_off_rule_color" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="65dp"
 
+                >
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="邮箱:"
+                    android:textColor="@color/black_color" />
+
+                <EditText
+                    android:id="@+id/et_invoice_mail"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/cut_off_rule_color" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_invoice_num"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="65dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="税号:"
+                    android:textColor="@color/black_color" />
+
+                <EditText
+                    android:id="@+id/et_invoice_num"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/cut_off_rule_color" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_invoice_bank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="公司开户行:"
+                    android:textColor="@color/black_color" />
+
+                <EditText
+                    android:id="@+id/et_invoice_bank"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="30dp"
+                    android:background="@color/cut_off_rule_color" />
+            </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
 
     <View style="@style/cut_off_rule_style" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:background="@color/white">
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="2dp"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:text="抬头发票类型"
-                    android:textColor="@color/black_color" />
-
-                <RadioGroup
-                    android:id="@+id/rg_title_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/rb_title_type_one"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="个人"
-                        android:textColor="@color/black_color"
-
-                        android:textSize="11sp" />
-
-                    <RadioButton
-                        android:id="@+id/rb_title_type_company"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="公司"
-                        android:textColor="@color/black_color"
-                        android:textSize="11sp" />
-                </RadioGroup>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="70dp"
-                    android:text="税号"
-                    android:textColor="@color/black_color" />
-
-                <EditText
-                    android:id="@+id/et_apply_dutynum"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:background="@color/cut_off_rule_color" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -16,6 +16,7 @@ import com.mo.lawyercloud.activity.MyInvoiceActivity;
 import com.mo.lawyercloud.activity.MyUserActivity;
 import com.mo.lawyercloud.activity.MyAdvisoryActivity;
 import com.mo.lawyercloud.activity.MyWalletActivity;
+import com.mo.lawyercloud.activity.RequestNoticeActivity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
@@ -89,6 +90,9 @@ public class MineUserFragment extends BaseFragment {
                 break;
             case R.id.rl_mine_reservation:
                 // TODO: 18/6/10 我的预约
+                Bundle bundle =new Bundle();
+                bundle.putString("type","1");
+                startActivity(RequestNoticeActivity.class);
 
                 break;
             case R.id.rl_mine_wallet:
@@ -116,7 +120,7 @@ public class MineUserFragment extends BaseFragment {
     }
 
     private void logout() {
-        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().logout(null);
+        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().logout();
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
             @Override
             protected void onHandleSuccess(Object o, String msg) {

@@ -92,6 +92,8 @@ public class MyLwyerTimeActivity extends BaseActivity {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.i("itemClick", "position=" + position);
+                TimeMsgBean.ResultBean resultBean = datalist.get(position);
+                removeTime(resultBean.getId()+"",position);
             }
         });
 
@@ -246,6 +248,26 @@ public class MyLwyerTimeActivity extends BaseActivity {
 //                if (pageNo>1){
 //                    mQuickAdapter.loadMoreFail();
 //                }
+            }
+        });
+    }
+    public void removeTime( String id,final int position) {
+        Map<String, String> params = new HashMap<>();
+        params.put("id", id);
+        Gson gson = new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);
+        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().removeTime(body);
+        observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
+            @Override
+            protected void onHandleSuccess(Object registerResult, String msg) {
+                datalist.remove(position);
+                timeDataAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void onHandleError(int statusCode, String msg) {
+                NToast.shortToast(mContext, msg);
             }
         });
     }

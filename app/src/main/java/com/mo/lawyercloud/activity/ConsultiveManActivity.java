@@ -10,14 +10,23 @@ import android.widget.TextView;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.ConsultiveAdapter;
 import com.mo.lawyercloud.base.BaseActivity;
-import com.mo.lawyercloud.beans.apiBeans.ConsultiveBean;
+import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.beans.apiBeans.OrderAdvisoryBean;
+import com.mo.lawyercloud.network.BaseObserver;
+import com.mo.lawyercloud.network.RetrofitFactory;
+import com.mo.lawyercloud.utils.NToast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import io.reactivex.Observable;
 
+/**
+ * 咨询管理
+ */
 public class ConsultiveManActivity extends BaseActivity {
     @BindView(R.id.bar_iv_back)
     ImageView barIvBack;
@@ -28,7 +37,10 @@ public class ConsultiveManActivity extends BaseActivity {
     @BindView(R.id.rv_con_data)
     RecyclerView rvConData;
     ConsultiveAdapter consultiveAdapter;
-    List<ConsultiveBean> dataList = new ArrayList<>();
+    List<OrderAdvisoryBean.ResultBean> dataList = new ArrayList<>();
+    int pageNo = 1;
+    int pageSize = 10;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_consultive_man;
@@ -40,7 +52,7 @@ public class ConsultiveManActivity extends BaseActivity {
         barTvRight.setVisibility(View.VISIBLE);
         barTvRight.setText("刷新");
         barTvRight.setTextColor(getResources().getColor(R.color.green_color));
-        LinearLayoutManager linearLayoutManager =new LinearLayoutManager(mContext);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         rvConData.setLayoutManager(linearLayoutManager);
         consultiveAdapter = new ConsultiveAdapter(dataList);
         rvConData.setAdapter(consultiveAdapter);
@@ -48,9 +60,7 @@ public class ConsultiveManActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        dataList.add(new ConsultiveBean("1","赵子龙","","预约成功","公司并购需要准备什么法律资料？","2018/03/28"));
-        dataList.add(new ConsultiveBean("2","张三","","交易成功","婚姻家产如何分配？","2018/03/29"));
-        consultiveAdapter.notifyDataSetChanged();
+        getOrderAdvisory();
     }
 
     @Override
@@ -58,4 +68,38 @@ public class ConsultiveManActivity extends BaseActivity {
 
     }
 
+    public void getOrderAdvisory() {
+
+        Observable<BaseEntity<OrderAdvisoryBean>> observable = RetrofitFactory.getInstance().getOrderAdvisory(pageNo, pageSize);
+        observable.compose(this.<BaseEntity<OrderAdvisoryBean>>rxSchedulers()).subscribe(new BaseObserver<OrderAdvisoryBean>() {
+            @Override
+            protected void onHandleSuccess(OrderAdvisoryBean registerResult, String msg) {
+                List<OrderAdvisoryBean.ResultBean> result = registerResult.getResult();
+                dataList.clear();
+                if (result != null) {
+                    dataList.addAll(result);
+                }
+                consultiveAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void onHandleError(int statusCode, String msg) {
+                NToast.shortToast(mContext, msg);
+            }
+        });
+    }
+
+
+    @OnClick({R.id.bar_iv_back, R.id.bar_tv_right})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.bar_iv_back:
+                finish();
+                break;
+            case R.id.bar_tv_right:
+                pageNo=1;
+                getOrderAdvisory();
+                break;
+        }
+    }
 }

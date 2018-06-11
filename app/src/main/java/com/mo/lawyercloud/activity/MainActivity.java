@@ -135,7 +135,6 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.controller_tab3:
                         if (!TextUtils.isEmpty(mPhone) && !TextUtils.isEmpty(mPwd)) {
-                            Logger.i("mMemberBean.getType()="+mMemberBean.getType());
                             if (mMemberBean.getType() == 1) { //显示普通用户
                                 showFragment(FRAGMENT_MINE);
                             } else { //显示律师

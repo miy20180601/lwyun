@@ -38,7 +38,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="用户"
+                    android:text="律师"
                     android:textColor="#694118"/>
             </LinearLayout>
 

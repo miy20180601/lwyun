@@ -1,10 +1,7 @@
 package com.mo.lawyercloud.activity;
 
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,13 +13,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.InvoiceDataAdapter;
 import com.mo.lawyercloud.base.BaseActivity;
-import com.mo.lawyercloud.beans.apiBeans.InvoiceDataBean;
+import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.beans.apiBeans.InvoiceListBean;
+import com.mo.lawyercloud.network.BaseObserver;
+import com.mo.lawyercloud.network.RetrofitFactory;
+import com.mo.lawyercloud.utils.NToast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import io.reactivex.Observable;
 
 /**
  * 我的发票
@@ -36,9 +37,10 @@ public class MyInvoiceActivity extends BaseActivity {
     TextView barTvRight;
     @BindView(R.id.rv_invoic_data)
     RecyclerView rvInvoicData;
-
+    int pageNo = 1;
+    int pageSize = 10;
     InvoiceDataAdapter invoiceDataAdapter;
-    List<InvoiceDataBean> dataList=new ArrayList<>();
+    List<InvoiceListBean.ResultBean> dataList=new ArrayList<>();
     @Override
     public int getLayoutId() {
         return R.layout.activity_my_invoice;
@@ -60,6 +62,10 @@ public class MyInvoiceActivity extends BaseActivity {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.i("onItemChildClick","position="+position);
+                InvoiceListBean.ResultBean resultBean = dataList.get(position);
+                Bundle bundle = new Bundle();
+                bundle.putString("id",resultBean.getOrderNo());//订单号
+                bundle.putString("money",resultBean.getRealPrice()+"");//金额
                 startActivity(ApplyInvoiceActivity.class);
             }
         });
@@ -67,8 +73,7 @@ public class MyInvoiceActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        dataList.add(new InvoiceDataBean("1","110101010101","交易成功","合同纠纷","14:00-16:00","200"));
-        invoiceDataAdapter.notifyDataSetChanged();
+        getInvoiceList();
     }
 
     @Override
@@ -77,10 +82,24 @@ public class MyInvoiceActivity extends BaseActivity {
     }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
+    public void getInvoiceList() {
+
+        Observable<BaseEntity<InvoiceListBean>> observable = RetrofitFactory.getInstance().getInvoiceList(pageNo, pageSize);
+        observable.compose(this.<BaseEntity<InvoiceListBean>>rxSchedulers()).subscribe(new BaseObserver<InvoiceListBean>() {
+            @Override
+            protected void onHandleSuccess(InvoiceListBean registerResult, String msg) {
+                List<InvoiceListBean.ResultBean> result = registerResult.getResult();
+                dataList.clear();
+                if (result != null) {
+                    dataList.addAll(result);
+                }
+                invoiceDataAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            protected void onHandleError(int statusCode, String msg) {
+                NToast.shortToast(mContext, msg);
+            }
+        });
     }
 }

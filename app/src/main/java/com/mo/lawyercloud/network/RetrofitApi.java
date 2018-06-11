@@ -8,8 +8,11 @@ import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
 import com.mo.lawyercloud.beans.apiBeans.ContactBean;
 import com.mo.lawyercloud.beans.apiBeans.HomeBean;
+import com.mo.lawyercloud.beans.apiBeans.InvoiceListBean;
 import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
+import com.mo.lawyercloud.beans.apiBeans.OrderAdvisoryBean;
+import com.mo.lawyercloud.beans.apiBeans.OrderListBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
 import com.mo.lawyercloud.beans.apiBeans.TimeMsgBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveTimeBean;
@@ -94,7 +97,7 @@ public interface RetrofitApi {
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("security/logout")
-    Observable<BaseEntity<Object>> logout(@Body RequestBody params);
+    Observable<BaseEntity<Object>> logout();
 
     /**
      * 问题反馈
@@ -160,12 +163,6 @@ public interface RetrofitApi {
             @Query("pageSize") int pageSize);
 
     /**
-     * 我的客服
-     */
-    @GET("customerService")
-    Observable<BaseEntity<ContactBean>> customerService();
-
-    /**
      * 律师列表页
      * name     否       律师姓名
      * location   否       地区
@@ -213,13 +210,11 @@ public interface RetrofitApi {
             @Body RequestBody params
     );
     /**
-     * 律师查看自己的时间列表
-     * {
-     "startTime":"1526353200000",
-     "endTime": "1526356800000"
-     }
+     * 律师时间管理列表
+     *
      ?pageNo=1&pageSize=10
      */
+    @Headers("Content-Type: application/json; charset=utf-8")
     @GET("timeMsg/list")
     Observable<BaseEntity<TimeMsgBean>> getTimeMsgList(
             @Query("pageNo") int pageNo,
@@ -263,6 +258,59 @@ public interface RetrofitApi {
             @Query("pageSize") int pageSize
     );
 
+    /**
+     * 问题反馈
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("customerService")
+    Observable<BaseEntity<ContactBean>> customerService();
 
+    /**
+     * 预约通知
+     * @return
+     * ?pageNo=1&pageSize=10&status=0 0、全部
+    1、审核中
+    2.已审核
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("order/list")
+    Observable<BaseEntity<OrderListBean>> getOrderList(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize,
+            @Query("status") int status
+    );
+    /**
+     * 咨询管理
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("order/advisory")
+    Observable<BaseEntity<OrderAdvisoryBean>> getOrderAdvisory(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize
+    );
+    /**
+     * 我的发票
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("invoice/list")
+    Observable<BaseEntity<InvoiceListBean>> getInvoiceList(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize
+    );
+    /**
+     * 删除时间
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("timeMsg/remove")
+    Observable<BaseEntity<Object>> removeTime(
+            @Body RequestBody params
+    );
+    /**
+     * 申请发票
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("invoice/register")
+    Observable<BaseEntity<Object>> registerInvoice(@Body RequestBody params
+    );
 }
 
