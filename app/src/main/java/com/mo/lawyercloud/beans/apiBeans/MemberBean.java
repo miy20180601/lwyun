@@ -64,7 +64,7 @@ public class MemberBean implements Serializable{
     private String paperwork;
     private String channels;
     private int gender;
-    private int balance;
+    private double balance;
     private String txSig;
 
 
@@ -276,11 +276,11 @@ public class MemberBean implements Serializable{
         this.gender = gender;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

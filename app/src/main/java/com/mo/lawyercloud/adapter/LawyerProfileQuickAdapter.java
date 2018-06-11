@@ -10,7 +10,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
-import com.mo.lawyercloud.fragment.ProfessionQuickAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

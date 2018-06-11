@@ -19,8 +19,6 @@ import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.TimeDataAdapter;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.beans.BaseEntity;
-import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
-import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.TimeMsgBean;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
@@ -44,7 +42,7 @@ import okhttp3.RequestBody;
  * @data 2018/06/08
  * @details 时间管理
  */
-public class MineLwyerTimeActivity extends BaseActivity {
+public class MyLwyerTimeActivity extends BaseActivity {
     @BindView(R.id.bar_iv_back)
     ImageView barIvBack;
     @BindView(R.id.bar_title)
@@ -142,12 +140,12 @@ public class MineLwyerTimeActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_date_select:
-                TimeUtils.INSTANCE.showDatePickerDialog(MineLwyerTimeActivity.this
+                TimeUtils.INSTANCE.showDatePickerDialog(MyLwyerTimeActivity.this
                         , 1
                         , calendar, onDateSetListener);
                 break;
             case R.id.tv_time_select:
-                TimeUtils.INSTANCE.showTimePickerDialog(MineLwyerTimeActivity.this
+                TimeUtils.INSTANCE.showTimePickerDialog(MyLwyerTimeActivity.this
                         , 1
                         , calendar, onTimeSetListener);
                 break;
@@ -182,7 +180,7 @@ public class MineLwyerTimeActivity extends BaseActivity {
             } else {
                 startTime = oneTotwo(hourOfDay + "") + ":" + oneTotwo(minute + "");
                 Calendar calendar = Calendar.getInstance();
-                TimeUtils.INSTANCE.showTimePickerDialog(MineLwyerTimeActivity.this
+                TimeUtils.INSTANCE.showTimePickerDialog(MyLwyerTimeActivity.this
                         , 1
                         , calendar, onTimeSetListener);
                 isTime = true;

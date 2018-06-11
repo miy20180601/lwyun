@@ -1,4 +1,4 @@
-package com.mo.lawyercloud.fragment;
+package com.mo.lawyercloud.adapter;
 
 import android.support.annotation.Nullable;
 

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,7 +13,7 @@ import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
-import com.mo.lawyercloud.fragment.ProfessionQuickAdapter;
+import com.mo.lawyercloud.adapter.ProfessionQuickAdapter;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 

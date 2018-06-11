@@ -16,7 +16,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,7 +49,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Flowable;
@@ -68,7 +66,7 @@ import top.zibin.luban.Luban;
  * @data 2018/06/08
  * @details 律师我的资料界面
  */
-public class MineLwyerActivity extends BaseActivity {
+public class MyLwyerActivity extends BaseActivity {
     @BindView(R.id.bar_iv_back)
     ImageView barIvBack;
     @BindView(R.id.bar_title)
@@ -130,7 +128,7 @@ public class MineLwyerActivity extends BaseActivity {
 
             intoImg(mMember.getAvatar(),civLwyerAvatar);
             tvLwyerPhone.setText(mMember.getMobile());
-            tvLwyerNickname.setText(mMember.getNickname() == null? "":mMember.getNickname());
+            tvLwyerNickname.setText(mMember.getRealName() == null? "":mMember.getRealName());
             tvLwyerSex.setText(mMember.getGender() == 1?"男":"女");
             tvLwyerAddress.setText(mMember.getLocation());
             tvLwyerCorporation.setText(mMember.getCompany());
@@ -172,7 +170,7 @@ public class MineLwyerActivity extends BaseActivity {
                     break;
                 case MODIFY_NAME:
                     tvLwyerNickname.setText(mName);
-                    mMember.setNickname(mName);
+                    mMember.setRealName(mName);
                     mACache.put(Constant.MEMBER_INFO,mMember);
                     break;
                 case MODIFY_COMPANY:
@@ -307,7 +305,7 @@ public class MineLwyerActivity extends BaseActivity {
                     @Override
                     public void onClick(int which) {
                         initPermission();
-                        photoUtils.takePicture(MineLwyerActivity.this);
+                        photoUtils.takePicture(MyLwyerActivity.this);
                     }
 
                 })
@@ -316,7 +314,7 @@ public class MineLwyerActivity extends BaseActivity {
                             @Override
                             public void onClick(int which) {
                                 initPermission();
-                                photoUtils.selectPicture(MineLwyerActivity.this);
+                                photoUtils.selectPicture(MyLwyerActivity.this);
                             }
                         }
 
@@ -330,7 +328,7 @@ public class MineLwyerActivity extends BaseActivity {
             case PhotoUtils.INTENT_CROP:
             case PhotoUtils.INTENT_TAKE:
             case PhotoUtils.INTENT_SELECT:
-                photoUtils.onActivityResult(MineLwyerActivity.this, requestCode, resultCode, data);
+                photoUtils.onActivityResult(MyLwyerActivity.this, requestCode, resultCode, data);
                 break;
 
         }
@@ -483,6 +481,7 @@ public class MineLwyerActivity extends BaseActivity {
         }
         return detail;
     }
+
     private void alertDialog(final String title,final int message,final String toast) {
         final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
         dialog.show();

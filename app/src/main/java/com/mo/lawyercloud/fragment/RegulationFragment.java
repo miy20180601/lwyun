@@ -10,11 +10,11 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.adapter.RegulationQuickAdapter;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.LegalBean;
-import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 
@@ -64,7 +64,7 @@ public class RegulationFragment extends BaseFragment {
             @Override
             public void onLoadMoreRequested() {
                 pageNo++;
-                mRecyclerView.setEnabled(false);
+                mSwipeRefreshLayout.setEnabled(false);
                 loadData();
             }
         },mRecyclerView);

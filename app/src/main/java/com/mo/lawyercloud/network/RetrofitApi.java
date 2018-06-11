@@ -3,6 +3,7 @@ package com.mo.lawyercloud.network;
 
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.beans.apiBeans.AdvisoryOrderBean;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
 import com.mo.lawyercloud.beans.apiBeans.ContactBean;
@@ -93,7 +94,14 @@ public interface RetrofitApi {
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("security/logout")
-    Observable<BaseEntity<String>> logout(@Body RequestBody params);
+    Observable<BaseEntity<Object>> logout(@Body RequestBody params);
+
+    /**
+     * 问题反馈
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("feedback/submit")
+    Observable<BaseEntity<Object>> submitFeedback(@Body RequestBody params);
 
     /**
      * 修改密码
@@ -102,7 +110,7 @@ public interface RetrofitApi {
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @PUT("security/password/edit")
-    Observable<BaseEntity<String>> updatePassword(@Body RequestBody params);
+    Observable<BaseEntity<Object>> updatePassword(@Body RequestBody params);
 
     /**
      * 修改用户资料
@@ -152,6 +160,12 @@ public interface RetrofitApi {
             @Query("pageSize") int pageSize);
 
     /**
+     * 我的客服
+     */
+    @GET("customerService")
+    Observable<BaseEntity<ContactBean>> customerService();
+
+    /**
      * 律师列表页
      * name     否       律师姓名
      * location   否       地区
@@ -199,14 +213,13 @@ public interface RetrofitApi {
             @Body RequestBody params
     );
     /**
-     * 律师添加空闲时间
+     * 律师查看自己的时间列表
      * {
      "startTime":"1526353200000",
      "endTime": "1526356800000"
      }
      ?pageNo=1&pageSize=10
      */
-    @Headers("Content-Type: application/json; charset=utf-8")
     @GET("timeMsg/list")
     Observable<BaseEntity<TimeMsgBean>> getTimeMsgList(
             @Query("pageNo") int pageNo,
@@ -239,6 +252,15 @@ public interface RetrofitApi {
     @POST("order/submit")
     Observable<BaseEntity<Object>> reserveSubmit(
             @Body RequestBody params
+    );
+
+    /**
+     * 咨询管理
+     */
+    @GET("order/advisory")
+    Observable<BaseEntity<BaseListEntity<AdvisoryOrderBean>>> myAdvisoryOrder(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize
     );
 
 

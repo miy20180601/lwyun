@@ -31,6 +31,7 @@ import okhttp3.RequestBody;
  * 更改密码
  */
 public class ChangePwdActivity extends BaseActivity {
+
     @BindView(R.id.bar_iv_back)
     ImageView barIvBack;
     @BindView(R.id.bar_title)
@@ -90,7 +91,7 @@ public class ChangePwdActivity extends BaseActivity {
 
         }
         String  againPwd =etChangeAgainpwd.getText().toString().trim();
-        if(againPwd.equals(newPassword)){
+        if(!againPwd.equals(newPassword)){
             NToast.shortToast(mContext,"两次密码不一样");
             return;
         }
@@ -111,6 +112,7 @@ public class ChangePwdActivity extends BaseActivity {
             protected void onHandleSuccess(Object registerResult, String msg) {
                 NToast.shortToast(mContext,"修改密码成功");
                 SPUtil.put(mContext,Constant.PASSWORD, MD5util.getMd5Value(newPassword));
+                finish();
             }
 
             @Override

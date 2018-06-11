@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/cut_off_rule_55_color"
-    tools:context=".activity.MineWalletActivity">
+    tools:context=".activity.MyWalletActivity">
 <include layout="@layout/common_titlebar"/>
 <RelativeLayout
     android:layout_width="match_parent"

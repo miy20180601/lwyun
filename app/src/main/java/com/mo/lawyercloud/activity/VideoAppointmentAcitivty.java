@@ -50,10 +50,16 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import me.iwf.photopicker.PhotoPicker;
 import okhttp3.RequestBody;
+import top.zibin.luban.Luban;
 
 /**
  * @author CUI
@@ -275,7 +281,6 @@ public class VideoAppointmentAcitivty extends BaseActivity {
 
         String strEntity = gson.toJson(params);
 
-        Log.d("ddd",strEntity);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;" +
                 "charset=UTF-8"), strEntity);
 
@@ -305,11 +310,33 @@ public class VideoAppointmentAcitivty extends BaseActivity {
                 ArrayList<String> photos = data.getStringArrayListExtra(PhotoPicker
                         .KEY_SELECTED_PHOTOS);
                 for (String photo : photos) {
-                    updateImage(photo);
+                    compressWithRx(new File(photo));
                 }
 
             }
         }
+    }
+
+    /**
+     * 压缩图片
+     */
+    @SuppressLint("CheckResult")
+    private void compressWithRx(File file) {
+        Flowable.just(file)
+                .observeOn(Schedulers.io())
+                .map(new Function<File, File>() {
+                    @Override
+                    public File apply(@NonNull File file) throws Exception {
+                        return Luban.with(mContext).load(file).get();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<File>() {
+                    @Override
+                    public void accept(@NonNull File file) throws Exception {
+                        updateImage(file.getPath());
+                    }
+                });
     }
 
     /**

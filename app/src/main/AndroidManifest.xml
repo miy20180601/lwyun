@@ -51,21 +51,21 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MineActivity"
+            android:name=".activity.MyUserActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activity.MineAdvisoryActivity"
+            android:name=".activity.MyAdvisoryActivity"
             android:screenOrientation="portrait" />
 
         <activity android:name=".activity.LawyerDetailsActivity" />
         <activity android:name=".activity.VideoAppointmentAcitivty" />
-        <activity android:name=".activity.MineLwyerActivity" />
-        <activity android:name=".activity.MineLwyerTimeActivity" />
+        <activity android:name=".activity.MyLwyerActivity" />
+        <activity android:name=".activity.MyLwyerTimeActivity" />
         <activity android:name=".activity.RequestNoticeActivity" />
         <activity android:name=".activity.MyInvoiceActivity" />
         <activity android:name=".activity.ApplyInvoiceActivity" />
-        <activity android:name=".activity.MineContactAcitity" />
-        <activity android:name=".activity.MineWalletActivity" />
+        <activity android:name=".activity.MyContactAcitity" />
+        <activity android:name=".activity.MyWalletActivity" />
         <activity android:name=".activity.RechargeActivity" />
         <activity android:name=".activity.ChangePwdActivity" />
         <activity android:name=".activity.ConsultiveManActivity"/>

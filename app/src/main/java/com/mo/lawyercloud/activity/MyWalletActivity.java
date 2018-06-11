@@ -16,7 +16,7 @@ import butterknife.OnClick;
 /**
  * 我的钱包
  */
-public class MineWalletActivity extends BaseActivity {
+public class MyWalletActivity extends BaseActivity {
     @BindView(R.id.bar_iv_back)
     ImageView barIvBack;
     @BindView(R.id.bar_title)

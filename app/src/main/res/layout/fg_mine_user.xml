@@ -36,8 +36,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:textSize="@dimen/sp_12"
                 android:text="用户"
-                android:textColor="#694118"/>
+                android:textColor="@color/tv_high_light"/>
         </LinearLayout>
 
         <TextView

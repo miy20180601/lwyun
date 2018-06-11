@@ -27,7 +27,7 @@ import okhttp3.RequestBody;
 /**
  * 我的客服
  */
-public class MineContactAcitity extends BaseActivity {
+public class MyContactAcitity extends BaseActivity {
 
     @BindView(R.id.bar_iv_back)
     ImageView barIvBack;

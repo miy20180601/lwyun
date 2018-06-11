@@ -70,7 +70,7 @@ public class RecruitmentFragment extends BaseFragment {
             @Override
             public void onLoadMoreRequested() {
                 pageNo++;
-                mRecyclerView.setEnabled(false);
+                mSwipeRefreshLayout.setEnabled(false);
                 loadData();
             }
         },mRecyclerView);

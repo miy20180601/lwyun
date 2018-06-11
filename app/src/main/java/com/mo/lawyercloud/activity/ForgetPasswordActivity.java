@@ -17,6 +17,7 @@ import butterknife.OnClick;
  */
 
 public class ForgetPasswordActivity extends BaseActivity {
+
     @BindView(R.id.bar_title)
     TextView mBarTitle;
     @BindView(R.id.edit_phone)

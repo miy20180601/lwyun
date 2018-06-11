@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -43,7 +42,6 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import org.json.JSONArray;
 
 import java.io.File;
-import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,9 +61,9 @@ import top.zibin.luban.Luban;
 
 /**
  * Created by Mohaifeng on 18/5/27.
- * 我的资料
+ * 我的资料-普通用户
  */
-public class MineActivity extends BaseActivity {
+public class MyUserActivity extends BaseActivity {
 
 
     @BindView(R.id.bar_title)
@@ -110,7 +108,7 @@ public class MineActivity extends BaseActivity {
         if (mMember != null){
             Glide.with(mContext).load(mMember.getAvatar()).into(ivAvatar);
             tvPhone.setText(mMember.getMobile());
-            tvNickname.setText(mMember.getNickname() == null? "":mMember.getNickname());
+            tvNickname.setText(mMember.getRealName() == null? "":mMember.getRealName());
             tvSex.setText(mMember.getGender() == 1?"男":"女");
             tvAddress.setText(mMember.getLocation());
         }
@@ -230,7 +228,7 @@ public class MineActivity extends BaseActivity {
                             @Override
                             public void onClick(int which) {
                                 initPermission();
-                                photoUtils.takePicture(MineActivity.this);
+                                photoUtils.takePicture(MyUserActivity.this);
                             }
 
                 })
@@ -239,7 +237,7 @@ public class MineActivity extends BaseActivity {
                             @Override
                             public void onClick(int which) {
                                 initPermission();
-                                photoUtils.selectPicture(MineActivity.this);
+                                photoUtils.selectPicture(MyUserActivity.this);
                             }
                         }
 
@@ -273,7 +271,7 @@ public class MineActivity extends BaseActivity {
             case PhotoUtils.INTENT_CROP:
             case PhotoUtils.INTENT_TAKE:
             case PhotoUtils.INTENT_SELECT:
-                photoUtils.onActivityResult(MineActivity.this, requestCode, resultCode, data);
+                photoUtils.onActivityResult(MyUserActivity.this, requestCode, resultCode, data);
                 break;
 
         }
@@ -366,17 +364,15 @@ public class MineActivity extends BaseActivity {
                         thread.start();
                     }
                     break;
-
                 case MSG_LOAD_SUCCESS:
                     initOptionPicker();
                     break;
-
                 case MSG_LOAD_FAILED:
                     Toast.makeText(mContext, "Parse Failed", Toast.LENGTH_SHORT).show();
                     break;
                 case MODIFY_NAME:
                     tvNickname.setText(mName);
-                    mMember.setNickname(mName);
+                    mMember.setRealName(mName);
                     mACache.put(Constant.MEMBER_INFO,mMember);
                     break;
                 case MODIFY_SEX_MALE:

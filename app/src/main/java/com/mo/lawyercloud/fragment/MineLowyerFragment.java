@@ -1,5 +1,8 @@
 package com.mo.lawyercloud.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,10 +13,10 @@ import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.activity.ChangePwdActivity;
 import com.mo.lawyercloud.activity.ConsultiveManActivity;
 import com.mo.lawyercloud.activity.FeedbackActivity;
-import com.mo.lawyercloud.activity.MineContactAcitity;
-import com.mo.lawyercloud.activity.MineLwyerActivity;
-import com.mo.lawyercloud.activity.MineLwyerTimeActivity;
-import com.mo.lawyercloud.activity.MineWalletActivity;
+import com.mo.lawyercloud.activity.MyContactAcitity;
+import com.mo.lawyercloud.activity.MyLwyerActivity;
+import com.mo.lawyercloud.activity.MyLwyerTimeActivity;
+import com.mo.lawyercloud.activity.MyWalletActivity;
 import com.mo.lawyercloud.activity.RequestNoticeActivity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.base.Constant;
@@ -22,6 +25,7 @@ import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.NToast;
+import com.mo.lawyercloud.utils.SPUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -51,15 +55,15 @@ public class MineLowyerFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mMember = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
         if (mMember != null){
             intoImg(mMember.getAvatar(),ivLwyerAvatar);
-            tvLwyerUserName.setText(mMember.getNickname() == null? "":mMember.getNickname());
-
+            tvLwyerUserName.setText(mMember.getRealName() == null? "":mMember.getRealName());
         }
     }
+
 
     @Override
     public int getLayoutId() {
@@ -80,16 +84,16 @@ public class MineLowyerFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_mine_lwyer_data:
-                startActivity(MineLwyerActivity.class);
+                startActivity(MyLwyerActivity.class);
                 break;
             case R.id.rl_mine_lwyer_notification:
                 startActivity(RequestNoticeActivity.class);
                 break;
             case R.id.rl_mine_lwyer_time:
-                startActivity(MineLwyerTimeActivity.class);
+                startActivity(MyLwyerTimeActivity.class);
                 break;
             case R.id.rl_mine_lwyer_wallet:
-                startActivity(MineWalletActivity.class);
+                startActivity(MyWalletActivity.class);
                 break;
             case R.id.rl_mine_lwyer_advisory:
                 startActivity(ConsultiveManActivity.class);
@@ -102,7 +106,7 @@ public class MineLowyerFragment extends BaseFragment {
                 startActivity(FeedbackActivity.class);
                 break;
             case R.id.rl_mine_lwyer_contact:
-                startActivity(MineContactAcitity.class);
+                startActivity(MyContactAcitity.class);
                 break;
             case R.id.rl_mine_lwyer_promotion:
 
@@ -113,12 +117,15 @@ public class MineLowyerFragment extends BaseFragment {
         }
     }
     public void logout(){
-
-        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().logout();
+        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().logout(null);
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
             @Override
             protected void onHandleSuccess(Object registerResult, String msg) {
-                NToast.shortToast(mContext,"推出登录成功");
+                NToast.shortToast(mContext,msg);
+                SPUtil.clear(mContext, Constant.PHONE);
+                SPUtil.clear(mContext, Constant.PASSWORD);
+                SPUtil.clear(mContext,Constant.TXSIG);
+                mACache.remove(Constant.MEMBER_INFO);
             }
 
             @Override
