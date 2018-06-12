@@ -56,6 +56,9 @@
         <activity
             android:name=".activity.MyAdvisoryActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MyReserveOrderActivity"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".activity.LawyerDetailsActivity" />
         <activity android:name=".activity.VideoAppointmentAcitivty" />

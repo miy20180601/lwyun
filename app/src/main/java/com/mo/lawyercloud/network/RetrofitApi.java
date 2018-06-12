@@ -14,6 +14,7 @@ import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.OrderAdvisoryBean;
 import com.mo.lawyercloud.beans.apiBeans.OrderListBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
+import com.mo.lawyercloud.beans.apiBeans.ReserveOrderBean;
 import com.mo.lawyercloud.beans.apiBeans.TimeMsgBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveTimeBean;
 import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
@@ -163,6 +164,12 @@ public interface RetrofitApi {
             @Query("pageSize") int pageSize);
 
     /**
+     * 我的客服
+     */
+    @GET("customerService")
+    Observable<BaseEntity<ContactBean>> customerService();
+
+    /**
      * 律师列表页
      * name     否       律师姓名
      * location   否       地区
@@ -209,23 +216,27 @@ public interface RetrofitApi {
     Observable<BaseEntity<UploadFileBean>> uploadAvatar(
             @Body RequestBody params
     );
+
     /**
-     * 律师时间管理列表
-     *
-     ?pageNo=1&pageSize=10
+     * 律师查看自己的时间列表
+     * {
+     * "startTime":"1526353200000",
+     * "endTime": "1526356800000"
+     * }
+     * ?pageNo=1&pageSize=10
      */
-    @Headers("Content-Type: application/json; charset=utf-8")
     @GET("timeMsg/list")
     Observable<BaseEntity<TimeMsgBean>> getTimeMsgList(
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize
-            );
+    );
+
     /**
      * 律师添加空闲时间
      * {
-     "startTime":"1526353200000",
-     "endTime": "1526356800000"
-     }
+     * "startTime":"1526353200000",
+     * "endTime": "1526356800000"
+     * }
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("timeMsg/create")
@@ -259,11 +270,15 @@ public interface RetrofitApi {
     );
 
     /**
-     * 问题反馈
+     * 我的预约
+     * status   否   0全部  1审核中   2已审核
      */
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("customerService")
-    Observable<BaseEntity<ContactBean>> customerService();
+    @GET("order/list")
+    Observable<BaseEntity<BaseListEntity<ReserveOrderBean>>> myReserveOrder(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize,
+            @Query("status") int status
+    );
 
     /**
      * 预约通知

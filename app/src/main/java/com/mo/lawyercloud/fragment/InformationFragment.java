@@ -20,6 +20,7 @@ import butterknife.BindView;
 
 /**
  * Created by Mohaifeng on 18/5/24.
+ * 资讯页面
  */
 public class InformationFragment extends BaseFragment {
 

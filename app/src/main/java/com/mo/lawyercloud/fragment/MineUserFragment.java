@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.activity.MyContactAcitity;
 import com.mo.lawyercloud.activity.MyInvoiceActivity;
+import com.mo.lawyercloud.activity.MyReserveOrderActivity;
 import com.mo.lawyercloud.activity.MyUserActivity;
 import com.mo.lawyercloud.activity.MyAdvisoryActivity;
 import com.mo.lawyercloud.activity.MyWalletActivity;
@@ -90,10 +91,7 @@ public class MineUserFragment extends BaseFragment {
                 break;
             case R.id.rl_mine_reservation:
                 // TODO: 18/6/10 我的预约
-                Bundle bundle =new Bundle();
-                bundle.putString("type","1");
-                startActivity(RequestNoticeActivity.class);
-
+                startActivity(MyReserveOrderActivity.class);
                 break;
             case R.id.rl_mine_wallet:
                 // TODO: 18/6/10 我的钱包
