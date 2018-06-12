@@ -1,8 +1,11 @@
 package com.mo.lawyercloud.activity;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,29 +28,44 @@ import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.base.BaseActivity;
+import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.ProvinceBean;
 import com.mo.lawyercloud.beans.SerializableMap;
 import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
+import com.mo.lawyercloud.beans.apiBeans.UploadFileBean;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
+import com.mo.lawyercloud.utils.Base64Util;
 import com.mo.lawyercloud.utils.GetJsonDataUtil;
 import com.mo.lawyercloud.utils.MD5util;
 import com.mo.lawyercloud.utils.NToast;
+import com.mo.lawyercloud.utils.PhotoUtils;
+import com.mo.lawyercloud.widget.ActionSheetDialog;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.json.JSONArray;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.RequestBody;
+import top.zibin.luban.Luban;
 
 /**
  * Created by mo on 2018/5/11.
@@ -74,8 +93,8 @@ public class LowyerRegisterActivity extends BaseActivity {
     EditText mEditProfessional;
     @BindView(R.id.edit_resume)
     EditText mEditResume;
-    @BindView(R.id.recycler_view)
-    RecyclerView mRecyclerView;
+    @BindView(R.id.iv_paperwork)
+    ImageView mIvPaperwork;
     @BindView(R.id.tv_protocol)
     TextView mTvProtocol;
     @BindView(R.id.cb_pwd_eye)
@@ -90,8 +109,10 @@ public class LowyerRegisterActivity extends BaseActivity {
     private static final int MSG_LOAD_DATA = 0x0001;
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
-    private boolean isLoaded = false;
     private OptionsPickerView pvOptions;
+
+    private PhotoUtils photoUtils;
+    private String mPaperworkName;
 
 
     @Override
@@ -103,12 +124,75 @@ public class LowyerRegisterActivity extends BaseActivity {
     public void initViews(Bundle savedInstanceState) {
         mBarTitle.setText("律师注册");
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        setPortraitChangeListener();
     }
 
     @Override
     public void initData() {
 
     }
+
+    /**
+     * 初始化图片选择工具及注册回调监听
+     */
+    private void setPortraitChangeListener() {
+        photoUtils = new PhotoUtils(new PhotoUtils.OnPhotoResultListener() {
+            @Override
+            public void onPhotoResult(Uri uri) {
+                if (uri != null && !TextUtils.isEmpty(uri.getPath())) {
+                    compressWithRx(new File(uri.getPath()));
+                }
+            }
+
+            @Override
+            public void onPhotoCancel() {
+
+            }
+        });
+    }
+
+    /**
+     * 压缩图片
+     */
+    @SuppressLint("CheckResult")
+    private void compressWithRx(File file) {
+        Flowable.just(file)
+                .observeOn(Schedulers.io())
+                .map(new Function<File, File>() {
+                    @Override
+                    public File apply(@NonNull File file) throws Exception {
+                        return Luban.with(mContext).load(file).get();
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<File>() {
+                    @Override
+                    public void accept(@NonNull File file) throws Exception {
+                        updateImage(file);
+                    }
+                });
+    }
+
+    /**
+     * 上传头像
+     */
+    private void updateImage(final File file) {
+        String imageToBase64 = Base64Util.imageToBase64(file.getPath());
+        Map<String, String> params = new HashMap<>();
+        params.put("data", imageToBase64);
+        Gson gson=new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);
+        Observable<BaseEntity<UploadFileBean>> observable = RetrofitFactory.getInstance().uploadImage(body);
+        observable.compose(this.<BaseEntity<UploadFileBean>>rxSchedulers()).subscribe(new BaseObserver<UploadFileBean>() {
+            @Override
+            protected void onHandleSuccess(UploadFileBean uploadFileBean, String msg) {
+                mPaperworkName = uploadFileBean.getName();
+                Glide.with(mContext).load(file).into(mIvPaperwork);
+            }
+        });
+    }
+
 
     @Override
     public void onEvent() {
@@ -257,7 +341,7 @@ public class LowyerRegisterActivity extends BaseActivity {
         }
     };
 
-    @OnClick({R.id.bar_iv_back, R.id.tv_get_code, R.id.fl_location, R.id.btn_register})
+    @OnClick({R.id.bar_iv_back, R.id.tv_get_code, R.id.fl_location, R.id.btn_register,R.id.iv_paperwork})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
@@ -315,6 +399,9 @@ public class LowyerRegisterActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(mResume)) {
                     params.put("resume", mResume);
                 }
+                if (!TextUtils.isEmpty(mPaperworkName)){
+                    params.put("paperwork", mPaperworkName);
+                }
                 SerializableMap tmpmap = new SerializableMap();
                 tmpmap.setMap(params);
                 Bundle bundle = new Bundle();
@@ -322,8 +409,76 @@ public class LowyerRegisterActivity extends BaseActivity {
                 startActivity(new Intent(mContext, LowyerRegisterNextActivity.class).putExtras
                         (bundle));
                 break;
+            case R.id.iv_paperwork:
+                showPhotoDialog();
+                break;
         }
     }
+
+    /**
+     * 弹出图片选择框
+     *
+     */
+    @TargetApi(23)
+    private void showPhotoDialog() {
+        ActionSheetDialog dialog = new ActionSheetDialog(this);
+        dialog.builder().setTitle("选择照片")
+                .setCancelable(true)
+                .setCanceledOnTouchOutside(true)
+                .addSheetItem("相机", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
+
+                    @Override
+                    public void onClick(int which) {
+                        initPermission();
+                        photoUtils.takePicture(LowyerRegisterActivity.this);
+                    }
+
+                })
+                .addSheetItem("相册", ActionSheetDialog.SheetItemColor.Blue, new ActionSheetDialog.OnSheetItemClickListener() {
+
+                            @Override
+                            public void onClick(int which) {
+                                initPermission();
+                                photoUtils.selectPicture(LowyerRegisterActivity.this);
+                            }
+                        }
+
+                );
+        dialog.show();
+
+    }
+
+    @SuppressLint("CheckResult")
+    private void initPermission() {
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.CAMERA
+                , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , Manifest.permission.READ_EXTERNAL_STORAGE)
+                .subscribe(new Consumer<Boolean>() {
+                               @Override
+                               public void accept(Boolean aBoolean) throws Exception {
+                                   if (aBoolean) {
+                                       // All requested permissions are granted
+                                   } else {
+                                       // At least one permission is denied
+                                   }
+                               }
+                           }
+                );
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case PhotoUtils.INTENT_CROP:
+            case PhotoUtils.INTENT_TAKE:
+            case PhotoUtils.INTENT_SELECT:
+                photoUtils.onActivityResult(LowyerRegisterActivity.this, requestCode, resultCode, data);
+                break;
+
+        }
+    }
+
 
     private void initOptionPicker() {//条件选择器初始化
 
@@ -372,6 +527,8 @@ public class LowyerRegisterActivity extends BaseActivity {
         pvOptions.setPicker(options1Items, options2Items);//二级选择器
         /*pvOptions.setPicker(options1Items, options2Items,options3Items);//三级选择器*/
     }
+
+
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {

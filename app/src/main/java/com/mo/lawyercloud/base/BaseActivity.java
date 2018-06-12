@@ -18,6 +18,9 @@ import com.mo.lawyercloud.utils.CommonUtils;
 import com.mo.lawyercloud.utils.MD5util;
 import com.mo.lawyercloud.utils.NToast;
 import com.mo.lawyercloud.utils.SPUtil;
+import com.orhanobut.logger.Logger;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -109,7 +112,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         };
     }
 
-    protected void login(String phone,String pwd) {
+    protected void login(final String phone, String pwd) {
         Map<String, String> params = new HashMap<>();
         params.put("username", phone);
         params.put("password", pwd);
@@ -121,6 +124,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             @Override
             protected void onHandleSuccess(RegisterResult registerResult, String msg) {
                 getMemberInfo();
+                txLogin(phone,registerResult.getTxSig());
             }
 
             @Override
@@ -128,6 +132,21 @@ public abstract class BaseActivity extends AppCompatActivity {
                 NToast.shortToast(mContext,msg);
             }
         });
+    }
+
+    /*腾讯视频登录*/
+    private void txLogin(String phone, String txSig) {
+        ILiveLoginManager.getInstance().iLiveLogin(phone, txSig, new ILiveCallBack() {
+                    @Override
+                    public void onSuccess(Object data) {
+                        Logger.d("tx登录成功");
+                    }
+
+                    @Override
+                    public void onError(String module, int errCode, String errMsg) {
+                        Logger.d(module + "|login fail " + errCode + " " + errMsg, Toast.LENGTH_SHORT);
+                    }
+                });
     }
 
     protected void getMemberInfo() {

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.mo.lawyercloud.R;
@@ -28,6 +29,10 @@ import com.mo.lawyercloud.utils.ACache;
 import com.mo.lawyercloud.utils.MD5util;
 import com.mo.lawyercloud.utils.NToast;
 import com.mo.lawyercloud.utils.SPUtil;
+import com.orhanobut.logger.Logger;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.ILiveSDK;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -135,6 +140,7 @@ public class LoginFragment extends BaseFragment {
             @Override
             protected void onHandleSuccess(RegisterResult registerResult, String msg) {
                 NToast.shortToast(mContext,"登录成功");
+                txLogin(registerResult.getTxSig());
                 SPUtil.put(mContext,Constant.PHONE,mPhone);
                 SPUtil.put(mContext,Constant.PASSWORD,MD5util.getMd5Value(mPwd));
                 SPUtil.put(mContext,Constant.TXSIG,registerResult.getTxSig());
@@ -144,6 +150,21 @@ public class LoginFragment extends BaseFragment {
             @Override
             protected void onHandleError(int statusCode, String msg) {
                 NToast.shortToast(mContext,msg);
+            }
+        });
+    }
+
+    /*腾讯视频登录*/
+    private void txLogin(String txSig) {
+        ILiveLoginManager.getInstance().iLiveLogin(mPhone, txSig, new
+                ILiveCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                Logger.d("tx登录成功");
+            }
+
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
             }
         });
     }

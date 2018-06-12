@@ -183,10 +183,14 @@
                     android:paddingLeft="10dp"
                     android:text="* 证件上传"
                     android:textSize="14sp" />
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                <ImageView
+                    android:id="@+id/iv_paperwork"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="10dp"
+                    android:scaleType="center"
+                    android:src="@mipmap/lawyer_register_button_camera"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"/>
             </LinearLayout>
             <Button
                 android:id="@+id/btn_register"

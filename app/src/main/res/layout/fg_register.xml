@@ -37,6 +37,6 @@
         android:text="律师注册"
         android:textSize="16sp"
         android:textColor="@color/tv_high_light"
-        android:background="@drawable/shape_edit_bg"/>
+        android:background="@drawable/shape_btn_bg"/>
     <include layout="@layout/layout_protocol"/>
 </LinearLayout>

@@ -14,4 +14,8 @@
     <color name="red_color">#ff0000</color>
     <color name="time_man_col">#11e0e0e0</color>
     <color name="black_color">#000000</color>
+
+    <color name="colorGray">#CDCDCD</color>
+
+
 </resources>

@@ -125,9 +125,9 @@ public class MineLowyerFragment extends BaseFragment {
             @Override
             protected void onHandleSuccess(Object registerResult, String msg) {
                 NToast.shortToast(mContext,msg);
-                SPUtil.clear(mContext, Constant.PHONE);
-                SPUtil.clear(mContext, Constant.PASSWORD);
-                SPUtil.clear(mContext,Constant.TXSIG);
+                SPUtil.remove(mContext, Constant.PHONE);
+                SPUtil.remove(mContext, Constant.PASSWORD);
+                SPUtil.remove(mContext,Constant.TXSIG);
                 mACache.remove(Constant.MEMBER_INFO);
             }
 

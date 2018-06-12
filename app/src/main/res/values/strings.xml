@@ -7,6 +7,8 @@
     <string name="bottom_tab4">资讯</string>
     <string name="bottom_tab5">咨询</string>
 
+    <string name="msg_title">提示</string>
+
     <string name="double_click_exit">再按一次退出程序</string>
 
     <string-array name="channel">

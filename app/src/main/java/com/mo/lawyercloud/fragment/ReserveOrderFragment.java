@@ -1,5 +1,6 @@
 package com.mo.lawyercloud.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.activity.MemberVideoActivity;
 import com.mo.lawyercloud.adapter.RecruitmentQuickAdapter;
 import com.mo.lawyercloud.adapter.ReserveOrderQuickAdapter;
 import com.mo.lawyercloud.base.BaseFragment;
@@ -75,6 +77,20 @@ public class ReserveOrderFragment extends BaseFragment {
                 loadData();
             }
         },mRecyclerView);
+        mQuickAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                switch (view.getId()){
+                    case R.id.btn_open_video:
+                        // TODO: 18/6/12 进入直播间
+                        ReserveOrderBean reserveOrderBean = mQuickAdapter.getData().get(position);
+                        startActivity(new Intent(mContext, MemberVideoActivity.class).putExtra
+                                ("roomId",reserveOrderBean.getId())
+                                .putExtra("hostID", reserveOrderBean.getUserDTO().getUsername()));
+                        break;
+                }
+            }
+        });
 
     }
 

@@ -40,7 +40,7 @@ public class ReserveOrderQuickAdapter extends BaseQuickAdapter<ReserveOrderBean,
         helper.setText(R.id.tv_problem,item.getProblem());
         ReserveOrderBean.TimeMsgBean timeMsg = item.getTimeMsg();
         helper.setText(R.id.tv_time,TimeUtils.dateFormatByType(timeMsg.getStartTime(),
-                "MM-dd HH:mm")+"-"+TimeUtils.dateFormatByType(timeMsg.getStartTime(),
+                "MM-dd HH:mm")+"-"+TimeUtils.dateFormatByType(timeMsg.getEndTime(),
                 "HH:mm"));
         long currentTime = System.currentTimeMillis();
         if (currentTime>= timeMsg.getStartTime()&&currentTime<=timeMsg.getEndTime()){

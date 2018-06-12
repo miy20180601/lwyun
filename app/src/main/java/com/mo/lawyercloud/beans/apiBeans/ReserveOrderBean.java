@@ -134,20 +134,20 @@ public class ReserveOrderBean {
          */
 
         private int id;
-        private Object username;
-        private Object password;
-        private Object newPassword;
+        private String username;
+        private String password;
+        private String newPassword;
         private String realName;
-        private Object nickname;
-        private Object mobileCode;
-        private Object accessToken;
+        private String nickname;
+        private String mobileCode;
+        private String accessToken;
         private int gender;
-        private Object location;
-        private Object company;
-        private Object resume;
-        private Object avatar;
-        private Object channels;
-        private Object jsessionid;
+        private String location;
+        private String company;
+        private String resume;
+        private String avatar;
+        private String channels;
+        private String jsessionid;
 
         public int getId() {
             return id;
@@ -157,27 +157,27 @@ public class ReserveOrderBean {
             this.id = id;
         }
 
-        public Object getUsername() {
+        public String getUsername() {
             return username;
         }
 
-        public void setUsername(Object username) {
+        public void setUsername(String username) {
             this.username = username;
         }
 
-        public Object getPassword() {
+        public String getPassword() {
             return password;
         }
 
-        public void setPassword(Object password) {
+        public void setPassword(String password) {
             this.password = password;
         }
 
-        public Object getNewPassword() {
+        public String getNewPassword() {
             return newPassword;
         }
 
-        public void setNewPassword(Object newPassword) {
+        public void setNewPassword(String newPassword) {
             this.newPassword = newPassword;
         }
 
@@ -189,27 +189,27 @@ public class ReserveOrderBean {
             this.realName = realName;
         }
 
-        public Object getNickname() {
+        public String getNickname() {
             return nickname;
         }
 
-        public void setNickname(Object nickname) {
+        public void setNickname(String nickname) {
             this.nickname = nickname;
         }
 
-        public Object getMobileCode() {
+        public String getMobileCode() {
             return mobileCode;
         }
 
-        public void setMobileCode(Object mobileCode) {
+        public void setMobileCode(String mobileCode) {
             this.mobileCode = mobileCode;
         }
 
-        public Object getAccessToken() {
+        public String getAccessToken() {
             return accessToken;
         }
 
-        public void setAccessToken(Object accessToken) {
+        public void setAccessToken(String accessToken) {
             this.accessToken = accessToken;
         }
 
@@ -221,51 +221,51 @@ public class ReserveOrderBean {
             this.gender = gender;
         }
 
-        public Object getLocation() {
+        public String getLocation() {
             return location;
         }
 
-        public void setLocation(Object location) {
+        public void setLocation(String location) {
             this.location = location;
         }
 
-        public Object getCompany() {
+        public String getCompany() {
             return company;
         }
 
-        public void setCompany(Object company) {
+        public void setCompany(String company) {
             this.company = company;
         }
 
-        public Object getResume() {
+        public String getResume() {
             return resume;
         }
 
-        public void setResume(Object resume) {
+        public void setResume(String resume) {
             this.resume = resume;
         }
 
-        public Object getAvatar() {
+        public String getAvatar() {
             return avatar;
         }
 
-        public void setAvatar(Object avatar) {
+        public void setAvatar(String avatar) {
             this.avatar = avatar;
         }
 
-        public Object getChannels() {
+        public String getChannels() {
             return channels;
         }
 
-        public void setChannels(Object channels) {
+        public void setChannels(String channels) {
             this.channels = channels;
         }
 
-        public Object getJsessionid() {
+        public String getJsessionid() {
             return jsessionid;
         }
 
-        public void setJsessionid(Object jsessionid) {
+        public void setJsessionid(String jsessionid) {
             this.jsessionid = jsessionid;
         }
     }

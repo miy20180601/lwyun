@@ -1,7 +1,6 @@
 package com.mo.lawyercloud.network;
 
 
-import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.AdvisoryOrderBean;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
@@ -25,15 +24,12 @@ import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
-import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 
