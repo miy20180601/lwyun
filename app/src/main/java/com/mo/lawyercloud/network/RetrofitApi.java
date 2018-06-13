@@ -278,10 +278,10 @@ public interface RetrofitApi {
 
     /**
      * 预约通知
-     * @return
-     * ?pageNo=1&pageSize=10&status=0 0、全部
-    1、审核中
-    2.已审核
+     *
+     * @return ?pageNo=1&pageSize=10&status=0 0、全部
+     * 1、审核中
+     * 2.已审核
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("order/list")
@@ -290,6 +290,7 @@ public interface RetrofitApi {
             @Query("pageSize") int pageSize,
             @Query("status") int status
     );
+
     /**
      * 咨询管理
      */
@@ -299,6 +300,7 @@ public interface RetrofitApi {
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize
     );
+
     /**
      * 我的发票
      */
@@ -308,6 +310,7 @@ public interface RetrofitApi {
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize
     );
+
     /**
      * 删除时间
      */
@@ -316,6 +319,7 @@ public interface RetrofitApi {
     Observable<BaseEntity<Object>> removeTime(
             @Body RequestBody params
     );
+
     /**
      * 申请发票
      */
@@ -323,5 +327,24 @@ public interface RetrofitApi {
     @POST("invoice/register")
     Observable<BaseEntity<Object>> registerInvoice(@Body RequestBody params
     );
+
+    /**
+     * 视频聊天开始时调用
+     * id   是   订单id
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("order/orderStart")
+    Observable<BaseEntity<Object>> videoOrderStart(@Body RequestBody params
+    );
+
+    /**
+     * 视频聊天结束时调用
+     * id   是   订单id
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("order/orderEnd")
+    Observable<BaseEntity<Object>> videoOrderEnd(@Body RequestBody params
+    );
+
 }
 
