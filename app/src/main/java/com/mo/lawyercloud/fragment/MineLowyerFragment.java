@@ -1,5 +1,6 @@
 package com.mo.lawyercloud.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,8 +17,8 @@ import com.mo.lawyercloud.activity.FeedbackActivity;
 import com.mo.lawyercloud.activity.MyContactAcitity;
 import com.mo.lawyercloud.activity.MyLwyerActivity;
 import com.mo.lawyercloud.activity.MyLwyerTimeActivity;
+import com.mo.lawyercloud.activity.MyReserveOrderActivity;
 import com.mo.lawyercloud.activity.MyWalletActivity;
-import com.mo.lawyercloud.activity.RequestNoticeActivity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
@@ -90,10 +91,8 @@ public class MineLowyerFragment extends BaseFragment {
                 startActivity(MyLwyerActivity.class);
                 break;
             case R.id.rl_mine_lwyer_notification:
-                Bundle bundle =new Bundle();
-                bundle.putString("type","2");
-
-                startActivity(RequestNoticeActivity.class,bundle);
+                startActivity(new Intent(mContext,MyReserveOrderActivity.class).putExtra("type",
+                        2));
                 break;
             case R.id.rl_mine_lwyer_time:
                 startActivity(MyLwyerTimeActivity.class);

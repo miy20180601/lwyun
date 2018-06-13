@@ -84,12 +84,13 @@
             android:name=".activity.MyReserveOrderActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.MemberVideoActivity" />
+        <activity android:name=".activity.VideoMemberActivity" />
+        <activity android:name=".activity.VideoLowyerActivity" />
+
         <activity android:name=".activity.LawyerDetailsActivity" />
         <activity android:name=".activity.VideoAppointmentAcitivty" />
         <activity android:name=".activity.MyLwyerActivity" />
         <activity android:name=".activity.MyLwyerTimeActivity" />
-        <activity android:name=".activity.RequestNoticeActivity" />
         <activity android:name=".activity.MyInvoiceActivity" />
         <activity android:name=".activity.ApplyInvoiceActivity" />
         <activity android:name=".activity.MyContactAcitity" />
@@ -97,6 +98,7 @@
         <activity android:name=".activity.RechargeActivity" />
         <activity android:name=".activity.ChangePwdActivity" />
         <activity android:name=".activity.ConsultiveManActivity"/>
+        <activity android:name=".activity.FeedbackActivity"/>
 
         <!--多图选择控件-->
 

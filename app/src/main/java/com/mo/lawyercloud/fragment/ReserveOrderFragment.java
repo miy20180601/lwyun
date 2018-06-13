@@ -7,27 +7,28 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.google.gson.Gson;
 import com.mo.lawyercloud.R;
-import com.mo.lawyercloud.activity.MemberVideoActivity;
-import com.mo.lawyercloud.adapter.RecruitmentQuickAdapter;
+import com.mo.lawyercloud.activity.VideoLowyerActivity;
+import com.mo.lawyercloud.activity.VideoMemberActivity;
 import com.mo.lawyercloud.adapter.ReserveOrderQuickAdapter;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
-import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveOrderBean;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 
 /**
  * Created by Mohaifeng on 18/6/11.
@@ -55,7 +56,7 @@ public class ReserveOrderFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         Bundle arguments = getArguments();
         status = arguments.getInt("status");
-        type = arguments.getInt("ytpe");
+        type = arguments.getInt("type");
         initViews();
         onEvent();
         loadData();
@@ -78,60 +79,114 @@ public class ReserveOrderFragment extends BaseFragment {
                 mSwipeRefresh.setEnabled(false);
                 loadData();
             }
-        },mRecyclerView);
+        }, mRecyclerView);
         mQuickAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()){
+                ReserveOrderBean reserveOrderBean = mQuickAdapter.getData().get(position);
+                switch (view.getId()) {
                     case R.id.btn_open_video:
-                        // TODO: 18/6/12 进入直播间
-                        ReserveOrderBean reserveOrderBean = mQuickAdapter.getData().get(position);
-                        startActivity(new Intent(mContext, MemberVideoActivity.class).putExtra
-                                ("roomId",reserveOrderBean.getId())
-                                .putExtra("hostID", reserveOrderBean.getUserDTO().getUsername()));
+                        Intent intent = null;
+                        if (type == 1) { //普通用户
+                            intent = new Intent(mContext, VideoMemberActivity.class);
+                            intent.putExtra("roomId", reserveOrderBean.getId())
+                                  .putExtra("hostID", reserveOrderBean.getUserDTO().getUsername());
+                        } else if (type == 2) { //律师用户
+                            intent = new Intent(mContext, VideoLowyerActivity.class);
+                            intent.putExtra("roomId", reserveOrderBean.getId());
+                        }
+                        startActivity(intent);
+                        break;
+                    case R.id.tv_cancel:
+                        unreserve(position);
+                        break;
+                    case R.id.tv_sure:
+                        reserve(position);
                         break;
                 }
             }
+
         });
 
     }
 
-    private void loadData() {
-        Observable<BaseEntity<BaseListEntity<ReserveOrderBean>>> observable = RetrofitFactory.getInstance()
-                .myReserveOrder(pageNo, pageSize,status);
-        observable.compose(this.<BaseEntity<BaseListEntity<ReserveOrderBean>>>rxSchedulers()).subscribe(new BaseObserver<BaseListEntity<ReserveOrderBean>>() {
+    private void reserve(final int position) {
+        ReserveOrderBean reserveOrderBean = mQuickAdapter.getData().get(position);
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", reserveOrderBean.getId());
+        Gson gson = new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;" +
+                "charset=UTF-8"), strEntity);
 
+        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().reserve(body);
+        observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
             @Override
-            protected void onHandleSuccess(BaseListEntity<ReserveOrderBean> baseListEntity, String msg) {
-                loadComplete();
-                if (pageNo == 1) {//第一次加载或者是下拉加载
-                    mQuickAdapter.setNewData(baseListEntity.getResult());
-                    if (mQuickAdapter.getData().size() >= baseListEntity.getTotalCount()) {
-                        mQuickAdapter.loadMoreEnd();
-                    }
-                } else {
-                    mQuickAdapter.addData(baseListEntity.getResult());
-                    if (mQuickAdapter.getData().size() >= baseListEntity.getTotalCount()) {
-                        mQuickAdapter.loadMoreEnd();
-                    } else {
-                        mQuickAdapter.loadMoreComplete();
-                    }
-                }
-            }
-
-            @Override
-            protected void onHandleError(int statusCode, String msg) {
-                loadComplete();
-                if (pageNo>1){
-                    mQuickAdapter.loadMoreFail();
-                }
+            protected void onHandleSuccess(Object o, String msg) {
+                mQuickAdapter.getData().get(position).setStatus(2);
+                mQuickAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private void unreserve(final int position) {
+        ReserveOrderBean reserveOrderBean = mQuickAdapter.getData().get(position);
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", reserveOrderBean.getId());
+        Gson gson = new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;" +
+                "charset=UTF-8"), strEntity);
+
+        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().unreserve(body);
+        observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
+            @Override
+            protected void onHandleSuccess(Object o, String msg) {
+                mQuickAdapter.getData().get(position).setStatus(4);
+                mQuickAdapter.notifyDataSetChanged();
+            }
+        });
+    }
+
+    private void loadData() {
+        Observable<BaseEntity<BaseListEntity<ReserveOrderBean>>> observable = RetrofitFactory
+                .getInstance()
+                .myReserveOrder(pageNo, pageSize, status);
+        observable.compose(this.<BaseEntity<BaseListEntity<ReserveOrderBean>>>rxSchedulers())
+                .subscribe(new BaseObserver<BaseListEntity<ReserveOrderBean>>() {
+
+                    @Override
+                    protected void onHandleSuccess(BaseListEntity<ReserveOrderBean> baseListEntity,
+                                                   String msg) {
+                        loadComplete();
+                        if (pageNo == 1) {//第一次加载或者是下拉加载
+                            mQuickAdapter.setNewData(baseListEntity.getResult());
+                            if (mQuickAdapter.getData().size() >= baseListEntity.getTotalCount()) {
+                                mQuickAdapter.loadMoreEnd();
+                            }
+                        } else {
+                            mQuickAdapter.addData(baseListEntity.getResult());
+                            if (mQuickAdapter.getData().size() >= baseListEntity.getTotalCount()) {
+                                mQuickAdapter.loadMoreEnd();
+                            } else {
+                                mQuickAdapter.loadMoreComplete();
+                            }
+                        }
+                    }
+
+                    @Override
+                    protected void onHandleError(int statusCode, String msg) {
+                        loadComplete();
+                        if (pageNo > 1) {
+                            mQuickAdapter.loadMoreFail();
+                        }
+                    }
+                });
     }
 
     private void initViews() {
         ArrayList<ReserveOrderBean> datas = new ArrayList<>();
-        mQuickAdapter = new ReserveOrderQuickAdapter(type,datas);
+        mQuickAdapter = new ReserveOrderQuickAdapter(type, datas);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mQuickAdapter);
     }

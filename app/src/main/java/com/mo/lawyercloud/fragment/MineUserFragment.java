@@ -17,7 +17,6 @@ import com.mo.lawyercloud.activity.MyReserveOrderActivity;
 import com.mo.lawyercloud.activity.MyUserActivity;
 import com.mo.lawyercloud.activity.MyAdvisoryActivity;
 import com.mo.lawyercloud.activity.MyWalletActivity;
-import com.mo.lawyercloud.activity.RequestNoticeActivity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
@@ -94,8 +93,7 @@ public class MineUserFragment extends BaseFragment {
                 break;
             case R.id.rl_mine_reservation:
                 // TODO: 18/6/10 我的预约
-                startActivity(new Intent(mContext,MyReserveOrderActivity.class).putExtra("type",
-                        1));
+                startActivity(new Intent(mContext,MyReserveOrderActivity.class).putExtra("type",1));
                 break;
             case R.id.rl_mine_wallet:
                 // TODO: 18/6/10 我的钱包

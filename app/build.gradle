@@ -24,6 +24,19 @@ android {
             abiFilters 'armeabi', 'armeabi-v7a'
         }
     }
+    //自动生成apk 名字
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            output.outputFile = new File(output.outputFile.parent, "lowyerCloud" + "-v" +
+//                    defaultConfig.versionName + ".apk");
+//        }
+//    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "lowyerCloud" + defaultConfig.versionName + ".apk"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

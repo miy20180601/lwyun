@@ -129,9 +129,37 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:padding="10dp"
         android:text="进入直播间"/>
+    <RelativeLayout
+        android:id="@+id/rl_buttom"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_sure"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="18dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/selector_reserve_video_sure"
+            android:text="确认"/>
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/tv_sure"
+            android:gravity="center"
+            android:textColor="@color/black_color"
+            android:background="@drawable/selector_reserve_video_cancel"
+            android:text="取消"/>
+    </RelativeLayout>
+
 
 </LinearLayout>

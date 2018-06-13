@@ -29,7 +29,7 @@ public class MineAdvisoryQuickAdapter extends BaseQuickAdapter<AdvisoryOrderBean
         ImageView avatar = helper.getView(R.id.iv_avatar);
         RequestOptions options = new RequestOptions();
         options.error(R.mipmap.data_button_avatar_n);
-        Glide.with(avatar.getContext()).load(item.getUserDTO().getAvatar()).into(avatar);
+        Glide.with(avatar.getContext()).load(item.getUserDTO().getAvatar()).apply(options).into(avatar);
 
         helper.setText(R.id.tv_nickname,item.getUserDTO().getRealName());
         String state = null;

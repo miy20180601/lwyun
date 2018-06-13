@@ -201,7 +201,7 @@ public class UserRegisterActivity extends BaseActivity {
         observable.compose(this.<BaseEntity<RegisterResult>>rxSchedulers()).subscribe(new BaseObserver<RegisterResult>() {
             @Override
             protected void onHandleSuccess(RegisterResult s, String msg) {
-                finish();
+                startActivity(LoginActivity.class);
             }
         });
     }

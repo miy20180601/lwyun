@@ -346,5 +346,21 @@ public interface RetrofitApi {
     Observable<BaseEntity<Object>> videoOrderEnd(@Body RequestBody params
     );
 
+    /**
+     * 拒绝预约
+     * id   是   订单id
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @PUT("order/unreserve")
+    Observable<BaseEntity<Object>> unreserve(@Body RequestBody params);
+
+    /**
+     * 接受预约
+     * id   是   订单id
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @PUT("order/reserve")
+    Observable<BaseEntity<Object>> reserve(@Body RequestBody params);
+
 }
 

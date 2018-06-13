@@ -47,7 +47,7 @@ public class MyWalletActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.bar_iv_back, R.id.rl_wallet_recharge})
+    @OnClick({R.id.bar_iv_back, R.id.rl_wallet_recharge,R.id.rl_billing_records})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
@@ -55,6 +55,12 @@ public class MyWalletActivity extends BaseActivity {
             case R.id.rl_wallet_recharge:
                 startActivity(RechargeActivity.class);
                 break;
+            case R.id.rl_billing_records:
+                // TODO: 18/6/13 账单记录
+
+                break;
         }
     }
+
+
 }

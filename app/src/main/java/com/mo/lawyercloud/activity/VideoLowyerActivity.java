@@ -17,6 +17,7 @@ import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.DlgMgr;
 import com.mo.lawyercloud.utils.MessageObservable;
+import com.mo.lawyercloud.utils.NToast;
 import com.mo.lawyercloud.utils.SPUtil;
 import com.mo.lawyercloud.utils.StatusObservable;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -26,8 +27,9 @@ import com.tencent.av.sdk.AVView;
 import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
-import com.tencent.ilivesdk.core.ILiveLog;
+import com.tencent.ilivesdk.adapter.CommonConstants;
 import com.tencent.ilivesdk.core.ILiveLoginManager;
+import com.tencent.ilivesdk.core.ILiveRoomManager;
 import com.tencent.ilivesdk.view.AVRootView;
 import com.tencent.livesdk.ILVCustomCmd;
 import com.tencent.livesdk.ILVLiveConfig;
@@ -46,9 +48,9 @@ import okhttp3.RequestBody;
 
 /**
  * Created by Mohaifeng on 18/6/12.
- * 用户视频
+ * 律师视频
  */
-public class MemberVideoActivity extends BaseActivity implements ILVLiveConfig
+public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
         .ILVLiveMsgListener, ILiveLoginManager.TILVBStatusListener {
 
     @BindView(R.id.av_root_view)
@@ -56,7 +58,7 @@ public class MemberVideoActivity extends BaseActivity implements ILVLiveConfig
     @BindView(R.id.iv_back)
     ImageView ivBack;
     private int roomId;
-    private String hostID;
+
 
     @Override
     public int getLayoutId() {
@@ -67,15 +69,13 @@ public class MemberVideoActivity extends BaseActivity implements ILVLiveConfig
     public void initViews(Bundle savedInstanceState) {
         initPermission();
         roomId = getIntent().getIntExtra("roomId", -1);
-        hostID = getIntent().getStringExtra("hostID");
-//        avRootView = findViewById(R.id.av_root_view);
         setAvRoomView();
 
         MessageObservable.getInstance().addObserver(this);
         StatusObservable.getInstance().addObserver(this);
 
 
-        joinRoom();
+        createRoom();
     }
 
     private void setAvRoomView() {
@@ -88,17 +88,17 @@ public class MemberVideoActivity extends BaseActivity implements ILVLiveConfig
         avRootView.setGravity(AVRootView.LAYOUT_GRAVITY_BOTTOM);
         avRootView.setSubMarginY(getResources().getDimensionPixelSize(R.dimen
                 .small_area_margin_bottom));
-//        avRootView.setSubMarginX(getResources().getDimensionPixelSize(R.dimen
-// .small_area_marginright));
-//        avRootView.setSubPadding(getResources().getDimensionPixelSize(R.dimen
-// .small_area_marginbetween));
+
         avRootView.setSubWidth(getResources().getDimensionPixelSize(R.dimen.small_area_width));
         avRootView.setSubHeight(getResources().getDimensionPixelSize(R.dimen.small_area_height));
+
+        avRootView.setAutoOrientation(false);
+        // 打开摄像头预览
+        ILiveRoomManager.getInstance().enableCamera(ILiveConstants.FRONT_CAMERA, true);
 //        avRootView.setSubCreatedListener(new AVRootView.onSubViewCreatedListener() {
 //            @Override
 //            public void onSubViewCreated() {
-//                avRootView.swapVideoView(0,1);
-//                avRootView.getViewByIndex(0).getIdentifier();
+//                avRootView.renderVideoView(true, ILiveLoginManager.getInstance().getMyUserId(), CommonConstants.Const_VideoType_Camera, true);
 //            }
 //        });
     }
@@ -124,24 +124,50 @@ public class MemberVideoActivity extends BaseActivity implements ILVLiveConfig
     }
 
     // 加入房间
-    private void joinRoom() {
+    private void createRoom() {
 
-        ILVLiveRoomOption option = new ILVLiveRoomOption(ILiveLoginManager.getInstance()
-                .getMyUserId())
-                .controlRole(Constant.ROLE_LIVEGUEST)
+        ILVLiveRoomOption option = new ILVLiveRoomOption(ILiveLoginManager.getInstance().getMyUserId())
+                .autoCamera(true)
                 .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
+                .controlRole(Constant.ROLE_MASTER)
                 .autoFocus(true);
-        ILVLiveManager.getInstance().joinRoom(roomId, option, new ILiveCallBack() {
-            @Override
-            public void onSuccess(Object data) {
+        ILVLiveManager.getInstance().createRoom(roomId,
+                option, new ILiveCallBack() {
+                    @Override
+                    public void onSuccess(Object data) {
+                    }
 
-            }
+                    @Override
+                    public void onError(String module, int errCode, String errMsg) {
+                        if (module.equals(ILiveConstants.Module_IMSDK) && 10021 == errCode){
+                            // 被占用，改加入
+                            showChoiceDlg();
+                        }else {
+                            DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" +
+                                    errMsg);
+                        }
+                    }
+                });
+    }
 
-            @Override
-            public void onError(String module, int errCode, String errMsg) {
-                DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" + errMsg);
-            }
-        });
+    private void showChoiceDlg(){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this)
+                .setTitle("提示")
+                .setMessage("房间已存在，是否加入房间？")
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        joinRoom();
+                        dialogInterface.dismiss();
+                    }
+                });
+        DlgMgr.showAlertDlg(this, builder);
     }
 
     @Override
@@ -193,9 +219,31 @@ public class MemberVideoActivity extends BaseActivity implements ILVLiveConfig
         });
     }
 
+    private void videoOrderStart() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", roomId);
+        Gson gson = new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);
+        Observable<BaseEntity<Object>> observable = RetrofitFactory
+                .getInstance().videoOrderStart(body);
+        observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
+            @Override
+            protected void onHandleSuccess(Object o, String msg) {
+
+            }
+
+            @Override
+            protected void onHandleError(int statusCode, String msg) {
+                super.onHandleError(statusCode, msg);
+                NToast.shortToast(mContext,msg);
+            }
+        });
+    }
     private void videoOrderEnd() {
         Map<String, Object> params = new HashMap<>();
         params.put("id", roomId);
+        params.put("videoUrl", "http://baidu.com");
         Gson gson = new Gson();
         String strEntity = gson.toJson(params);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);
@@ -204,7 +252,14 @@ public class MemberVideoActivity extends BaseActivity implements ILVLiveConfig
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
             @Override
             protected void onHandleSuccess(Object o, String msg) {
+                finish();
+            }
 
+            @Override
+            protected void onHandleError(int statusCode, String msg) {
+                super.onHandleError(statusCode, msg);
+                NToast.shortToast(mContext,msg);
+                finish();
             }
         });
     }
@@ -250,10 +305,4 @@ public class MemberVideoActivity extends BaseActivity implements ILVLiveConfig
 
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }
