@@ -93,7 +93,7 @@ public class MineLowyerFragment extends BaseFragment {
                 Bundle bundle =new Bundle();
                 bundle.putString("type","2");
 
-                startActivity(RequestNoticeActivity.class);
+                startActivity(RequestNoticeActivity.class,bundle);
                 break;
             case R.id.rl_mine_lwyer_time:
                 startActivity(MyLwyerTimeActivity.class);
@@ -143,4 +143,5 @@ public class MineLowyerFragment extends BaseFragment {
             }
         });
     }
+
 }
