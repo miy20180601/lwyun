@@ -17,6 +17,7 @@ import com.mo.lawyercloud.activity.MyReserveOrderActivity;
 import com.mo.lawyercloud.activity.MyUserActivity;
 import com.mo.lawyercloud.activity.MyAdvisoryActivity;
 import com.mo.lawyercloud.activity.MyWalletActivity;
+import com.mo.lawyercloud.activity.PromotionImgActivity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
@@ -92,7 +93,6 @@ public class MineUserFragment extends BaseFragment {
                 startActivity(new Intent(mContext, MyAdvisoryActivity.class));
                 break;
             case R.id.rl_mine_reservation:
-                // TODO: 18/6/10 我的预约
                 startActivity(new Intent(mContext,MyReserveOrderActivity.class).putExtra("type",1));
                 break;
             case R.id.rl_mine_wallet:
@@ -100,20 +100,16 @@ public class MineUserFragment extends BaseFragment {
                 startActivity(MyWalletActivity.class);
                 break;
             case R.id.rl_mine_contact:
-                // TODO: 18/6/10 我的客服
                 startActivity(MyContactAcitity.class);
                 break;
             case R.id.tv_apply_invoice:
             case R.id.rl_apply_invoice:
-                // TODO: 18/6/10 发票申请
                 startActivity(MyInvoiceActivity.class);
                 break;
             case R.id.rl_promotion:
-                // TODO: 18/6/10 推广图
-
+                startActivity(PromotionImgActivity.class);
                 break;
             case R.id.tv_logout:
-                // TODO: 18/6/10 登出
                 logout();
                 break;
         }

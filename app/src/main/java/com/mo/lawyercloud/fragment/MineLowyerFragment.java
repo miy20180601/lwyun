@@ -19,6 +19,7 @@ import com.mo.lawyercloud.activity.MyLwyerActivity;
 import com.mo.lawyercloud.activity.MyLwyerTimeActivity;
 import com.mo.lawyercloud.activity.MyReserveOrderActivity;
 import com.mo.lawyercloud.activity.MyWalletActivity;
+import com.mo.lawyercloud.activity.PromotionImgActivity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
@@ -114,7 +115,7 @@ public class MineLowyerFragment extends BaseFragment {
                 startActivity(MyContactAcitity.class);
                 break;
             case R.id.rl_mine_lwyer_promotion:
-
+                startActivity(PromotionImgActivity.class);
                 break;
             case R.id.tv_mine_lwyer_out:
                 logout();
