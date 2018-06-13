@@ -13,6 +13,7 @@ import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
+import com.mo.lawyercloud.eventbus.HomeClickMessage;
 import com.mo.lawyercloud.fragment.AdvisoryFragment;
 import com.mo.lawyercloud.fragment.HomeFragment;
 import com.mo.lawyercloud.fragment.InformationFragment;
@@ -24,6 +25,10 @@ import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.ACache;
 import com.mo.lawyercloud.utils.SPUtil;
 import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -141,6 +146,7 @@ public class MainActivity extends BaseActivity {
                                 showFragment(FRAGMENT_MINE_LOWYER);
                             }
                         } else {
+                            mRadioGroup.check(R.id.controller_tab1);
                             startActivity(new Intent(mContext, LoginActivity.class));
                         }
                         break;
@@ -154,6 +160,29 @@ public class MainActivity extends BaseActivity {
                 }
             }
         });
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(HomeClickMessage msg) {
+        if(msg.type == 1) {
+            mRadioGroup.check(R.id.controller_tab5);
+        }else if (msg.type == 2){
+            mRadioGroup.check(R.id.controller_tab1);
+            mPhone = null;
+            mPwd = null;
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     private void showFragment(int index) {

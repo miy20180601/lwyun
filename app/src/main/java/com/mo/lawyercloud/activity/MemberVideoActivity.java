@@ -8,9 +8,13 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.base.Constant;
+import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.network.BaseObserver;
+import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.DlgMgr;
 import com.mo.lawyercloud.utils.MessageObservable;
 import com.mo.lawyercloud.utils.SPUtil;
@@ -31,9 +35,14 @@ import com.tencent.livesdk.ILVLiveManager;
 import com.tencent.livesdk.ILVLiveRoomOption;
 import com.tencent.livesdk.ILVText;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import okhttp3.RequestBody;
 
 /**
  * Created by Mohaifeng on 18/6/12.
@@ -155,19 +164,49 @@ public class MemberVideoActivity extends BaseActivity implements ILVLiveConfig
                 .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ILiveSDK.getInstance().getAvVideoCtrl().setLocalVideoPreProcessCallback(null);
-                        ILVLiveManager.getInstance().quitRoom(new ILiveCallBack() {
-                            @Override
-                            public void onSuccess(Object data) {
-
-                            }
-
-                            @Override
-                            public void onError(String module, int errCode, String errMsg) {
-                            }
-                        });
+                        quitLiveVideo();
                     }
                 }).setPositiveButton("取消",null).show();
+    }
+
+    private void quitLiveVideo() {
+        ILiveSDK.getInstance().getAvVideoCtrl().setLocalVideoPreProcessCallback(null);
+        ILVLiveManager.getInstance().quitRoom(new ILiveCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                ILVLiveManager.getInstance().quitRoom(new ILiveCallBack() {
+                    @Override
+                    public void onSuccess(Object data) {
+                        videoOrderEnd();
+                    }
+
+                    @Override
+                    public void onError(String module, int errCode, String errMsg) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+            }
+        });
+    }
+
+    private void videoOrderEnd() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", roomId);
+        Gson gson = new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);
+        Observable<BaseEntity<Object>> observable = RetrofitFactory
+                .getInstance().videoOrderEnd(body);
+        observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
+            @Override
+            protected void onHandleSuccess(Object o, String msg) {
+
+            }
+        });
     }
 
     @Override

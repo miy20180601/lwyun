@@ -39,7 +39,8 @@ public class MyReserveOrderActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         barTitle.setText("我的预约");
-        MyReservePagerAdapter pagerAdapter = new MyReservePagerAdapter(getSupportFragmentManager());
+        int type = getIntent().getIntExtra("type", 1);
+        MyReservePagerAdapter pagerAdapter = new MyReservePagerAdapter(getSupportFragmentManager(),type);
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }

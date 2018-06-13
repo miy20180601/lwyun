@@ -175,28 +175,36 @@ public class AdvisoryFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_family_affairs:
-
+                mChannel = "1";
+                getSolicitorList();
                 break;
             case R.id.ll_contractual_dispute:
-
+                mChannel = "2";
+                getSolicitorList();
                 break;
             case R.id.ll_infringement_disputes:
-
+                mChannel = "3";
+                getSolicitorList();
                 break;
             case R.id.ll_merger:
-
+                mChannel = "4";
+                getSolicitorList();
                 break;
             case R.id.ll_intellectual_property:
-
+                mChannel = "5";
+                getSolicitorList();
                 break;
             case R.id.ll_labor_dispute:
-
+                mChannel = "6";
+                getSolicitorList();
                 break;
             case R.id.ll_securities:
-
+                mChannel = "7";
+                getSolicitorList();
                 break;
             case R.id.ll_criminal:
-
+                mChannel = "8";
+                getSolicitorList();
                 break;
             case R.id.fl_area:
                 pvOptions.show();

@@ -35,31 +35,32 @@
                 android:text="客服"
                 android:textColor="@color/white"/>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:gravity="center_vertical"
                 android:layout_weight="1"
                 android:background="@drawable/shape_search_bg">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:src="@mipmap/index_icon_search"/>
 
                 <EditText
                     android:id="@+id/edit_search"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
                     android:background="@null"
+                    android:singleLine="true"
                     android:hint="搜索法律知识，寻找专业律师"
-                    android:textColor="@color/tv_hint"
+                    android:imeOptions="actionSearch"
                     android:textSize="12sp"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:src="@mipmap/index_icon_search"/>
-            </RelativeLayout>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -87,6 +88,7 @@
         android:textSize="13sp"/>
 
     <Button
+        android:id="@+id/btn_open_live"
         android:layout_width="136dp"
         android:layout_height="37dp"
         android:layout_gravity="center_horizontal"
@@ -108,7 +110,7 @@
                 android:id="@+id/ll_family_affairs"
                 android:layout_width="166dp"
                 android:layout_height="40dp"
-                android:background="@drawable/shape_home_item_bg"
+                android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
                 <ImageView
@@ -130,7 +132,7 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@+id/ll_family_affairs"
-                android:background="@drawable/shape_home_item_bg"
+                android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
                 <ImageView
@@ -152,7 +154,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/ll_family_affairs"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/shape_home_item_bg"
+                android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
                 <ImageView
@@ -176,7 +178,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/ll_infringement_disputes"
-                android:background="@drawable/shape_home_item_bg"
+                android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
                 <ImageView
@@ -198,7 +200,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/ll_infringement_disputes"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/shape_home_item_bg"
+                android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
                 <ImageView
@@ -222,7 +224,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/ll_infringement_disputes"
-                android:background="@drawable/shape_home_item_bg"
+                android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
                 <ImageView
@@ -243,7 +245,7 @@
                 android:layout_height="40dp"
                 android:layout_below="@+id/ll_intellectual_property"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/shape_home_item_bg"
+                android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
                 <ImageView
@@ -267,7 +269,7 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/ll_securities"
-                android:background="@drawable/shape_home_item_bg"
+                android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
                 <ImageView

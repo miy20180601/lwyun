@@ -1,11 +1,8 @@
 package com.mo.lawyercloud.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,16 +15,19 @@ import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BannerBean;
 import com.mo.lawyercloud.beans.apiBeans.HomeBean;
+import com.mo.lawyercloud.eventbus.HomeClickMessage;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.stx.xhb.xbanner.XBanner;
 import com.stx.xhb.xbanner.transformers.Transformer;
 
-import java.util.ArrayList;
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.reactivex.Observable;
 
@@ -43,10 +43,9 @@ public class HomeFragment extends BaseFragment {
     @BindView(R.id.edit_search)
     EditText mEditSearch;
 
-    //轮播图
-    private List<String> imageList;
 
     private static HomeFragment instance = null;
+
     public static HomeFragment getInstance() {
         if (instance == null) {
             instance = new HomeFragment();
@@ -114,4 +113,34 @@ public class HomeFragment extends BaseFragment {
         mXbanner.stopAutoPlay();
     }
 
+
+    @OnClick({R.id.btn_open_live, R.id.ll_family_affairs, R.id.ll_contractual_dispute, R.id
+            .ll_infringement_disputes, R.id.ll_merger, R.id.ll_intellectual_property, R.id
+            .ll_labor_dispute, R.id.ll_securities, R.id.ll_criminal})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_open_live:
+                EventBus.getDefault().post(new HomeClickMessage());
+//                break;
+            case R.id.ll_family_affairs:
+//                break;
+            case R.id.ll_contractual_dispute:
+//                break;
+            case R.id.ll_infringement_disputes:
+//                break;
+            case R.id.ll_merger:
+//                break;
+            case R.id.ll_intellectual_property:
+//                break;
+            case R.id.ll_labor_dispute:
+//                break;
+            case R.id.ll_securities:
+//                break;
+            case R.id.ll_criminal:
+                HomeClickMessage msg = new HomeClickMessage();
+                msg.type = 1;
+                EventBus.getDefault().post(msg);
+                break;
+        }
+    }
 }

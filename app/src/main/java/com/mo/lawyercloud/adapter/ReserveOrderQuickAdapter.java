@@ -15,9 +15,10 @@ import java.util.List;
  * 我的预约adapter
  */
 public class ReserveOrderQuickAdapter extends BaseQuickAdapter<ReserveOrderBean,BaseViewHolder>{
-
-    public ReserveOrderQuickAdapter(@Nullable List<ReserveOrderBean> data) {
+    int type;
+    public ReserveOrderQuickAdapter(int type, @Nullable List<ReserveOrderBean> data) {
         super(R.layout.item_reserve_order,data);
+        this.type = type;
     }
 
     @Override

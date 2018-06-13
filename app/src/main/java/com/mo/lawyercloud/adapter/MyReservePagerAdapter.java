@@ -17,9 +17,11 @@ import com.mo.lawyercloud.fragment.ReserveOrderFragment;
 public class MyReservePagerAdapter extends FragmentPagerAdapter {
 
     private String[] mTitles = new String[]{"全部", "审核中","已审核"};
+    private int type;
 
-    public MyReservePagerAdapter(FragmentManager fm) {
+    public MyReservePagerAdapter(FragmentManager fm, int type) {
         super(fm);
+        this.type = type;
     }
 
     @Override
@@ -28,6 +30,7 @@ public class MyReservePagerAdapter extends FragmentPagerAdapter {
         Fragment fragment = new ReserveOrderFragment();
         Bundle bundle = new Bundle();
         bundle.putInt("status",position);
+        bundle.putInt("type",type);
         fragment.setArguments(bundle);
         return fragment;
     }

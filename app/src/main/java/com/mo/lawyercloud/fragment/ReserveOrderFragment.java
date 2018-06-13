@@ -42,6 +42,7 @@ public class ReserveOrderFragment extends BaseFragment {
     private int pageNo = 0;
     private int pageSize = 10;
     private int status = 0;
+    private int type = 1; //1为普同用户，2为律师
     private ReserveOrderQuickAdapter mQuickAdapter;
 
     @Override
@@ -54,6 +55,7 @@ public class ReserveOrderFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         Bundle arguments = getArguments();
         status = arguments.getInt("status");
+        type = arguments.getInt("ytpe");
         initViews();
         onEvent();
         loadData();
@@ -129,7 +131,7 @@ public class ReserveOrderFragment extends BaseFragment {
 
     private void initViews() {
         ArrayList<ReserveOrderBean> datas = new ArrayList<>();
-        mQuickAdapter = new ReserveOrderQuickAdapter(datas);
+        mQuickAdapter = new ReserveOrderQuickAdapter(type,datas);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mQuickAdapter);
     }

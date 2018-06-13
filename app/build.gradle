@@ -67,4 +67,7 @@ dependencies {
     //腾讯互动直播
     implementation 'com.tencent.ilivesdk:ilivesdk:1.8.5.5'
     implementation 'com.tencent.livesdk:livesdk:1.1.4'
+    //EventBus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
 }

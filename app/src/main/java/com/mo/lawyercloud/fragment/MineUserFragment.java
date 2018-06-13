@@ -22,10 +22,13 @@ import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
+import com.mo.lawyercloud.eventbus.HomeClickMessage;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.NToast;
 import com.mo.lawyercloud.utils.SPUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -91,7 +94,8 @@ public class MineUserFragment extends BaseFragment {
                 break;
             case R.id.rl_mine_reservation:
                 // TODO: 18/6/10 我的预约
-                startActivity(MyReserveOrderActivity.class);
+                startActivity(new Intent(mContext,MyReserveOrderActivity.class).putExtra("type",
+                        1));
                 break;
             case R.id.rl_mine_wallet:
                 // TODO: 18/6/10 我的钱包
@@ -127,6 +131,9 @@ public class MineUserFragment extends BaseFragment {
                 SPUtil.remove(mContext, Constant.PASSWORD);
                 SPUtil.remove(mContext,Constant.TXSIG);
                 mACache.remove(Constant.MEMBER_INFO);
+                HomeClickMessage homeMsg = new HomeClickMessage();
+                homeMsg.type = 2;
+                EventBus.getDefault().post(homeMsg);
             }
         });
     }
