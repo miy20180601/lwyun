@@ -56,7 +56,7 @@
                     android:layout_marginLeft="5dp"
                     android:background="@null"
                     android:singleLine="true"
-                    android:hint="搜索法律知识，寻找专业律师"
+                    android:hint="搜索专业律师"
                     android:imeOptions="actionSearch"
                     android:textSize="12sp"/>
 
@@ -73,8 +73,8 @@
     </RelativeLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:src="@mipmap/img_logo"/>
@@ -82,6 +82,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"
         android:text="智能分析精准匹配资深律师专业解答"
         android:textColor="#9FA0A0"
@@ -95,21 +96,26 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/shape_btn2_bg"
-        android:text="视频资讯律师"
+        android:text="视频咨询律师"
         android:textColor="@color/tv_high_light"/>
-    <FrameLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:gravity="center"
         android:background="@color/btn_bg_color">
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
             <LinearLayout
                 android:id="@+id/ll_family_affairs"
-                android:layout_width="166dp"
-                android:layout_height="40dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
@@ -128,10 +134,10 @@
 
             <LinearLayout
                 android:id="@+id/ll_contractual_dispute"
-                android:layout_width="166dp"
-                android:layout_height="40dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_toRightOf="@+id/ll_family_affairs"
                 android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
@@ -147,13 +153,18 @@
                     android:text="合同纠纷"
                     android:textColor="@color/tv_high_light"/>
             </LinearLayout>
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp">
             <LinearLayout
                 android:id="@+id/ll_infringement_disputes"
-                android:layout_width="166dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/ll_family_affairs"
-                android:layout_marginTop="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
@@ -172,11 +183,10 @@
 
             <LinearLayout
                 android:id="@+id/ll_merger"
-                android:layout_width="166dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/ll_contractual_dispute"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
                 android:layout_toRightOf="@+id/ll_infringement_disputes"
                 android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
@@ -193,13 +203,18 @@
                     android:text="公司并购"
                     android:textColor="@color/tv_high_light"/>
             </LinearLayout>
+        </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp">
             <LinearLayout
                 android:id="@+id/ll_intellectual_property"
-                android:layout_width="166dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/ll_infringement_disputes"
-                android:layout_marginTop="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
@@ -218,12 +233,10 @@
 
             <LinearLayout
                 android:id="@+id/ll_labor_dispute"
-                android:layout_width="166dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/ll_merger"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/ll_infringement_disputes"
                 android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
@@ -239,12 +252,19 @@
                     android:text="劳动争议"
                     android:textColor="@color/tv_high_light"/>
             </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="5dp">
             <LinearLayout
                 android:id="@+id/ll_securities"
-                android:layout_width="166dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/ll_intellectual_property"
-                android:layout_marginTop="5dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
@@ -263,12 +283,10 @@
 
             <LinearLayout
                 android:id="@+id/ll_criminal"
-                android:layout_width="166dp"
-                android:layout_height="40dp"
-                android:layout_below="@+id/ll_intellectual_property"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_toRightOf="@+id/ll_securities"
                 android:background="@drawable/selector_home_item_bg"
                 android:gravity="center">
 
@@ -284,9 +302,8 @@
                     android:text="刑事及其他"
                     android:textColor="@color/tv_high_light"/>
             </LinearLayout>
-        </RelativeLayout>
-
-    </FrameLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 
 

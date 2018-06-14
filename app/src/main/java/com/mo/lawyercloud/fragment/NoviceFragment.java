@@ -7,6 +7,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mo.lawyercloud.R;
@@ -29,6 +30,8 @@ public class NoviceFragment extends BaseFragment {
 
     @BindView(R.id.bar_title)
     TextView barTitle;
+    @BindView(R.id.bar_iv_back)
+    ImageView mIvBack;
     @BindView(R.id.web_view)
     WebView mWebView;
 
@@ -51,8 +54,7 @@ public class NoviceFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         barTitle.setText("新手指引");
-        barTitle.setVisibility(View.VISIBLE);
-
+        mIvBack.setVisibility(View.GONE);
         initWebView();
         loadData();
     }

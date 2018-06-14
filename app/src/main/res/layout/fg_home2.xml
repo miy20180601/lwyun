@@ -97,8 +97,7 @@
         android:textColor="@color/tv_high_light"/>
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:padding="@dimen/dp_10"
         android:background="@color/btn_bg_color"
         android:orientation="horizontal"
