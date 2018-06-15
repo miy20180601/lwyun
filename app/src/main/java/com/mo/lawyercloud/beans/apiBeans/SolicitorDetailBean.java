@@ -33,7 +33,7 @@ public class SolicitorDetailBean implements Serializable {
     private String nickname;
     private String mobileCode;
     private String accessToken;
-    private int gender;
+    private int gender;  //1男 2女
     private String location;
     private String company;
     private String resume;

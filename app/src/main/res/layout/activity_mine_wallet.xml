@@ -1,57 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/cut_off_rule_55_color"
-    tools:context=".activity.MyWalletActivity">
-<include layout="@layout/common_titlebar"/>
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:gravity="center_vertical"
-    android:background="@color/white"
-    android:layout_marginTop="10dp">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我的余额"
-        android:drawableLeft="@mipmap/wallet_icon_balance"
-        android:drawablePadding="10dp"
-        android:layout_marginLeft="12dp"
-        android:textColor="@color/tv_high_light"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0.0元"
-        android:textColor="@color/tv_high_light"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="12dp"/>
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/cut_off_rule_55_color"
+              android:orientation="vertical"
+              tools:context=".activity.MyWalletActivity">
 
-</RelativeLayout>
+    <include layout="@layout/common_titlebar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:drawableLeft="@mipmap/wallet_icon_balance"
+            android:drawablePadding="10dp"
+            android:text="我的余额"
+            android:textColor="@color/tv_high_light"/>
+
+        <TextView
+            android:id="@+id/tv_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:text="0.0元"
+            android:textColor="@color/tv_high_light"/>
+
+    </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_wallet_recharge"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
-        android:layout_marginTop="10dp">
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="我要充值"
+            android:layout_marginLeft="12dp"
             android:drawableLeft="@mipmap/wallet_icon_recharge"
             android:drawablePadding="10dp"
-            android:layout_marginLeft="12dp"
+            android:text="我要充值"
             android:textColor="@color/tv_high_light"/>
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/register_input_btn_more"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="12dp"/>
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/register_input_btn_more"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_wallet_withdraw"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:drawableLeft="@mipmap/wallet_icon_recharge"
+            android:drawablePadding="10dp"
+            android:text="我要体现"
+            android:textColor="@color/tv_high_light"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/register_input_btn_more"/>
 
     </RelativeLayout>
 

@@ -99,7 +99,7 @@ public class MineLowyerFragment extends BaseFragment {
                 startActivity(MyLwyerTimeActivity.class);
                 break;
             case R.id.rl_mine_lwyer_wallet:
-                startActivity(MyWalletActivity.class);
+                startActivity(new Intent(mContext,MyWalletActivity.class).putExtra("type",2));
                 break;
             case R.id.rl_mine_lwyer_advisory:
                 startActivity(ConsultiveManActivity.class);

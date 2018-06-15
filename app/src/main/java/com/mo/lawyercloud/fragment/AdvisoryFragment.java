@@ -39,6 +39,8 @@ import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.GetJsonDataUtil;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -124,6 +126,26 @@ public class AdvisoryFragment extends BaseFragment {
         getSolicitorList();
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(HomeClickMessage msg) {
+        if (msg.type == 1) {
+            mChannel = msg.channel;
+            setSelectedStatus();
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
     public void getChannels() {
         Observable<BaseEntity<List<ChannelBean>>> observable = RetrofitFactory.getInstance()
                 .getChannels();
@@ -149,6 +171,7 @@ public class AdvisoryFragment extends BaseFragment {
                 /* + options3Items.get(options1).get(options2).get(options3).getPickerViewText()*/
                 mChannel = mChannelBeans.get(options1).getId() == 0 ? null : mChannelBeans.get
                         (options1).getId();
+                mTvChannel.setText(mChannelBeans.get(options1).getPickerViewText());
                 getSolicitorList();
             }
         })
@@ -177,8 +200,12 @@ public class AdvisoryFragment extends BaseFragment {
                 .subscribe
                         (new BaseObserver<BaseListEntity<SolicitorDetailBean>>() {
                             @Override
-                            protected void onHandleSuccess(BaseListEntity<SolicitorDetailBean> dataList, String msg) {
+                            protected void onHandleSuccess(BaseListEntity<SolicitorDetailBean>
+                                                                   dataList, String msg) {
+
                                 mQuickAdapter.setNewData(dataList.getResult());
+
+
                             }
                         });
     }
@@ -190,6 +217,7 @@ public class AdvisoryFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mQuickAdapter);
+        mQuickAdapter.setEmptyView(R.layout.empty_lowyer_list,recyclerView);
         mQuickAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
 
             @Override
@@ -200,7 +228,8 @@ public class AdvisoryFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.tv_reception, R.id.tv_message, R.id.ll_family_affairs, R.id.ll_contractual_dispute, R.id.ll_infringement_disputes,
+    @OnClick({R.id.tv_reception, R.id.tv_message, R.id.ll_family_affairs, R.id
+            .ll_contractual_dispute, R.id.ll_infringement_disputes,
             R.id.ll_merger, R.id.ll_intellectual_property, R.id.ll_labor_dispute, R.id
             .ll_securities, R.id.ll_criminal, R.id.fl_area, R.id.fl_good_at})
     public void onViewClicked(View view) {
@@ -215,66 +244,50 @@ public class AdvisoryFragment extends BaseFragment {
                 break;
             case R.id.ll_family_affairs:
                 if (!mLlFamilyAffairs.isSelected()) {
-                    clearSelectedStatus();
-                    mLlFamilyAffairs.setSelected(true);
                     mChannel = 1;
-                    getSolicitorList();
+                    setSelectedStatus();
                 }
                 break;
             case R.id.ll_contractual_dispute:
                 if (!mLlContractualDispute.isSelected()) {
-                    clearSelectedStatus();
-                    mLlContractualDispute.setSelected(true);
                     mChannel = 2;
-                    getSolicitorList();
+                    setSelectedStatus();
                 }
                 break;
             case R.id.ll_infringement_disputes:
                 if (!mLlInfringementDisputes.isSelected()) {
-                    clearSelectedStatus();
-                    mLlInfringementDisputes.setSelected(true);
                     mChannel = 3;
-                    getSolicitorList();
+                    setSelectedStatus();
                 }
                 break;
             case R.id.ll_merger:
                 if (!mLlMerger.isSelected()) {
-                    clearSelectedStatus();
-                    mLlMerger.setSelected(true);
                     mChannel = 4;
-                    getSolicitorList();
+                    setSelectedStatus();
                 }
                 break;
             case R.id.ll_intellectual_property:
                 if (!mLlIntellectualProperty.isSelected()) {
-                    clearSelectedStatus();
-                    mLlIntellectualProperty.setSelected(true);
                     mChannel = 5;
-                    getSolicitorList();
+                    setSelectedStatus();
                 }
                 break;
             case R.id.ll_labor_dispute:
                 if (!mLlLaborDispute.isSelected()) {
-                    clearSelectedStatus();
-                    mLlLaborDispute.setSelected(true);
                     mChannel = 6;
-                    getSolicitorList();
+                    setSelectedStatus();
                 }
                 break;
             case R.id.ll_securities:
                 if (!mLlSecurities.isSelected()) {
-                    clearSelectedStatus();
-                    mLlSecurities.setSelected(true);
                     mChannel = 7;
-                    getSolicitorList();
+                    setSelectedStatus();
                 }
                 break;
             case R.id.ll_criminal:
                 if (!mLlCriminal.isSelected()) {
-                    clearSelectedStatus();
-                    mLlCriminal.setSelected(true);
                     mChannel = 8;
-                    getSolicitorList();
+                    setSelectedStatus();
                 }
                 break;
             case R.id.fl_area:
@@ -295,6 +308,28 @@ public class AdvisoryFragment extends BaseFragment {
         mLlLaborDispute.setSelected(false);
         mLlSecurities.setSelected(false);
         mLlCriminal.setSelected(false);
+    }
+
+    private void setSelectedStatus() {
+        clearSelectedStatus();
+        if (mChannel == 1) {
+            mLlFamilyAffairs.setSelected(true);
+        } else if (mChannel == 2) {
+            mLlContractualDispute.setSelected(true);
+        } else if (mChannel == 3) {
+            mLlInfringementDisputes.setSelected(true);
+        } else if (mChannel == 4) {
+            mLlMerger.setSelected(true);
+        } else if (mChannel == 5) {
+            mLlIntellectualProperty.setSelected(true);
+        } else if (mChannel == 6) {
+            mLlLaborDispute.setSelected(true);
+        } else if (mChannel == 7) {
+            mLlSecurities.setSelected(true);
+        } else if (mChannel == 8) {
+            mLlCriminal.setSelected(true);
+        }
+        getSolicitorList();
     }
 
     @SuppressLint("HandlerLeak")
@@ -338,6 +373,7 @@ public class AdvisoryFragment extends BaseFragment {
                 //返回的分别是三个级别的选中位置
                 /* + options3Items.get(options1).get(options2).get(options3).getPickerViewText()*/
                 mLocation = options2Items.get(options1).get(options2);
+                mTvLocation.setText(mLocation);
                 getSolicitorList();
             }
         })
@@ -347,22 +383,12 @@ public class AdvisoryFragment extends BaseFragment {
                 .setSelectOptions(0, 1)//默认选中项
                 .setBgColor(Color.WHITE)
                 .setTitleBgColor(Color.parseColor("#eaecec"))
-                .setTitleColor(Color.LTGRAY)
+                .setTitleColor(Color.GRAY)
                 .setCancelColor(Color.parseColor("#0188ff"))
                 .setSubmitColor(Color.parseColor("#0188ff"))
-                .setTextColorCenter(Color.LTGRAY)
+                .setTextColorCenter(Color.GRAY)
                 .isRestoreItem(true)//切换时是否还原，设置默认选中第一项。
                 .isCenterLabel(false) //是否只显示中间选中项的label文字，false则每项item全部都带有label。
-                //                .setLabels("省", "市", "区")
-                //                .setBackgroundId(0x11000000) //设置外部遮罩颜色
-                //                .setOptionsSelectChangeListener(new OnOptionsSelectChangeListener() {
-                //                    @Override
-                //                    public void onOptionsSelectChanged(int options1, int options2, int options3) {
-                //                        String str = "options1: " + options1 + "\noptions2: " + options2 +
-                // "\noptions3: " + options3;
-                //                        Toast.makeText(mContext, str, Toast.LENGTH_SHORT).show();
-                //                    }
-                //                })
                 .build();
 
         /*pvOptions.setPicker(options1Items);//一级选择器*/

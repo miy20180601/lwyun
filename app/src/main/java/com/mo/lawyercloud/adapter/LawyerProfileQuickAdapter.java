@@ -3,6 +3,8 @@ package com.mo.lawyercloud.adapter;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -37,7 +39,13 @@ public class LawyerProfileQuickAdapter extends BaseQuickAdapter<SolicitorDetailB
         options.error(R.mipmap.data_button_avatar_n);
         Glide.with(mContext).load(item.getAvatar()).apply(options).into(ivAvatar);
 
-        helper.setText(R.id.tv_level, "lv.10");
+        if (item.getGender() ==1){
+            helper.setImageResource(R.id.iv_sex,R.mipmap.common_icon_male);
+        } else {
+            helper.setImageResource(R.id.iv_sex,R.mipmap.common_icon_female);
+        }
+
+
         helper.setText(R.id.tv_name, item.getRealName());
         helper.setText(R.id.tv_resume, item.getResume());
 

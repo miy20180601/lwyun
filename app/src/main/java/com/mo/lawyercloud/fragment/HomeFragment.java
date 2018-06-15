@@ -115,7 +115,8 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.tv_reception, R.id.tv_message, R.id.btn_open_live, R.id.ll_family_affairs, R.id.ll_contractual_dispute, R.id
+    @OnClick({R.id.tv_reception, R.id.tv_message, R.id.btn_open_live, R.id.ll_family_affairs, R
+            .id.ll_contractual_dispute, R.id
             .ll_infringement_disputes, R.id.ll_merger, R.id.ll_intellectual_property, R.id
             .ll_labor_dispute, R.id.ll_securities, R.id.ll_criminal})
     public void onViewClicked(View view) {
@@ -129,24 +130,47 @@ public class HomeFragment extends BaseFragment {
                 EventBus.getDefault().post(msg);
                 break;
             case R.id.btn_open_live:
-
-                //                break;
+                msg.type = 1;
+                EventBus.getDefault().post(msg);
+                break;
             case R.id.ll_family_affairs:
-                //                break;
+                msg.type = 1;
+                msg.channel = 1;
+                EventBus.getDefault().post(msg);
+                break;
             case R.id.ll_contractual_dispute:
-                //                break;
+                msg.type = 1;
+                msg.channel = 2;
+                EventBus.getDefault().post(msg);
+                break;
             case R.id.ll_infringement_disputes:
-                //                break;
+                msg.type = 1;
+                msg.channel = 3;
+                EventBus.getDefault().post(msg);
+                break;
             case R.id.ll_merger:
-                //                break;
+                msg.type = 1;
+                msg.channel = 4;
+                EventBus.getDefault().post(msg);
+                break;
             case R.id.ll_intellectual_property:
-                //                break;
+                msg.type = 1;
+                msg.channel = 5;
+                EventBus.getDefault().post(msg);
+                break;
             case R.id.ll_labor_dispute:
-                //                break;
+                msg.type = 1;
+                msg.channel = 6;
+                EventBus.getDefault().post(msg);
+                break;
             case R.id.ll_securities:
-                //                break;
+                msg.type = 1;
+                msg.channel = 7;
+                EventBus.getDefault().post(msg);
+                break;
             case R.id.ll_criminal:
                 msg.type = 1;
+                msg.channel = 8;
                 EventBus.getDefault().post(msg);
                 break;
         }

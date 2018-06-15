@@ -162,8 +162,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="16dp"
-                    android:src="@mipmap/vedio_order_button_link"
-                    />
+                    android:src="@mipmap/vedio_order_button_link"/>
             </RelativeLayout>
 
             <View

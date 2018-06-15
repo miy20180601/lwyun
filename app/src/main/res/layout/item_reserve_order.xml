@@ -120,6 +120,33 @@
             android:layout_alignParentRight="true"
             tools:text="06-11 17：00-18：00"/>
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_annex"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_color"
+            android:layout_marginLeft="18dp"
+            android:layout_centerVertical="true"
+            android:text="附件"/>
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </FrameLayout>
+
+    </LinearLayout>
     <Button
         android:id="@+id/btn_open_video"
         style="@style/button_style"

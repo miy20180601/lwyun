@@ -47,6 +47,7 @@ public class AboutUsFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initWebView();
         loadData();
     }
 
@@ -55,7 +56,7 @@ public class AboutUsFragment extends BaseFragment {
         observable.compose(this.<BaseEntity<WebViewBean>>rxSchedulers()).subscribe(new BaseObserver<WebViewBean>() {
             @Override
             protected void onHandleSuccess(WebViewBean webViewBean, String msg) {
-                mWebView.loadData(webViewBean.getContent(),"text/html","utf-8");
+                mWebView.loadData(webViewBean.getContent(),"text/html; charset=UTF-8", null);
             }
         });
     }
@@ -63,6 +64,7 @@ public class AboutUsFragment extends BaseFragment {
     private void initWebView() {
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setDefaultTextEncodingName("UTF-8");//设置默认为utf-8
         mWebView.setWebViewClient(new WebViewClient());
         mWebView.setBackgroundColor(0);
     }

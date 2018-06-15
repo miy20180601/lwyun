@@ -10,10 +10,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mo.lawyercloud.R;
-import com.mo.lawyercloud.base.BaseActivity;
-import com.mo.lawyercloud.beans.BaseEntity;
-import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
 import com.mo.lawyercloud.adapter.ProfessionQuickAdapter;
+import com.mo.lawyercloud.base.BaseActivity;
+import com.mo.lawyercloud.base.Constant;
+import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.beans.apiBeans.MemberBean;
+import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Observable;
@@ -45,6 +48,10 @@ public class LawyerDetailsActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     @BindView(R.id.tv_resume)
     TextView tvResume;
+    @BindView(R.id.tv_tag)
+    TextView tvTag;
+    @BindView(R.id.tv_reserve)
+    TextView tvReserve;
 
 
     private int mSolicitorId;
@@ -61,11 +68,17 @@ public class LawyerDetailsActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         barTitle.setText("详细资料");
+        MemberBean memberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
+        if (memberBean.getType() == 2){
+            tvTag.setVisibility(View.GONE);
+            tvReserve.setVisibility(View.GONE);
+        }
         mSolicitorId = getIntent().getIntExtra("id", 0);
         mChannelArray = getResources().getStringArray(R.array.channel);
         mChannels = new ArrayList<>();
         mAdapter = new ProfessionQuickAdapter(mChannels);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager
+                .HORIZONTAL, false));
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -78,10 +91,11 @@ public class LawyerDetailsActivity extends BaseActivity {
             protected void onHandleSuccess(SolicitorDetailBean solicitorDetailBean, String msg) {
                 RequestOptions options = new RequestOptions();
                 options.error(R.mipmap.data_button_avatar_n);
-                Glide.with(mContext).load(solicitorDetailBean.getAvatar()).apply(options).into(ivAvatar);
+                Glide.with(mContext).load(solicitorDetailBean.getAvatar()).apply(options).into
+                        (ivAvatar);
                 tvNickname.setText(solicitorDetailBean.getRealName());
                 tvLocation.setText(solicitorDetailBean.getLocation());
-                tvResume.setText("简介："+solicitorDetailBean.getResume());
+                tvResume.setText("简介：" + solicitorDetailBean.getResume());
                 String[] split = solicitorDetailBean.getChannels().split(",");
                 for (String s : split) {
                     mChannels.add(mChannelArray[Integer.parseInt(s)]);
@@ -104,8 +118,11 @@ public class LawyerDetailsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_reserve:
-                startActivity(new Intent(mContext,VideoAppointmentAcitivty.class).putExtra("id", mSolicitorId));
+                startActivity(new Intent(mContext, VideoAppointmentAcitivty.class).putExtra("id",
+                        mSolicitorId));
                 break;
         }
     }
+
+
 }

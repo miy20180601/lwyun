@@ -59,5 +59,6 @@ public class MyReserveOrderActivity extends BaseActivity {
 
     @OnClick(R.id.bar_iv_back)
     public void onViewClicked() {
+        finish();
     }
 }

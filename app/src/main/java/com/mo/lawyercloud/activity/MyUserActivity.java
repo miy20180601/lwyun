@@ -381,6 +381,7 @@ public class MyUserActivity extends BaseActivity {
                     mACache.put(Constant.MEMBER_INFO,mMember);
                     break;
                 case MODIFY_SEX_FEMALE:
+                    tvSex.setText("女");
                     mMember.setGender(2);
                     mACache.put(Constant.MEMBER_INFO,mMember);
                     break;

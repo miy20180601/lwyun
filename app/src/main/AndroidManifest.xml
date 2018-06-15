@@ -3,35 +3,37 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.mo.lawyercloud">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.READ_LOGS"
-                     tools:ignore="ProtectedPermissions"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-                     tools:ignore="ProtectedPermissions"/>
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
     <application
         android:name=".base.App"
@@ -45,68 +47,97 @@
             android:name=".activity.MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
             android:name=".activity.LoginActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.UserRegisterActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.LowyerRegisterActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.LowyerRegisterNextActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.ForgetPasswordActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.ResetPasswordActivity"
+            android:name=".activity.FogetPasswordNextActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MyUserActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MyAdvisoryActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.MyReserveOrderActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.VideoMemberActivity" />
-        <activity android:name=".activity.VideoLowyerActivity" />
+        <activity android:name=".activity.VideoMemberActivity"/>
+        <activity android:name=".activity.VideoLowyerActivity"/>
 
-        <activity android:name=".activity.LawyerDetailsActivity" />
-        <activity android:name=".activity.VideoAppointmentAcitivty" />
-        <activity android:name=".activity.MyLwyerActivity" />
-        <activity android:name=".activity.MyLwyerTimeActivity" />
-        <activity android:name=".activity.MyInvoiceActivity" />
-        <activity android:name=".activity.ApplyInvoiceActivity" />
-        <activity android:name=".activity.MyContactAcitity" />
-        <activity android:name=".activity.MyWalletActivity" />
-        <activity android:name=".activity.RechargeActivity" />
-        <activity android:name=".activity.ChangePwdActivity" />
-        <activity android:name=".activity.ConsultiveManActivity"/>
-        <activity android:name=".activity.FeedbackActivity"/>
+        <activity
+            android:name=".activity.LawyerDetailsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.VideoAppointmentAcitivty"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MyLwyerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MyLwyerTimeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MyInvoiceActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ApplyInvoiceActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MyContactAcitity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MyWalletActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.RechargeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ChangePwdActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.ConsultiveManActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.FeedbackActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.BillingRecordsActivity"
+            android:screenOrientation="portrait"/>
 
         <!--多图选择控件-->
 
-        <activity android:name="me.iwf.photopicker.PhotoPickerActivity"
-                  android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name="me.iwf.photopicker.PhotoPickerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
 
-        <activity android:name="me.iwf.photopicker.PhotoPagerActivity"
-                  android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name="me.iwf.photopicker.PhotoPagerActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <!--多图选择控件-->
 
         <provider
@@ -116,7 +147,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/provider_paths"/>
         </provider>
 
 

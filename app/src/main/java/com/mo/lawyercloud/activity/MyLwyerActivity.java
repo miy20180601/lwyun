@@ -189,6 +189,7 @@ public class MyLwyerActivity extends BaseActivity {
                     mACache.put(Constant.MEMBER_INFO,mMember);
                     break;
                 case MODIFY_SEX_FEMALE:
+                    tvLwyerSex.setText("女");
                     mMember.setGender(2);
                     mACache.put(Constant.MEMBER_INFO,mMember);
                     break;
@@ -256,9 +257,14 @@ public class MyLwyerActivity extends BaseActivity {
         /*pvOptions.setPicker(options1Items, options2Items,options3Items);//三级选择器*/
     }
 
-    @OnClick({R.id.rl_lwyer_avatar, R.id.rl_lwyer_phone, R.id.rl_lwyer_nickname, R.id.rl_lwyer_sex, R.id.rl_lwyer_corporation, R.id.rl_lwyer_address, R.id.rl_lwyer_synopsis})
+    @OnClick({R.id.bar_iv_back,R.id.rl_lwyer_avatar, R.id.rl_lwyer_phone, R.id.rl_lwyer_nickname,
+            R.id
+            .rl_lwyer_sex, R.id.rl_lwyer_corporation, R.id.rl_lwyer_address, R.id.rl_lwyer_synopsis})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.bar_iv_back:
+                finish();
+                break;
             case R.id.rl_lwyer_avatar:
                 showPhotoDialog();
 

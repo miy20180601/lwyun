@@ -18,20 +18,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:id="@+id/tv_level"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/iv_sex"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:background="#b18148"
-        android:gravity="center"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp"
-        android:textSize="12sp"
-        android:textColor="@color/white"
+        app:civ_circle_background_color="#b18148"
         app:layout_constraintStart_toStartOf="@+id/iv_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/iv_avatar"
-        tools:text="lv.10"/>
+        app:layout_constraintTop_toBottomOf="@+id/iv_avatar"/>
+    <!--<TextView-->
+        <!--android:id="@+id/tv_level"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:background="#b18148"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingLeft="3dp"-->
+        <!--android:paddingRight="3dp"-->
+        <!--android:textSize="12sp"-->
+        <!--android:textColor="@color/white"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/iv_avatar"-->
+        <!--app:layout_constraintTop_toBottomOf="@+id/iv_avatar"-->
+        <!--tools:text="lv.10"/>-->
 
     <TextView
         android:id="@+id/tv_name"
@@ -46,10 +56,14 @@
 
     <TextView
         android:id="@+id/tv_resume"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
+        android:singleLine="true"
         android:text="简历"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tv_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_name"/>
 
@@ -57,16 +71,15 @@
         android:id="@+id/tv_good_at"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
         android:text="擅长："
-        app:layout_constraintStart_toEndOf="@+id/tv_level"
-        app:layout_constraintTop_toTopOf="@+id/tv_level"/>
+        app:layout_constraintStart_toStartOf="@+id/tv_resume"
+        app:layout_constraintTop_toTopOf="@+id/iv_sex"/>
 
     <TextView
         android:id="@+id/tv_reservation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="15dp"

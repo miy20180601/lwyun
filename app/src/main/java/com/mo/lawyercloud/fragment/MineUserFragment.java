@@ -96,8 +96,7 @@ public class MineUserFragment extends BaseFragment {
                 startActivity(new Intent(mContext,MyReserveOrderActivity.class).putExtra("type",1));
                 break;
             case R.id.rl_mine_wallet:
-                // TODO: 18/6/10 我的钱包
-                startActivity(MyWalletActivity.class);
+                startActivity(new Intent(mContext,MyWalletActivity.class).putExtra("type",1));
                 break;
             case R.id.rl_mine_contact:
                 startActivity(MyContactAcitity.class);

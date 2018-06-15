@@ -66,7 +66,7 @@ public class NoviceFragment extends BaseFragment {
 
             @Override
             protected void onHandleSuccess(WebViewBean webViewBean, String msg) {
-                mWebView.loadData(webViewBean.getContent(),"text/html","utf-8");
+                mWebView.loadData(webViewBean.getContent(),"text/html; charset=UTF-8", null);
             }
         });
     }
@@ -74,6 +74,8 @@ public class NoviceFragment extends BaseFragment {
     private void initWebView() {
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);
+        settings.setDefaultTextEncodingName("UTF-8");//设置默认为utf-8
+
         mWebView.setWebViewClient(new WebViewClient());
         mWebView.setBackgroundColor(0);
     }

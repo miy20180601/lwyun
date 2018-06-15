@@ -4,6 +4,7 @@ package com.mo.lawyercloud.network;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.AdvisoryOrderBean;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
+import com.mo.lawyercloud.beans.apiBeans.BillingRecordsBean;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
 import com.mo.lawyercloud.beans.apiBeans.ContactBean;
 import com.mo.lawyercloud.beans.apiBeans.HomeBean;
@@ -111,6 +112,16 @@ public interface RetrofitApi {
     @Headers("Content-Type: application/json; charset=utf-8")
     @PUT("security/password/edit")
     Observable<BaseEntity<Object>> updatePassword(@Body RequestBody params);
+
+    /**
+     * 修改密码
+     * username       是   手机号
+     * password       是   新密码
+     * mobileCode     是   验证码
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @PUT("security/password/forget")
+    Observable<BaseEntity<Object>> forgetPassword(@Body RequestBody params);
 
     /**
      * 修改用户资料
@@ -307,6 +318,16 @@ public interface RetrofitApi {
     @Headers("Content-Type: application/json; charset=utf-8")
     @GET("invoice/list")
     Observable<BaseEntity<InvoiceListBean>> getInvoiceList(
+            @Query("pageNo") int pageNo,
+            @Query("pageSize") int pageSize
+    );
+
+    /**
+     * 获取账单记录
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @GET("billRecord/list")
+    Observable<BaseEntity<BaseListEntity<BillingRecordsBean>>> billRecordList(
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize
     );
