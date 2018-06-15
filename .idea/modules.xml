@@ -3,8 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" filepath="$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" />
+      <module fileurl="file://D:\Android\workSpace\lwyun\PhotoPicker\PhotoPicker.iml" filepath="D:\Android\workSpace\lwyun\PhotoPicker\PhotoPicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://D:\Android\workSpace\lwyun\app\app.iml" filepath="D:\Android\workSpace\lwyun\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/lwyun.iml" filepath="$PROJECT_DIR$/lwyun.iml" />
+      <module fileurl="file://D:\Android\workSpace\lwyun\lwyun.iml" filepath="D:\Android\workSpace\lwyun\lwyun.iml" />
     </modules>
   </component>
 </project>

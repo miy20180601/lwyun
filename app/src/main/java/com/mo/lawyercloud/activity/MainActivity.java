@@ -169,6 +169,8 @@ public class MainActivity extends BaseActivity {
             mRadioGroup.check(R.id.controller_tab1);
             mPhone = null;
             mPwd = null;
+        }else if (msg.type == 3){
+            mRadioGroup.check(R.id.controller_tab2);
         }
 
     }

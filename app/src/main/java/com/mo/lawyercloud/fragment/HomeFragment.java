@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.activity.MyContactAcitity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BannerBean;
@@ -114,30 +115,37 @@ public class HomeFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.btn_open_live, R.id.ll_family_affairs, R.id.ll_contractual_dispute, R.id
+    @OnClick({R.id.tv_reception, R.id.tv_message, R.id.btn_open_live, R.id.ll_family_affairs, R.id.ll_contractual_dispute, R.id
             .ll_infringement_disputes, R.id.ll_merger, R.id.ll_intellectual_property, R.id
             .ll_labor_dispute, R.id.ll_securities, R.id.ll_criminal})
     public void onViewClicked(View view) {
+        HomeClickMessage msg = new HomeClickMessage();
         switch (view.getId()) {
+            case R.id.tv_reception:
+                startActivity(MyContactAcitity.class);
+                break;
+            case R.id.tv_message:
+                msg.type = 3;
+                EventBus.getDefault().post(msg);
+                break;
             case R.id.btn_open_live:
-                EventBus.getDefault().post(new HomeClickMessage());
-//                break;
+
+                //                break;
             case R.id.ll_family_affairs:
-//                break;
+                //                break;
             case R.id.ll_contractual_dispute:
-//                break;
+                //                break;
             case R.id.ll_infringement_disputes:
-//                break;
+                //                break;
             case R.id.ll_merger:
-//                break;
+                //                break;
             case R.id.ll_intellectual_property:
-//                break;
+                //                break;
             case R.id.ll_labor_dispute:
-//                break;
+                //                break;
             case R.id.ll_securities:
-//                break;
+                //                break;
             case R.id.ll_criminal:
-                HomeClickMessage msg = new HomeClickMessage();
                 msg.type = 1;
                 EventBus.getDefault().post(msg);
                 break;

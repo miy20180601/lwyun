@@ -5,7 +5,7 @@ package com.mo.lawyercloud.eventbus;
  */
 public class HomeClickMessage {
     public int channel;
-    /**1 为home点击跳转  2为登出跳转*/
+    /**1 为home点击跳转  2为登出跳转  3为消息跳转*/
     public int type;
 
 }

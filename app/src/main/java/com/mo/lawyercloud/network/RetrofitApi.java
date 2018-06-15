@@ -177,7 +177,7 @@ public interface RetrofitApi {
     Observable<BaseEntity<BaseListEntity<SolicitorDetailBean>>> solicitorList(
             @Query("name") String name,
             @Query("location") String location,
-            @Query("channel") String channel,
+            @Query("channel") Integer channel,
             @Query("pageNo") int pageNo,
             @Query("pageSize") int pageSize);
 

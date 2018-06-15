@@ -1,6 +1,7 @@
 package com.mo.lawyercloud.activity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,7 +61,12 @@ public class MyContactAcitity extends BaseActivity {
 
     @Override
     public void onEvent() {
-
+        barIvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
     public void getcontact(){
 
