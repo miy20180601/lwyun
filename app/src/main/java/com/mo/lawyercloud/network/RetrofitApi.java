@@ -21,6 +21,7 @@ import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
 import com.mo.lawyercloud.beans.apiBeans.UploadFileBean;
 import com.mo.lawyercloud.beans.apiBeans.WebViewBean;
 import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
+import com.mo.lawyercloud.beans.apiBeans.WechatOrderBean;
 
 import java.util.List;
 
@@ -382,6 +383,30 @@ public interface RetrofitApi {
     @Headers("Content-Type: application/json; charset=utf-8")
     @PUT("order/reserve")
     Observable<BaseEntity<Object>> reserve(@Body RequestBody params);
+
+    /**
+     * 微信支付统一下单
+     * amount   是   金额
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("recharge/wechat")
+    Observable<BaseEntity<WechatOrderBean>> rechargeWechat(@Body RequestBody params);
+
+    /**
+     * 提现
+     * price   是   金额
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("withdrawal/submit")
+    Observable<BaseEntity<WechatOrderBean>> withdrawal(@Body RequestBody params);
+
+    /**
+     * 获取支付结果
+     * id   是   支付订单id
+     */
+    @GET("pay/business/queryResult")
+    Observable<BaseEntity<WechatOrderBean>> paymentResults(@Query("id") int id);
+
 
 }
 
