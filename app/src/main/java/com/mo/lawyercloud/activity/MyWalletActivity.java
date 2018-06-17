@@ -70,12 +70,14 @@ public class MyWalletActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
+                finish();
                 break;
             case R.id.rl_wallet_recharge:
                 startActivity(RechargeActivity.class);
                 break;
             case R.id.rl_wallet_withdraw:
-
+                // TODO: 18/6/17  提现
+                startActivity(WithdrawActivity.class);
                 break;
             case R.id.rl_billing_records:
                 startActivity(BillingRecordsActivity.class);

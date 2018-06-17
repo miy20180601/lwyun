@@ -13,6 +13,7 @@ import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
+import com.mo.lawyercloud.eventbus.AdvisoryMessage;
 import com.mo.lawyercloud.eventbus.HomeClickMessage;
 import com.mo.lawyercloud.fragment.AdvisoryFragment;
 import com.mo.lawyercloud.fragment.HomeFragment;
@@ -164,6 +165,21 @@ public class MainActivity extends BaseActivity {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(HomeClickMessage msg) {
         if(msg.type == 1) {
+            if (msg.channel!=null){
+                final AdvisoryMessage message = new AdvisoryMessage();
+                message.type = 1;
+                message.channel = msg.channel;
+                if (mAdvisoryFragment != null){
+                    EventBus.getDefault().post(message);
+                }else {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            EventBus.getDefault().post(message);
+                        }
+                    }, 1000);
+                }
+            }
             mRadioGroup.check(R.id.controller_tab5);
         }else if (msg.type == 2){
             mRadioGroup.check(R.id.controller_tab1);
@@ -171,6 +187,21 @@ public class MainActivity extends BaseActivity {
             mPwd = null;
         }else if (msg.type == 3){
             mRadioGroup.check(R.id.controller_tab2);
+        }else if (msg.type == 4){
+            final AdvisoryMessage message = new AdvisoryMessage();
+            message.type = 2;
+            message.name = msg.name;
+            if (mAdvisoryFragment != null){
+                EventBus.getDefault().post(message);
+            }else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(message);
+                    }
+                }, 1000);
+            }
+            mRadioGroup.check(R.id.controller_tab5);
         }
 
     }

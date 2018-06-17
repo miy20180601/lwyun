@@ -258,8 +258,7 @@ public class MyLwyerActivity extends BaseActivity {
     }
 
     @OnClick({R.id.bar_iv_back,R.id.rl_lwyer_avatar, R.id.rl_lwyer_phone, R.id.rl_lwyer_nickname,
-            R.id
-            .rl_lwyer_sex, R.id.rl_lwyer_corporation, R.id.rl_lwyer_address, R.id.rl_lwyer_synopsis})
+            R.id.rl_lwyer_sex, R.id.rl_lwyer_corporation, R.id.rl_lwyer_address, R.id.rl_lwyer_synopsis})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:

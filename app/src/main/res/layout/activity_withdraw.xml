@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".activity.RechargeActivity">
+
+    <include layout="@layout/common_titlebar"/>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="18dp"
+        android:text="请输入提现金额"
+        android:textColor="@color/black_color"/>
+
+    <EditText
+        android:id="@+id/edit_amount"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:inputType="number"
+        android:hint="提现金额"
+        android:textSize="14sp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/shape_edit_gray_bg"
+        android:paddingLeft="5dp"/>
+
+
+
+    <Button
+        android:id="@+id/bt_recharge_apply"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/shape_btn_bg"
+        android:text="提现"
+        android:textColor="@color/tv_high_light"/>
+</LinearLayout>

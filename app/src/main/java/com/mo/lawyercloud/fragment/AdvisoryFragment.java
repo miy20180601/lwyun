@@ -10,9 +10,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -33,9 +36,11 @@ import com.mo.lawyercloud.beans.ProvinceBean;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
 import com.mo.lawyercloud.beans.apiBeans.SolicitorDetailBean;
+import com.mo.lawyercloud.eventbus.AdvisoryMessage;
 import com.mo.lawyercloud.eventbus.HomeClickMessage;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
+import com.mo.lawyercloud.utils.CommonUtils;
 import com.mo.lawyercloud.utils.GetJsonDataUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -121,15 +126,37 @@ public class AdvisoryFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        onEvent();
         getChannels();
         initRecycleView();
         getSolicitorList();
     }
+    private void onEvent() {
+        editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    if (TextUtils.isEmpty(editSearch.getText().toString().trim())){
+                        return false;
+                    }
+                    CommonUtils.hideKeyboard(getActivity());
+                    solicitorName = editSearch.getText().toString().trim();
+                    getSolicitorList();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(HomeClickMessage msg) {
+    public void onMessageEvent(AdvisoryMessage msg) {
         if (msg.type == 1) {
             mChannel = msg.channel;
+            setSelectedStatus();
+        }else if (msg.type == 2){
+            solicitorName = msg.name;
+            mChannel = 0;
             setSelectedStatus();
         }
     }

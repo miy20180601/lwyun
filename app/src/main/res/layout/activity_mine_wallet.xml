@@ -79,7 +79,7 @@
             android:layout_marginLeft="12dp"
             android:drawableLeft="@mipmap/wallet_icon_recharge"
             android:drawablePadding="10dp"
-            android:text="我要体现"
+            android:text="我要提现"
             android:textColor="@color/tv_high_light"/>
 
         <ImageView

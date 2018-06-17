@@ -1,82 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activity.RechargeActivity">
-<include layout="@layout/common_titlebar"/>
-    <View style="@style/cut_off_rule_style"/>
-    <RelativeLayout
-        android:id="@+id/rl_recharge_ok"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <ImageView
-            android:id="@+id/recharge_ok_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@mipmap/recharge_selected"
-            android:layout_centerInParent="true"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="充值成功"
-            android:textColor="@color/black_color"
-            android:layout_below="@+id/recharge_ok_iv"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="3dp"
-            />
-    </RelativeLayout>
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".activity.RechargeActivity">
+
+    <include layout="@layout/common_titlebar"/>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="充值金额"
-        android:textColor="@color/black_color"
+        android:layout_marginLeft="18dp"
         android:layout_marginTop="18dp"
-        android:layout_marginLeft="18dp"/>
+        android:text="请输入充值金额"
+        android:textColor="@color/black_color"/>
+
     <EditText
+        android:id="@+id/edit_amount"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
+        android:inputType="number"
+        android:hint="充值金额"
+        android:textSize="14sp"
         android:layout_marginTop="7dp"
-        android:paddingLeft="2dp"
-        android:background="@drawable/shape_yelow_stroke_bg"/>
+        android:background="@drawable/shape_edit_gray_bg"
+        android:paddingLeft="5dp"/>
+
     <RelativeLayout
         android:id="@+id/rl_recharge_wechat"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/cut_off_rule_55_color"
-        android:layout_marginTop="18dp"
-        >
+        android:layout_marginTop="18dp">
+
         <ImageView
             android:id="@+id/iv_recharge_wechat"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
-            android:background="@drawable/shape_mine_invoice_bg"/>
+            android:src="@mipmap/recharge_icon_wechat_payment"/>
+
         <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/iv_recharge_wechat"
             android:text="微信支付"
             android:textColor="@color/black_color"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="2dp"
-            android:layout_toRightOf="@+id/iv_recharge_wechat"
             />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/rl_recharge_alipay"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="48dp"
-        android:background="@color/cut_off_rule_55_color"
         android:layout_marginTop="18dp"
-        >
+        android:background="@color/cut_off_rule_55_color">
+
         <ImageView
             android:id="@+id/iv_recharge_alipay"
             android:layout_width="10dp"
@@ -84,25 +72,26 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="18dp"
             android:background="@drawable/shape_yelow_stroke_bg"/>
+
         <TextView
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="支付宝支付"
-            android:textColor="@color/black_color"
             android:layout_centerVertical="true"
             android:layout_marginLeft="2dp"
             android:layout_toRightOf="@+id/iv_recharge_alipay"
-            />
+            android:text="支付宝支付"
+            android:textColor="@color/black_color"/>
     </RelativeLayout>
+
     <Button
         android:id="@+id/bt_recharge_apply"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
+        android:layout_marginTop="18dp"
         android:background="@drawable/shape_btn_bg"
         android:text="去支付"
-        android:layout_marginTop="18dp"
-        android:textColor="@color/white"/>
+        android:textColor="@color/tv_high_light"/>
 </LinearLayout>

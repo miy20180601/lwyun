@@ -39,13 +39,14 @@ public class InvoiceDataAdapter extends BaseQuickAdapter<InvoiceListBean.ResultB
                 state = "预约失败";
                 break;
         }
-        String type = item.getChannel().getName();
+        String channal = item.getChannel().getName();
         String money = item.getRealPrice()+"";
-        String startT = TimeUtils.INSTANCE.timetodate(item.getTimeMsg().getStartTime()+"","HH:mm");
+        String startT = TimeUtils.INSTANCE.timetodate(item.getTimeMsg().getStartTime()+"",
+                "MM-dd HH:mm");
         String endT = TimeUtils.INSTANCE.timetodate(item.getTimeMsg().getEndTime()+"","HH:mm");
         helper.setText(R.id.tv_invoice_orderid,"订单号："+orderId);
         helper.setText(R.id.tv_invoice_state,state);
-        helper.setText(R.id.tv_invoice_type,type);
+        helper.setText(R.id.tv_invoice_type,channal);
         helper.setText(R.id.tv_invoice_money,"￥"+money);
         helper.setText(R.id.tv_invoice_time,startT+"--"+endT);
         helper.addOnClickListener(R.id.tv_invoice_apply);

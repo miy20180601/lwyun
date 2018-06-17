@@ -13,6 +13,7 @@ import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.OrderAdvisoryBean;
 import com.mo.lawyercloud.beans.apiBeans.OrderListBean;
+import com.mo.lawyercloud.beans.apiBeans.PayResultBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveOrderBean;
 import com.mo.lawyercloud.beans.apiBeans.TimeMsgBean;
@@ -24,6 +25,7 @@ import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 import com.mo.lawyercloud.beans.apiBeans.WechatOrderBean;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -398,14 +400,14 @@ public interface RetrofitApi {
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("withdrawal/submit")
-    Observable<BaseEntity<WechatOrderBean>> withdrawal(@Body RequestBody params);
+    Observable<BaseEntity<Object>> withdrawal(@Body RequestBody params);
 
     /**
      * 获取支付结果
      * id   是   支付订单id
      */
     @GET("pay/business/queryResult")
-    Observable<BaseEntity<WechatOrderBean>> paymentResults(@Query("id") int id);
+    Observable<BaseEntity<PayResultBean>> paymentResults(@Query("id") int id);
 
 
 }

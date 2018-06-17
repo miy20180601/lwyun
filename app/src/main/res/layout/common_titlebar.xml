@@ -21,6 +21,7 @@
         android:textSize="15sp"
         android:textColor="@color/tv_high_light"
         android:layout_centerInParent="true"/>
+
     <TextView
         android:id="@+id/bar_tv_right"
         android:layout_width="wrap_content"
@@ -32,4 +33,16 @@
         android:textColor="#A9A9A9"
         android:textSize="15sp"
         android:text="跳过"/>
+    <ImageView
+        android:id="@+id/bar_iv_right"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:visibility="gone"
+        android:padding="5dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:src="@mipmap/application_button_add_order"/>
+
 </RelativeLayout>

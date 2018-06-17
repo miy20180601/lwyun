@@ -51,12 +51,12 @@
             tools:text="¥ 0.00"/>
 
         <TextView
-            android:id="@+id/tv_apply_invoice"
+            android:id="@+id/tv_recharge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_mine_invoice_bg"
             android:padding="5dp"
-            android:text="发票申请"
+            android:text="充值"
             android:textColor="@color/white"/>
     </LinearLayout>
     <!--我的资料-->

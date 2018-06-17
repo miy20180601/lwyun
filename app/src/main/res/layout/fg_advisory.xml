@@ -30,6 +30,8 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_weight="1"
                 android:background="@drawable/shape_search_bg"
                 android:paddingLeft="10dp"
@@ -41,8 +43,9 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:background="@null"
-                    android:hint="请输入律师名或咨询领域"
-                    android:textColor="@color/tv_hint"
+                    android:singleLine="true"
+                    android:hint="搜索专业律师"
+                    android:imeOptions="actionSearch"
                     android:textSize="12sp"/>
 
                 <ImageView

@@ -37,8 +37,8 @@ public class ApplyInvoiceActivity extends BaseActivity {
     ImageView barIvBack;
     @BindView(R.id.bar_title)
     TextView barTitle;
-    @BindView(R.id.bar_tv_right)
-    TextView barTvRight;
+    @BindView(R.id.bar_iv_right)
+    ImageView barIvRight;
     @BindView(R.id.tv_apply_orderid)
     TextView tvApplyOrderid;
     @BindView(R.id.tv_apply_money)
@@ -60,6 +60,7 @@ public class ApplyInvoiceActivity extends BaseActivity {
     @BindView(R.id.tv_apply_apply)
     TextView tvApplyApply;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_apply_invoice;
@@ -67,21 +68,36 @@ public class ApplyInvoiceActivity extends BaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-        id = (String) savedInstanceState.get("id");
-        money = (String) savedInstanceState.get("money");
+        Bundle extras = getIntent().getExtras();
+        id = extras.getString("id");
+        money = extras.getString("money");
         barTitle.setText("申请发票");
-        barTvRight.setText("+");
-        barTvRight.setPadding(5, 5, 5, 5);
-        barTvRight.setVisibility(View.VISIBLE);
-        tvApplyOrderid.setText("订单编号  " + id);
-        tvApplyMoney.setText("交易金额  " + money);
+        barIvRight.setVisibility(View.VISIBLE);
+        tvApplyOrderid.setText("订单编号   " + id);
+        tvApplyMoney.setText("¥  " + money);
         llInvoiceNum.setVisibility(View.GONE);
         llInvoiceBank.setVisibility(View.GONE);
     }
 
     @Override
     public void initData() {
-
+        rgInvoiceType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.rb_type_paper:
+                        llInvoiceNum.setVisibility(View.GONE);
+                        llInvoiceBank.setVisibility(View.GONE);
+                        invoiceType = 1;
+                        break;
+                    case R.id.rb_type_ele:
+                        llInvoiceNum.setVisibility(View.VISIBLE);
+                        llInvoiceBank.setVisibility(View.VISIBLE);
+                        invoiceType = 2;
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -89,16 +105,9 @@ public class ApplyInvoiceActivity extends BaseActivity {
 
     }
 
+    private int invoiceType = 1; //1为个人发票 2为企业发票
 
     public void apply() {
-        int titleType = 1;
-        int titleId = rgInvoiceType.getCheckedRadioButtonId();//个人 和公司
-        if (titleId == R.id.rb_type_paper) {
-            titleType = 1;
-        }
-        if (titleId == R.id.rb_type_ele) {
-            titleType = 2;
-        }
         String invoiceTitle = etInvoiceTitle.getText().toString().trim();
         if (TextUtils.isEmpty(invoiceTitle)) {
             NToast.shortToast(mContext, "抬头不能为空");
@@ -109,55 +118,51 @@ public class ApplyInvoiceActivity extends BaseActivity {
             NToast.shortToast(mContext, "邮箱不能为空");
             return;
         }
+
         String invoiceTaxpayersNo = etInvoiceNum.getText().toString().trim();
-        if (TextUtils.isEmpty(invoiceTaxpayersNo) && titleType == 2) {
+        if (invoiceType == 2 && TextUtils.isEmpty(invoiceTaxpayersNo)) {
             NToast.shortToast(mContext, "税号不能为空");
             return;
         }
         String bank = etInvoiceBank.getText().toString().trim();
-        if (TextUtils.isEmpty(bank) && titleType == 2) {
+        if (invoiceType == 2 && TextUtils.isEmpty(bank)) {
             NToast.shortToast(mContext, "公司开户行不能为空");
             return;
         }
-        if(titleType==1){
-            registerInvoice(titleType+"",invoiceTitle,mail,invoiceTaxpayersNo,bank);
-        }else{
-            registerInvoice(titleType+"",invoiceTitle,mail,null,null);
 
-        }
+        registerInvoice(invoiceTitle, mail, invoiceTaxpayersNo, bank);
     }
 
     /**
-     *申请发票
-     * @param invoiceType 发票抬头类型 1、个人  2、企业
-     * @param invoiceTitle 发票抬头
-     * @param mail 邮箱
+     * 申请发票
+     *
+     * @param invoiceTitle       发票抬头
+     * @param mail               邮箱
      * @param invoiceTaxpayersNo 税号
-     * @param bank 公司开户行
+     * @param bank               公司开户行
      */
-    public void registerInvoice( String invoiceType
-            ,  String invoiceTitle
-            ,  String mail
-            ,  String invoiceTaxpayersNo
-            ,  String bank
-    ) {
-        Map<String, String> params = new HashMap<>();
+    public void registerInvoice(String invoiceTitle, String mail, String invoiceTaxpayersNo,
+                                String bank) {
+
+        Map<String, Object> params = new HashMap<>();
         params.put("invoiceType", invoiceType);
         params.put("invoiceTitle", invoiceTitle);
         params.put("id", id);
         params.put("mail", mail);
-        if(invoiceType.trim().endsWith("1")){
+        if (invoiceType == 2) {
             params.put("invoiceTaxpayersNo", invoiceTaxpayersNo);
             params.put("bank", bank);
         }
         Gson gson = new Gson();
         String strEntity = gson.toJson(params);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);
-        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().registerInvoice(body);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;" +
+                "charset=UTF-8"), strEntity);
+        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().registerInvoice
+                (body);
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
             @Override
             protected void onHandleSuccess(Object registerResult, String msg) {
-                NToast.shortToast(mContext,"提交成功");
+                NToast.shortToast(mContext, "提交成功");
             }
 
             @Override
@@ -167,23 +172,15 @@ public class ApplyInvoiceActivity extends BaseActivity {
         });
     }
 
-    @OnClick({R.id.bar_iv_back, R.id.bar_tv_right, R.id.rb_type_paper, R.id.rb_type_ele, R.id.tv_apply_apply})
+    @OnClick({R.id.bar_iv_back, R.id.bar_iv_right, R.id.tv_apply_apply})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
                 finish();
                 break;
-            case R.id.bar_tv_right:
-                apply();
-                break;
-            case R.id.rb_type_paper:
-                llInvoiceNum.setVisibility(View.GONE);
-                llInvoiceBank.setVisibility(View.GONE);
-                break;
-            case R.id.rb_type_ele:
-                llInvoiceNum.setVisibility(View.VISIBLE);
-                llInvoiceBank.setVisibility(View.VISIBLE);
-                break;
+            case R.id.bar_iv_right:
+//                apply();
+//                break;
             case R.id.tv_apply_apply:
                 apply();
                 break;

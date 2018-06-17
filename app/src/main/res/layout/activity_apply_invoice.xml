@@ -12,21 +12,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@color/white">
 
         <ImageView
             android:id="@+id/applicetion_icon_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="18dp"
+            android:layout_marginLeft="15dp"
             android:src="@mipmap/application_icon_order" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
             android:layout_marginLeft="2dp"
             android:layout_toRightOf="@+id/applicetion_icon_iv"
             android:gravity="center_vertical"
@@ -38,13 +39,24 @@
                 android:layout_height="wrap_content"
                 android:text="订单编号  110101112011"
                 android:textColor="@color/black_color" />
-
-            <TextView
-                android:id="@+id/tv_apply_money"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="交易金额  200"
-                android:textColor="@color/black_color" />
+                android:layout_marginTop="@dimen/dp_10">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="交易金额"
+                    android:textColor="@color/black_color" />
+                <TextView
+                    android:id="@+id/tv_apply_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="¥ 200"
+                    android:textColor="@color/tv_high_light" />
+            </LinearLayout>
+
         </LinearLayout>
     </RelativeLayout>
 
@@ -57,9 +69,9 @@
 
         <ImageView
             android:id="@+id/type_icon_iv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:src="@mipmap/application_icon_type" />
 
@@ -76,8 +88,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:layout_marginLeft="38dp"
-                >
+                android:layout_marginLeft="38dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -89,22 +100,25 @@
                     android:id="@+id/rg_invoice_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
                     android:orientation="horizontal">
 
                     <RadioButton
                         android:id="@+id/rb_type_paper"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:button="@drawable/selector_invoice_radio_bg"
                         android:checked="true"
                         android:text="个人"
                         android:textColor="@color/black_color"
-
                         android:textSize="11sp" />
 
                     <RadioButton
                         android:id="@+id/rb_type_ele"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:button="@drawable/selector_invoice_radio_bg"
                         android:text="公司"
                         android:textColor="@color/black_color"
                         android:textSize="11sp" />
@@ -113,8 +127,9 @@
 
             <LinearLayout
                 android:layout_marginLeft="38dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -124,16 +139,20 @@
 
                 <EditText
                     android:id="@+id/et_invoice_title"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:textSize="13sp"
                     android:layout_marginLeft="10dp"
-                    android:background="@color/cut_off_rule_color" />
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:background="#efefef" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
                 android:layout_marginLeft="65dp"
-
                 >
 
                 <TextView
@@ -144,17 +163,22 @@
 
                 <EditText
                     android:id="@+id/et_invoice_mail"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:textSize="13sp"
+                    android:inputType="textEmailAddress"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="30dp"
-                    android:background="@color/cut_off_rule_color" />
+                    android:layout_marginRight="10dp"
+                    android:background="#efefef" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_invoice_num"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_marginLeft="65dp"
+                android:gravity="center_vertical"
                 >
 
                 <TextView
@@ -165,17 +189,22 @@
 
                 <EditText
                     android:id="@+id/et_invoice_num"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:textSize="13sp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="30dp"
-                    android:background="@color/cut_off_rule_color" />
+                    android:layout_marginRight="10dp"
+                    android:background="#efefef" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/ll_invoice_bank"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="23dp"
+                android:layout_marginBottom="5dp"
                 >
 
                 <TextView
@@ -186,11 +215,14 @@
 
                 <EditText
                     android:id="@+id/et_invoice_bank"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:textSize="13sp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="30dp"
-                    android:background="@color/cut_off_rule_color" />
+                    android:layout_marginRight="10dp"
+                    android:background="#efefef" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
@@ -205,13 +237,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             android:layout_alignParentBottom="true">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="3"
                 android:gravity="center_vertical|right"
                 android:paddingRight="10dp"
                 android:background="@color/white"
@@ -222,7 +254,7 @@
                 android:id="@+id/tv_apply_apply"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
+                android:layout_weight="1"
                 android:background="@color/btn_bg_color"
                 android:gravity="center"
                 android:text="提交申请"

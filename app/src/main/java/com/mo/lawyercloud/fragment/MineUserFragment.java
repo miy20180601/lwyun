@@ -18,6 +18,7 @@ import com.mo.lawyercloud.activity.MyUserActivity;
 import com.mo.lawyercloud.activity.MyAdvisoryActivity;
 import com.mo.lawyercloud.activity.MyWalletActivity;
 import com.mo.lawyercloud.activity.PromotionImgActivity;
+import com.mo.lawyercloud.activity.RechargeActivity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
@@ -81,7 +82,7 @@ public class MineUserFragment extends BaseFragment {
         Glide.with(mContext).load(imgUrl).apply(options).into(view);
     }
 
-    @OnClick({R.id.tv_apply_invoice, R.id.rl_mine_data, R.id.rl_mine_advisory, R.id
+    @OnClick({R.id.tv_recharge, R.id.rl_mine_data, R.id.rl_mine_advisory, R.id
             .rl_mine_reservation, R.id.rl_mine_wallet, R.id.rl_mine_contact, R.id
             .rl_apply_invoice, R.id.rl_promotion,R.id.tv_logout})
     public void onViewClicked(View view) {
@@ -101,7 +102,9 @@ public class MineUserFragment extends BaseFragment {
             case R.id.rl_mine_contact:
                 startActivity(MyContactAcitity.class);
                 break;
-            case R.id.tv_apply_invoice:
+            case R.id.tv_recharge:
+                startActivity(RechargeActivity.class);
+                break;
             case R.id.rl_apply_invoice:
                 startActivity(MyInvoiceActivity.class);
                 break;

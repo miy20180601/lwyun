@@ -3,10 +3,10 @@
           xmlns:tools="http://schemas.android.com/tools"
           package="com.mo.lawyercloud">
 
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
@@ -38,9 +38,9 @@
     <application
         android:name=".base.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/lowyer_logo"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/lowyer_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -129,6 +129,16 @@
             android:name=".activity.BillingRecordsActivity"
             android:screenOrientation="portrait"/>
 
+        <activity
+            android:name=".activity.RechargeResultActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.WithdrawActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.PromotionImgActivity"
+            android:screenOrientation="portrait"/>
+
         <!--多图选择控件-->
 
         <activity
@@ -150,6 +160,20 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
 
+
+        <!--微信支付回调页面-->
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+
+        <!--微信支付回调监听，不注册该监听无法正常回调上面的WXPayEntryActivity-->
+        <receiver android:name=".wxapi.AppRegister">
+            <intent-filter>
+                <action android:name="com.tencent.mm.plugin.openapi.Intent.ACTION_REFRESH_WXAPP"/>
+            </intent-filter>
+        </receiver>
 
     </application>
 

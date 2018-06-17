@@ -10,6 +10,9 @@ public class Constant {
     public final static String TXSIG= "txSig"; //腾讯视频使用
     public final static String PHONE= "phone";
     public final static String PASSWORD= "password";
+    public final static String RECHARGE_RESULT= "recharge_result";
+
+    public final static String WX_APP_ID= "wx895b27842119df92";
     // 角色
     public static final String ROLE_MASTER = "LiveMaster";
     public static final String ROLE_GUEST = "Guest";

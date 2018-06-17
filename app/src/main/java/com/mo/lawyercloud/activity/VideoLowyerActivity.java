@@ -4,9 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.mo.lawyercloud.R;
@@ -20,6 +22,7 @@ import com.mo.lawyercloud.utils.MessageObservable;
 import com.mo.lawyercloud.utils.NToast;
 import com.mo.lawyercloud.utils.SPUtil;
 import com.mo.lawyercloud.utils.StatusObservable;
+import com.mo.lawyercloud.utils.TimeUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.TIMMessage;
 import com.tencent.TIMUserProfile;
@@ -55,9 +58,14 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
 
     @BindView(R.id.av_root_view)
     AVRootView avRootView;
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
+    @BindView(R.id.iv_end_call)
+    ImageView ivEndCall;
+    @BindView(R.id.tv_time)
+    TextView tvTime;
+
+
     private int roomId;
+    private long callDurationc = 0;
 
 
     @Override
@@ -77,6 +85,19 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
 
         createRoom();
     }
+
+    private CountDownTimer timer = new CountDownTimer(1000*60*60*24, 1000) {
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            tvTime.setText("通话时间："+ TimeUtils.dateFormatByType(callDurationc,"HH:mm:ss"));
+        }
+
+        @Override
+        public void onFinish() {
+
+        }
+    };
 
     private void setAvRoomView() {
         avRootView.renderMySelf(true);
@@ -135,6 +156,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
                 option, new ILiveCallBack() {
                     @Override
                     public void onSuccess(Object data) {
+                        timer.start();
                     }
 
                     @Override
@@ -177,7 +199,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
 
     @Override
     public void onEvent() {
-        ivBack.setOnClickListener(new View.OnClickListener() {
+        ivEndCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog();
@@ -196,6 +218,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
     }
 
     private void quitLiveVideo() {
+        timer.cancel();
         ILiveSDK.getInstance().getAvVideoCtrl().setLocalVideoPreProcessCallback(null);
         ILVLiveManager.getInstance().quitRoom(new ILiveCallBack() {
             @Override
@@ -240,6 +263,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
             }
         });
     }
+
     private void videoOrderEnd() {
         Map<String, Object> params = new HashMap<>();
         params.put("id", roomId);
@@ -279,6 +303,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        timer.cancel();
         MessageObservable.getInstance().deleteObserver(this);
         StatusObservable.getInstance().deleteObserver(this);
         ILVLiveManager.getInstance().onDestory();
