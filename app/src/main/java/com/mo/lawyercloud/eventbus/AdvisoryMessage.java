@@ -5,7 +5,7 @@ package com.mo.lawyercloud.eventbus;
  */
 public class AdvisoryMessage {
     public Integer channel;
-    /**1 channel跳转  2搜索跳转*/
+    /**1 channel跳转  2搜索跳转 3为视频跳转*/
     public int type;
     public String name;
 }

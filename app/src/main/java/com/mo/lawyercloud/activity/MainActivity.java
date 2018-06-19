@@ -26,6 +26,7 @@ import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.ACache;
 import com.mo.lawyercloud.utils.SPUtil;
 import com.orhanobut.logger.Logger;
+import com.tencent.openqq.protocol.imsdk.msg;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -162,38 +163,37 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(HomeClickMessage msg) {
-        if(msg.type == 1) {
-            if (msg.channel!=null){
-                final AdvisoryMessage message = new AdvisoryMessage();
-                message.type = 1;
-                message.channel = msg.channel;
-                if (mAdvisoryFragment != null){
-                    EventBus.getDefault().post(message);
-                }else {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            EventBus.getDefault().post(message);
-                        }
-                    }, 1000);
-                }
+        if (msg.type == 1) {
+            final AdvisoryMessage message = new AdvisoryMessage();
+            message.type = 1;
+            message.channel = msg.channel;
+            if (mAdvisoryFragment != null) {
+                EventBus.getDefault().post(message);
+            } else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        EventBus.getDefault().post(message);
+                    }
+                }, 1000);
             }
             mRadioGroup.check(R.id.controller_tab5);
-        }else if (msg.type == 2){
+        } else if (msg.type == 2) {
             mRadioGroup.check(R.id.controller_tab1);
             mPhone = null;
             mPwd = null;
-        }else if (msg.type == 3){
+        } else if (msg.type == 3) {
             mRadioGroup.check(R.id.controller_tab2);
-        }else if (msg.type == 4){
+        } else if (msg.type == 4) {
             final AdvisoryMessage message = new AdvisoryMessage();
             message.type = 2;
             message.name = msg.name;
-            if (mAdvisoryFragment != null){
+            if (mAdvisoryFragment != null) {
                 EventBus.getDefault().post(message);
-            }else {
+            } else {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -301,7 +301,7 @@ public class MainActivity extends BaseActivity {
         if (mMineUserFragment != null) {
             ft.hide(mMineUserFragment);
         }
-        if (mMineLowyerFragment != null){
+        if (mMineLowyerFragment != null) {
             ft.hide(mMineLowyerFragment);
         }
         if (mInformationFragment != null) {

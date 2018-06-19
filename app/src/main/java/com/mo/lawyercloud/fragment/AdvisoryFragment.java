@@ -42,6 +42,7 @@ import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.CommonUtils;
 import com.mo.lawyercloud.utils.GetJsonDataUtil;
+import com.tencent.openqq.protocol.imsdk.msg;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -93,7 +94,7 @@ public class AdvisoryFragment extends BaseFragment {
 
     private List<SolicitorDetailBean> mDatas;
     private LawyerProfileQuickAdapter mQuickAdapter;
-    private int pageOn = 0;
+    private int pageNo = 1;
     private int pageSize = 10;
     private Integer mChannel = null;
     private String solicitorName, mLocation;
@@ -131,32 +132,40 @@ public class AdvisoryFragment extends BaseFragment {
         initRecycleView();
         getSolicitorList();
     }
+
     private void onEvent() {
         editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH){
-                    if (TextUtils.isEmpty(editSearch.getText().toString().trim())){
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (TextUtils.isEmpty(editSearch.getText().toString().trim())) {
                         return false;
                     }
                     CommonUtils.hideKeyboard(getActivity());
+                    mChannel = null;
+                    pageNo = 1;
                     solicitorName = editSearch.getText().toString().trim();
-                    getSolicitorList();
+                    setSelectedStatus();
                     return true;
                 }
                 return false;
             }
         });
+
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(AdvisoryMessage msg) {
         if (msg.type == 1) {
+            solicitorName = null;
             mChannel = msg.channel;
+            pageNo = 1;
             setSelectedStatus();
-        }else if (msg.type == 2){
+        } else if (msg.type == 2) {
             solicitorName = msg.name;
-            mChannel = 0;
+            mChannel = null;
+            pageNo = 1;
             setSelectedStatus();
         }
     }
@@ -222,18 +231,17 @@ public class AdvisoryFragment extends BaseFragment {
     /*获取律师列表*/
     private void getSolicitorList() {
         Observable<BaseEntity<BaseListEntity<SolicitorDetailBean>>> observable = RetrofitFactory
-                .getInstance().solicitorList(solicitorName, mLocation, mChannel, pageOn, pageSize);
+                .getInstance().solicitorList(solicitorName, mLocation, mChannel, pageNo, pageSize);
         observable.compose(this.<BaseEntity<BaseListEntity<SolicitorDetailBean>>>rxSchedulers())
                 .subscribe
                         (new BaseObserver<BaseListEntity<SolicitorDetailBean>>() {
                             @Override
                             protected void onHandleSuccess(BaseListEntity<SolicitorDetailBean>
                                                                    dataList, String msg) {
-
                                 mQuickAdapter.setNewData(dataList.getResult());
 
-
                             }
+
                         });
     }
 
@@ -244,7 +252,7 @@ public class AdvisoryFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mQuickAdapter);
-        mQuickAdapter.setEmptyView(R.layout.empty_lowyer_list,recyclerView);
+        mQuickAdapter.setEmptyView(R.layout.empty_lowyer_list, recyclerView);
         mQuickAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
 
             @Override
@@ -253,6 +261,7 @@ public class AdvisoryFragment extends BaseFragment {
                         mQuickAdapter.getData().get(position).getId()));
             }
         });
+
     }
 
     @OnClick({R.id.tv_reception, R.id.tv_message, R.id.ll_family_affairs, R.id
@@ -271,48 +280,56 @@ public class AdvisoryFragment extends BaseFragment {
                 break;
             case R.id.ll_family_affairs:
                 if (!mLlFamilyAffairs.isSelected()) {
+                    solicitorName = null;
                     mChannel = 1;
                     setSelectedStatus();
                 }
                 break;
             case R.id.ll_contractual_dispute:
                 if (!mLlContractualDispute.isSelected()) {
+                    solicitorName = null;
                     mChannel = 2;
                     setSelectedStatus();
                 }
                 break;
             case R.id.ll_infringement_disputes:
                 if (!mLlInfringementDisputes.isSelected()) {
+                    solicitorName = null;
                     mChannel = 3;
                     setSelectedStatus();
                 }
                 break;
             case R.id.ll_merger:
                 if (!mLlMerger.isSelected()) {
+                    solicitorName = null;
                     mChannel = 4;
                     setSelectedStatus();
                 }
                 break;
             case R.id.ll_intellectual_property:
                 if (!mLlIntellectualProperty.isSelected()) {
+                    solicitorName = null;
                     mChannel = 5;
                     setSelectedStatus();
                 }
                 break;
             case R.id.ll_labor_dispute:
                 if (!mLlLaborDispute.isSelected()) {
+                    solicitorName = null;
                     mChannel = 6;
                     setSelectedStatus();
                 }
                 break;
             case R.id.ll_securities:
                 if (!mLlSecurities.isSelected()) {
+                    solicitorName = null;
                     mChannel = 7;
                     setSelectedStatus();
                 }
                 break;
             case R.id.ll_criminal:
                 if (!mLlCriminal.isSelected()) {
+                    solicitorName = null;
                     mChannel = 8;
                     setSelectedStatus();
                 }
@@ -339,22 +356,24 @@ public class AdvisoryFragment extends BaseFragment {
 
     private void setSelectedStatus() {
         clearSelectedStatus();
-        if (mChannel == 1) {
-            mLlFamilyAffairs.setSelected(true);
-        } else if (mChannel == 2) {
-            mLlContractualDispute.setSelected(true);
-        } else if (mChannel == 3) {
-            mLlInfringementDisputes.setSelected(true);
-        } else if (mChannel == 4) {
-            mLlMerger.setSelected(true);
-        } else if (mChannel == 5) {
-            mLlIntellectualProperty.setSelected(true);
-        } else if (mChannel == 6) {
-            mLlLaborDispute.setSelected(true);
-        } else if (mChannel == 7) {
-            mLlSecurities.setSelected(true);
-        } else if (mChannel == 8) {
-            mLlCriminal.setSelected(true);
+        if (mChannel != null) {
+            if (mChannel == 1) {
+                mLlFamilyAffairs.setSelected(true);
+            } else if (mChannel == 2) {
+                mLlContractualDispute.setSelected(true);
+            } else if (mChannel == 3) {
+                mLlInfringementDisputes.setSelected(true);
+            } else if (mChannel == 4) {
+                mLlMerger.setSelected(true);
+            } else if (mChannel == 5) {
+                mLlIntellectualProperty.setSelected(true);
+            } else if (mChannel == 6) {
+                mLlLaborDispute.setSelected(true);
+            } else if (mChannel == 7) {
+                mLlSecurities.setSelected(true);
+            } else if (mChannel == 8) {
+                mLlCriminal.setSelected(true);
+            }
         }
         getSolicitorList();
     }

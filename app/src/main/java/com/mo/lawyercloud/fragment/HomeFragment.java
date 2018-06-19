@@ -157,6 +157,7 @@ public class HomeFragment extends BaseFragment {
                 break;
             case R.id.btn_open_live:
                 msg.type = 1;
+                msg.channel = null;
                 EventBus.getDefault().post(msg);
                 break;
             case R.id.ll_family_affairs:
