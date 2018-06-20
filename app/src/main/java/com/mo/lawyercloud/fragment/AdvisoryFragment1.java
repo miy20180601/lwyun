@@ -13,13 +13,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.view.OptionsPickerView;
@@ -58,24 +56,34 @@ import io.reactivex.Observable;
  * Created by Mohaifeng on 18/5/23.
  * 咨询页面
  */
-public class AdvisoryFragment extends BaseFragment implements View.OnClickListener{
+public class AdvisoryFragment1 extends BaseFragment {
 
-    private static AdvisoryFragment instance = null;
+
+    private static AdvisoryFragment1 instance = null;
+    @BindView(R.id.edit_search)
+    EditText editSearch;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-
-    EditText editSearch;
+    @BindView(R.id.ll_family_affairs)
     LinearLayout mLlFamilyAffairs;
+    @BindView(R.id.ll_contractual_dispute)
     LinearLayout mLlContractualDispute;
+    @BindView(R.id.ll_infringement_disputes)
     LinearLayout mLlInfringementDisputes;
+    @BindView(R.id.ll_merger)
     LinearLayout mLlMerger;
+    @BindView(R.id.ll_intellectual_property)
     LinearLayout mLlIntellectualProperty;
+    @BindView(R.id.ll_labor_dispute)
     LinearLayout mLlLaborDispute;
+    @BindView(R.id.ll_securities)
     LinearLayout mLlSecurities;
+    @BindView(R.id.ll_criminal)
     LinearLayout mLlCriminal;
+    @BindView(R.id.tv_location)
     TextView mTvLocation;
+    @BindView(R.id.tv_channel)
     TextView mTvChannel;
-
 
 
     private List<SolicitorDetailBean> mDatas;
@@ -97,9 +105,9 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
     private OptionsPickerView pvOptions;
 
 
-    public static AdvisoryFragment getInstance() {
+    public static AdvisoryFragment1 getInstance() {
         if (instance == null) {
-            instance = new AdvisoryFragment();
+            instance = new AdvisoryFragment1();
         }
         return instance;
     }
@@ -112,14 +120,34 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mHandler.sendEmptyMessage(MSG_LOAD_DATA);//地区列表加载
-        getChannels(); //channel 加载
-
+        mHandler.sendEmptyMessage(MSG_LOAD_DATA);
+        onEvent();
+        getChannels();
         initRecycleView();
         getSolicitorList();
     }
 
+    private void onEvent() {
+        editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if (TextUtils.isEmpty(editSearch.getText().toString().trim())) {
+                        return false;
+                    }
+                    CommonUtils.hideKeyboard(getActivity());
+                    mChannel = null;
+                    pageNo = 1;
+                    solicitorName = editSearch.getText().toString().trim();
+                    setSelectedStatus();
+                    return true;
+                }
+                return false;
+            }
+        });
 
+
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(AdvisoryMessage msg) {
@@ -173,7 +201,6 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
                 /* + options3Items.get(options1).get(options2).get(options3).getPickerViewText()*/
                 mChannel = mChannelBeans.get(options1).getId() == 0 ? null : mChannelBeans.get
                         (options1).getId();
-                pageNo = 1;
                 mTvChannel.setText(mChannelBeans.get(options1).getPickerViewText());
                 getSolicitorList();
             }
@@ -204,26 +231,11 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
                         (new BaseObserver<BaseListEntity<SolicitorDetailBean>>() {
                             @Override
                             protected void onHandleSuccess(BaseListEntity<SolicitorDetailBean> dataList, String msg) {
-                                if (pageNo == 1) {//第一次加载或者是下拉加载
+
                                     mQuickAdapter.setNewData(dataList.getResult());
-                                    if (mQuickAdapter.getData().size() >= dataList.getTotalCount()) {
-                                        mQuickAdapter.loadMoreEnd();
-                                    }
-                                } else {
-                                    mQuickAdapter.addData(dataList.getResult());
-                                    if (mQuickAdapter.getData().size() >= dataList.getTotalCount()) {
-                                        mQuickAdapter.loadMoreEnd();
-                                    } else {
-                                        mQuickAdapter.loadMoreComplete();
-                                    }
-                                }
+
                             }
-                            @Override
-                            protected void onHandleError(int statusCode, String msg) {
-                                if (pageNo>1){
-                                    mQuickAdapter.loadMoreFail();
-                                }
-                            }
+
                         });
     }
 
@@ -236,68 +248,93 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
         recyclerView.setAdapter(mQuickAdapter);
         mQuickAdapter.setEmptyView(R.layout.empty_lowyer_list, recyclerView);
         mQuickAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 startActivity(new Intent(mContext, LawyerDetailsActivity.class).putExtra("id",
                         mQuickAdapter.getData().get(position).getId()));
             }
         });
-        mQuickAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
-            @Override
-            public void onLoadMoreRequested() {
-                pageNo++;
-                getSolicitorList();
-            }
-        },recyclerView);
-        mQuickAdapter.addHeaderView(getHeaderView());
+
     }
 
-
-    private View getHeaderView() {
-        View headerView = getLayoutInflater().inflate(R.layout.header_advisory_fg_view, (ViewGroup)
-                recyclerView.getParent(), false);
-        editSearch = headerView.findViewById(R.id.edit_search);
-        editSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (TextUtils.isEmpty(editSearch.getText().toString().trim())) {
-                        return false;
-                    }
-                    CommonUtils.hideKeyboard(getActivity());
-                    mChannel = null;
-                    pageNo = 1;
-                    solicitorName = editSearch.getText().toString().trim();
+    @OnClick({R.id.tv_reception, R.id.tv_message, R.id.ll_family_affairs, R.id
+            .ll_contractual_dispute, R.id.ll_infringement_disputes,
+            R.id.ll_merger, R.id.ll_intellectual_property, R.id.ll_labor_dispute, R.id
+            .ll_securities, R.id.ll_criminal, R.id.fl_area, R.id.fl_good_at})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_reception:
+                startActivity(MyContactAcitity.class);
+                break;
+            case R.id.tv_message:
+                HomeClickMessage msg = new HomeClickMessage();
+                msg.type = 3;
+                EventBus.getDefault().post(msg);
+                break;
+            case R.id.ll_family_affairs:
+                if (!mLlFamilyAffairs.isSelected()) {
+                    solicitorName = null;
+                    mChannel = 1;
                     setSelectedStatus();
-                    return true;
                 }
-                return false;
-            }
-        });
-        headerView.findViewById(R.id.tv_reception).setOnClickListener(this); //客服
-        headerView.findViewById(R.id.tv_message).setOnClickListener(this);  //消息
-        mLlFamilyAffairs = headerView.findViewById(R.id.ll_family_affairs);//婚姻家事
-        mLlFamilyAffairs.setOnClickListener(this);
-        mLlContractualDispute = headerView.findViewById(R.id.ll_contractual_dispute);//合同纠纷
-        mLlContractualDispute.setOnClickListener(this);
-        mLlInfringementDisputes = headerView.findViewById(R.id.ll_infringement_disputes);//侵权纠纷
-        mLlInfringementDisputes.setOnClickListener(this);
-        mLlMerger = headerView.findViewById(R.id.ll_merger);//公司并购
-        mLlMerger.setOnClickListener(this);
-        mLlIntellectualProperty = headerView.findViewById(R.id.ll_intellectual_property);//知识产权
-        mLlIntellectualProperty.setOnClickListener(this);
-        mLlLaborDispute = headerView.findViewById(R.id.ll_labor_dispute);//劳动争议
-        mLlLaborDispute.setOnClickListener(this);
-        mLlSecurities = headerView.findViewById(R.id.ll_securities);//证券保险
-        mLlSecurities.setOnClickListener(this);
-        mLlCriminal = headerView.findViewById(R.id.ll_criminal);//刑事及其他
-        mLlCriminal.setOnClickListener(this);
-        mTvLocation = headerView.findViewById(R.id.tv_location); //地区
-        mTvChannel = headerView.findViewById(R.id.tv_channel);//频道筛选
-        headerView.findViewById(R.id.fl_area).setOnClickListener(this); //地区点击
-        headerView.findViewById(R.id.fl_good_at).setOnClickListener(this);  //channel点击
-
-        return headerView;
+                break;
+            case R.id.ll_contractual_dispute:
+                if (!mLlContractualDispute.isSelected()) {
+                    solicitorName = null;
+                    mChannel = 2;
+                    setSelectedStatus();
+                }
+                break;
+            case R.id.ll_infringement_disputes:
+                if (!mLlInfringementDisputes.isSelected()) {
+                    solicitorName = null;
+                    mChannel = 3;
+                    setSelectedStatus();
+                }
+                break;
+            case R.id.ll_merger:
+                if (!mLlMerger.isSelected()) {
+                    solicitorName = null;
+                    mChannel = 4;
+                    setSelectedStatus();
+                }
+                break;
+            case R.id.ll_intellectual_property:
+                if (!mLlIntellectualProperty.isSelected()) {
+                    solicitorName = null;
+                    mChannel = 5;
+                    setSelectedStatus();
+                }
+                break;
+            case R.id.ll_labor_dispute:
+                if (!mLlLaborDispute.isSelected()) {
+                    solicitorName = null;
+                    mChannel = 6;
+                    setSelectedStatus();
+                }
+                break;
+            case R.id.ll_securities:
+                if (!mLlSecurities.isSelected()) {
+                    solicitorName = null;
+                    mChannel = 7;
+                    setSelectedStatus();
+                }
+                break;
+            case R.id.ll_criminal:
+                if (!mLlCriminal.isSelected()) {
+                    solicitorName = null;
+                    mChannel = 8;
+                    setSelectedStatus();
+                }
+                break;
+            case R.id.fl_area:
+                pvOptions.show();
+                break;
+            case R.id.fl_good_at:
+                pvChannels.show();
+                break;
+        }
     }
 
     private void clearSelectedStatus() {
@@ -376,7 +413,6 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
                 //返回的分别是三个级别的选中位置
                 /* + options3Items.get(options1).get(options2).get(options3).getPickerViewText()*/
                 mLocation = options2Items.get(options1).get(options2);
-                pageNo = 1;
                 mTvLocation.setText(mLocation);
                 getSolicitorList();
             }
@@ -471,86 +507,4 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
         return detail;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_reception:
-                startActivity(MyContactAcitity.class);
-                break;
-            case R.id.tv_message:
-                HomeClickMessage msg = new HomeClickMessage();
-                msg.type = 3;
-                EventBus.getDefault().post(msg);
-                break;
-            case R.id.ll_family_affairs:
-                if (!mLlFamilyAffairs.isSelected()) {
-                    solicitorName = null;
-                    pageNo=1;
-                    mChannel = 1;
-                    setSelectedStatus();
-                }
-                break;
-            case R.id.ll_contractual_dispute:
-                if (!mLlContractualDispute.isSelected()) {
-                    solicitorName = null;
-                    mChannel = 2;
-                    setSelectedStatus();
-                }
-                break;
-            case R.id.ll_infringement_disputes:
-                if (!mLlInfringementDisputes.isSelected()) {
-                    solicitorName = null;
-                    pageNo=1;
-                    mChannel = 3;
-                    setSelectedStatus();
-                }
-                break;
-            case R.id.ll_merger:
-                if (!mLlMerger.isSelected()) {
-                    solicitorName = null;
-                    pageNo=1;
-                    mChannel = 4;
-                    setSelectedStatus();
-                }
-                break;
-            case R.id.ll_intellectual_property:
-                if (!mLlIntellectualProperty.isSelected()) {
-                    solicitorName = null;
-                    pageNo=1;
-                    mChannel = 5;
-                    setSelectedStatus();
-                }
-                break;
-            case R.id.ll_labor_dispute:
-                if (!mLlLaborDispute.isSelected()) {
-                    solicitorName = null;
-                    pageNo=1;
-                    mChannel = 6;
-                    setSelectedStatus();
-                }
-                break;
-            case R.id.ll_securities:
-                if (!mLlSecurities.isSelected()) {
-                    solicitorName = null;
-                    pageNo=1;
-                    mChannel = 7;
-                    setSelectedStatus();
-                }
-                break;
-            case R.id.ll_criminal:
-                if (!mLlCriminal.isSelected()) {
-                    solicitorName = null;
-                    pageNo=1;
-                    mChannel = 8;
-                    setSelectedStatus();
-                }
-                break;
-            case R.id.fl_area:
-                pvOptions.show();
-                break;
-            case R.id.fl_good_at:
-                pvChannels.show();
-                break;
-        }
-    }
 }
