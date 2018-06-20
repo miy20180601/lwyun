@@ -60,7 +60,8 @@ public class MyInvoiceActivity extends BaseActivity {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 InvoiceListBean.ResultBean resultBean = mQuickAdapter.getData().get(position);
                 Bundle bundle = new Bundle();
-                bundle.putString("id", resultBean.getOrderNo());//订单号
+                bundle.putInt("orderId", resultBean.getId());//订单号
+                bundle.putString("orderNo", resultBean.getOrderNo());//订单编号号
                 bundle.putString("money", resultBean.getRealPrice() + "");//金额
                 startActivity(ApplyInvoiceActivity.class, bundle);
             }

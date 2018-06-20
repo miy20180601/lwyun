@@ -31,8 +31,6 @@ import okhttp3.RequestBody;
  */
 public class ApplyInvoiceActivity extends BaseActivity {
 
-    String id = "";//订单号
-    String money = "";//金额
     @BindView(R.id.bar_iv_back)
     ImageView barIvBack;
     @BindView(R.id.bar_title)
@@ -60,6 +58,9 @@ public class ApplyInvoiceActivity extends BaseActivity {
     @BindView(R.id.tv_apply_apply)
     TextView tvApplyApply;
 
+    int orderId;//订单号
+    String orderNo = "";//订单号
+    String money = "";//金额
 
     @Override
     public int getLayoutId() {
@@ -69,11 +70,12 @@ public class ApplyInvoiceActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         Bundle extras = getIntent().getExtras();
-        id = extras.getString("id");
+        orderId = extras.getInt("orderId");
+        orderNo = extras.getString("orderNo");
         money = extras.getString("money");
         barTitle.setText("申请发票");
         barIvRight.setVisibility(View.VISIBLE);
-        tvApplyOrderid.setText("订单编号   " + id);
+        tvApplyOrderid.setText("订单编号   " + orderNo);
         tvApplyMoney.setText("¥  " + money);
         llInvoiceNum.setVisibility(View.GONE);
         llInvoiceBank.setVisibility(View.GONE);
@@ -147,7 +149,9 @@ public class ApplyInvoiceActivity extends BaseActivity {
         Map<String, Object> params = new HashMap<>();
         params.put("invoiceType", invoiceType);
         params.put("invoiceTitle", invoiceTitle);
-        params.put("id", id);
+        Map<String, Object> order = new HashMap<>();
+        order.put("id", orderId);
+        params.put("order", order);
         params.put("mail", mail);
         if (invoiceType == 2) {
             params.put("invoiceTaxpayersNo", invoiceTaxpayersNo);
@@ -162,7 +166,8 @@ public class ApplyInvoiceActivity extends BaseActivity {
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
             @Override
             protected void onHandleSuccess(Object registerResult, String msg) {
-                NToast.shortToast(mContext, "提交成功");
+                NToast.shortToast(mContext, msg);
+                finish();
             }
 
             @Override
