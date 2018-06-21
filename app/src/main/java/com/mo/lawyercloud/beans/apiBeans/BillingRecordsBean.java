@@ -14,12 +14,15 @@ public class BillingRecordsBean {
      * orderId : 15
      */
 
+
     private int id;
     private int source;
     private int type;  //1为收入 2支出 3提现
     private double price;
     private long createTime;
     private int orderId;
+    private int withdrawalStatus; //提现状态：0、提现中 1、提现成功 2、提现失败
+    private String realName;
 
     public int getId() {
         return id;
@@ -67,5 +70,21 @@ public class BillingRecordsBean {
 
     public void setOrderId(int orderId) {
         this.orderId = orderId;
+    }
+
+    public int getWithdrawalStatus() {
+        return withdrawalStatus;
+    }
+
+    public void setWithdrawalStatus(int withdrawalStatus) {
+        this.withdrawalStatus = withdrawalStatus;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }

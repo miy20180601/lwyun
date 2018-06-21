@@ -158,7 +158,8 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
 
             @Override
             public void onError(String module, int errCode, String errMsg) {
-                DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" + errMsg);
+                finish();
+//                DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" + errMsg);
             }
         });
     }
@@ -237,7 +238,6 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
     private void videoOrderEnd() {
         Map<String, Object> params = new HashMap<>();
         params.put("id", roomId);
-        params.put("videoUrl", "http://baidu.com");
         Gson gson = new Gson();
         String strEntity = gson.toJson(params);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);

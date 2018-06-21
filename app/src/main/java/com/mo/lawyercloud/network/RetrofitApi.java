@@ -409,6 +409,12 @@ public interface RetrofitApi {
     @GET("pay/business/queryResult")
     Observable<BaseEntity<PayResultBean>> paymentResults(@Query("id") int id);
 
+    /**
+     * 服务协议
+     */
+    @GET("serviceAgreement")
+    Observable<BaseEntity<WebViewBean>> serviceAgreement();
+
 
 }
 

@@ -203,8 +203,6 @@
                 android:text="下一步"
                 android:textColor="@color/tv_high_light"
                 android:textSize="16sp" />
-            <include layout="@layout/layout_protocol" />
-
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 

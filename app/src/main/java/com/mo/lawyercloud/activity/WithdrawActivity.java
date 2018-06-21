@@ -1,5 +1,6 @@
 package com.mo.lawyercloud.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -108,6 +109,10 @@ public class WithdrawActivity extends BaseActivity {
             @Override
             protected void onHandleSuccess(Object o, String msg) {
                 NToast.shortToast(mContext,msg);
+                Intent intent = new Intent();
+                intent.putExtra("amount",mAmount);
+                setResult(RESULT_OK,intent);
+                finish();
             }
         });
     }

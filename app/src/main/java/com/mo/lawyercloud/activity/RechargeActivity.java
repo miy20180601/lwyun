@@ -58,6 +58,7 @@ public class RechargeActivity extends BaseActivity {
 
     private int mAmount = 0;
     private WechatOrderBean mWechatOrderBean;
+    private boolean mPayResult;
 
     @Override
     public int getLayoutId() {
@@ -111,6 +112,7 @@ public class RechargeActivity extends BaseActivity {
         observable.compose(this.<BaseEntity<PayResultBean>>rxSchedulers()).subscribe(new BaseObserver<PayResultBean>() {
             @Override
             protected void onHandleSuccess(PayResultBean payResultBean, String msg) {
+                mPayResult = payResultBean.isPayResult();
                 if (payResultBean.isPayResult()){
                     startActivity(new Intent(mContext,RechargeResultActivity.class).putExtra
                             (Constant.RECHARGE_RESULT,1));
@@ -139,6 +141,11 @@ public class RechargeActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
+                if (mPayResult){
+                    Intent intent = new Intent();
+                    intent.putExtra("amount",mAmount);
+                    setResult(RESULT_OK,intent);
+                }
                 finish();
                 break;
             case R.id.bt_recharge_apply:

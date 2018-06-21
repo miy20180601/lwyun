@@ -105,7 +105,7 @@ public class LoginFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.tv_forget_password, R.id.btn_login, R.id.tv_protocol})
+    @OnClick({R.id.tv_forget_password, R.id.btn_login})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_forget_password:
@@ -121,9 +121,6 @@ public class LoginFragment extends BaseFragment {
                     return;
                 }
                 login();
-
-                break;
-            case R.id.tv_protocol:
                 break;
         }
     }

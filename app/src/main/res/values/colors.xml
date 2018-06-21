@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#2f3034</color>
     <color name="colorPrimaryDark">#2f3034</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#1D82FE</color>
 
     <color name="tv_high_light">#b18147</color>
     <color name="tv_hint">#C4C4C4</color>

@@ -174,8 +174,11 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
                 mChannel = mChannelBeans.get(options1).getId() == 0 ? null : mChannelBeans.get
                         (options1).getId();
                 pageNo = 1;
+                solicitorName = null;
+                mLocation = null;
+                mTvLocation.setText("地区");
                 mTvChannel.setText(mChannelBeans.get(options1).getPickerViewText());
-                getSolicitorList();
+                setSelectedStatus();
             }
         })
                 .setTitleText("选择领域")
@@ -309,6 +312,7 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
         mLlLaborDispute.setSelected(false);
         mLlSecurities.setSelected(false);
         mLlCriminal.setSelected(false);
+        mTvChannel.setText("擅长");
     }
 
     private void setSelectedStatus() {
@@ -316,20 +320,28 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
         if (mChannel != null) {
             if (mChannel == 1) {
                 mLlFamilyAffairs.setSelected(true);
+                mTvChannel.setText("婚姻家事");
             } else if (mChannel == 2) {
                 mLlContractualDispute.setSelected(true);
+                mTvChannel.setText("合同纠纷");
             } else if (mChannel == 3) {
                 mLlInfringementDisputes.setSelected(true);
+                mTvChannel.setText("侵权纠纷");
             } else if (mChannel == 4) {
                 mLlMerger.setSelected(true);
+                mTvChannel.setText("公司并购");
             } else if (mChannel == 5) {
                 mLlIntellectualProperty.setSelected(true);
+                mTvChannel.setText("知识产权");
             } else if (mChannel == 6) {
                 mLlLaborDispute.setSelected(true);
+                mTvChannel.setText("劳动争议");
             } else if (mChannel == 7) {
                 mLlSecurities.setSelected(true);
+                mTvChannel.setText("证券保险");
             } else if (mChannel == 8) {
                 mLlCriminal.setSelected(true);
+                mTvChannel.setText("刑事及其他");
             }
         }
         getSolicitorList();
@@ -377,8 +389,10 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
                 /* + options3Items.get(options1).get(options2).get(options3).getPickerViewText()*/
                 mLocation = options2Items.get(options1).get(options2);
                 pageNo = 1;
+                mChannel = null;
+                mTvChannel.setText("擅长");
                 mTvLocation.setText(mLocation);
-                getSolicitorList();
+                setSelectedStatus();
             }
         })
                 .setTitleText("城市选择")

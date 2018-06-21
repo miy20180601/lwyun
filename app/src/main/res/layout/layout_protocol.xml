@@ -5,13 +5,18 @@
     android:layout_marginTop="10dp"
     android:layout_marginBottom="20dp"
     android:gravity="center_horizontal">
-
+    <CheckBox
+        android:id="@+id/cb_sevice_agreement"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_gravity="center_vertical"
+        android:button="@drawable/selector_service_agreement"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="点击开始，即表示已阅读并同意"
+        android:text="勾选，即表示已阅读并同意"
         android:textColor="@color/tv_hint"
-        android:textSize="13sp" />
+        android:textSize="11sp" />
 
     <TextView
         android:id="@+id/tv_protocol"
@@ -19,5 +24,5 @@
         android:layout_height="wrap_content"
         android:text="《注册服务协议》"
         android:textColor="@color/tv_high_light"
-        android:textSize="13sp" />
+        android:textSize="11sp" />
 </LinearLayout>

@@ -1,15 +1,14 @@
 package com.mo.lawyercloud.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.adapter.BillingRecordsLowyerQuickAdapter;
 import com.mo.lawyercloud.adapter.BillingRecordsQuickAdapter;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.beans.BaseEntity;
@@ -23,14 +22,14 @@ import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 
 /**
  * Created by Mohaifeng on 18/6/16.
+ * 律师账单记录
  */
-public class BillingRecordsActivity extends BaseActivity {
+public class BillingRecordsLowyerActivity extends BaseActivity {
 
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -41,7 +40,7 @@ public class BillingRecordsActivity extends BaseActivity {
 
     private int pageNo = 1;
     private int pageSize = 10;
-    private BillingRecordsQuickAdapter mQuickAdapter;
+    private BillingRecordsLowyerQuickAdapter mQuickAdapter;
     private List<BillingRecordsBean> mData;
 
 
@@ -54,16 +53,9 @@ public class BillingRecordsActivity extends BaseActivity {
     public void initViews(Bundle savedInstanceState) {
         barTitle.setText("账单记录");
         mData = new ArrayList<>();
-        mQuickAdapter = new BillingRecordsQuickAdapter(mData);
+        mQuickAdapter = new BillingRecordsLowyerQuickAdapter(mData);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(mQuickAdapter);
-        mQuickAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                BillingRecordsBean billingRecordsBean = mQuickAdapter.getData().get(position);
-                startActivity(new Intent(mContext,BillDetailActivity.class).putExtra("type",billingRecordsBean.getType()));
-            }
-        });
     }
 
     @Override
@@ -78,16 +70,14 @@ public class BillingRecordsActivity extends BaseActivity {
                 .subscribe(new BaseObserver<BaseListEntity<BillingRecordsBean>>() {
                     @Override
                     protected void onHandleSuccess(BaseListEntity<BillingRecordsBean> listEntity, String msg) {
-                        mData = listEntity.getResult();
-                        Collections.reverse(mData);
                         loadComplete();
                         if (pageNo == 1) {//第一次加载或者是下拉加载
-                            mQuickAdapter.setNewData(mData);
+                            mQuickAdapter.setNewData(listEntity.getResult());
                             if (mQuickAdapter.getData().size() >= listEntity.getTotalCount()) {
                                 mQuickAdapter.loadMoreEnd();
                             }
                         } else {
-                            mQuickAdapter.addData(mData);
+                            mQuickAdapter.addData(listEntity.getResult());
                             if (mQuickAdapter.getData().size() >= listEntity.getTotalCount()) {
                                 mQuickAdapter.loadMoreEnd();
                             } else {

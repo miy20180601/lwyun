@@ -97,7 +97,7 @@ public class MyLwyerTimeActivity extends BaseActivity {
         barTitle.setText("时间管理");
         barTvRight.setText("添加");
         barTvRight.setVisibility(View.VISIBLE);
-        barTvRight.setTextColor(getResources().getColor(R.color.green_color));
+        barTvRight.setTextColor(getResources().getColor(R.color.tv_high_light));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         rvTimeData.setLayoutManager(linearLayoutManager);
         timeDataAdapter = new TimeDataAdapter(datalist);
@@ -301,10 +301,10 @@ public class MyLwyerTimeActivity extends BaseActivity {
                     H += 12;
                 }
                 startTime = oneTotwo(H + "") + ":" + "00";
-                H += 1;
                 if(H==24){
                     H=0;
                 }
+                H += 1;
                 endTime = oneTotwo(H + "") + ":" + "00";
                 tvTimeSelect.setText( startTime + "-" + endTime);
                 Logger.i("startTime=" + startTime + "-endTime=" + endTime);
@@ -340,7 +340,7 @@ public class MyLwyerTimeActivity extends BaseActivity {
                         wv_time_h.setCyclic(false);
 
                         final List<String> mOptionsItemsH = new ArrayList<>();
-                        for (int i = 0; i < 12; i++) {
+                        for (int i = 1; i < 13; i++) {
                             mOptionsItemsH.add(i + "");
                         }
 

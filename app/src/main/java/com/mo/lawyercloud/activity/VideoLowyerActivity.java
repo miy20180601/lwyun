@@ -161,13 +161,15 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
 
                     @Override
                     public void onError(String module, int errCode, String errMsg) {
-                        if (module.equals(ILiveConstants.Module_IMSDK) && 10021 == errCode){
-                            // 被占用，改加入
-                            showChoiceDlg();
-                        }else {
-                            DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" +
-                                    errMsg);
-                        }
+                        finish();
+//                        if (module.equals(ILiveConstants.Module_IMSDK) && 10021 == errCode){
+//                            // 被占用，改加入
+//                            showChoiceDlg();
+//                        }else {
+//
+//                            DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" +
+//                                    errMsg);
+//                        }
                     }
                 });
     }
@@ -267,7 +269,6 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
     private void videoOrderEnd() {
         Map<String, Object> params = new HashMap<>();
         params.put("id", roomId);
-        params.put("videoUrl", "http://baidu.com");
         Gson gson = new Gson();
         String strEntity = gson.toJson(params);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);
