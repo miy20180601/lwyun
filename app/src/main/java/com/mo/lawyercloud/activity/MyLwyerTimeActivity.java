@@ -15,10 +15,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.bigkoo.pickerview.adapter.ArrayWheelAdapter;
+import com.bigkoo.pickerview.builder.OptionsPickerBuilder;
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
+import com.bigkoo.pickerview.listener.CustomListener;
+import com.bigkoo.pickerview.listener.OnOptionsSelectListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
+import com.bigkoo.pickerview.view.OptionsPickerView;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.contrarywind.listener.OnItemSelectedListener;
+import com.contrarywind.view.WheelView;
 import com.google.gson.Gson;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.TimeDataAdapter;
@@ -72,9 +79,14 @@ public class MyLwyerTimeActivity extends BaseActivity {
     String startTime;
     String endTime;
     boolean isTime = false;//用于获取两个时间
-    TimePickerView   pvDateTime;
-    TimePickerView   pvTime;
-    TimePickerView   pvEndTime;
+    TimePickerView pvDateTime;
+    TimePickerView pvTime;
+    TimePickerView pvEndTime;
+    OptionsPickerView pickerView;
+    String timeBuffer="上午";
+    String timeHBuffer="0";
+    String timeMBuffer="0";
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_mine_lwyer_time;
@@ -90,12 +102,14 @@ public class MyLwyerTimeActivity extends BaseActivity {
         rvTimeData.setLayoutManager(linearLayoutManager);
         timeDataAdapter = new TimeDataAdapter(datalist);
         rvTimeData.setAdapter(timeDataAdapter);
-        rvTimeData.addItemDecoration(new DividerItemDecoration(mContext,DividerItemDecoration.VERTICAL));
+        rvTimeData.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
         llAddTime.setVisibility(View.GONE);
         rvTimeData.setVisibility(View.VISIBLE);
         date = TimeUtils.INSTANCE.getTimeData("yyyy-MM-dd");
-        startTime = TimeUtils.INSTANCE.getTimeData("HH:mm");
-        endTime = TimeUtils.INSTANCE.getTimeData("HH:mm");
+        startTime = TimeUtils.INSTANCE.getTimeData("HH");
+        int endT  = new Integer(startTime)+1;
+        startTime=startTime+":00";
+        endTime=endT+":00";
         tvDateSelect.setText(date);
         tvTimeSelect.setText(startTime + "-" + endTime);
         timeDataAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -103,12 +117,12 @@ public class MyLwyerTimeActivity extends BaseActivity {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.i("itemClick", "position=" + position);
                 TimeMsgBean.ResultBean resultBean = datalist.get(position);
-                removeTime(resultBean.getId()+"",position);
+                removeTime(resultBean.getId() + "", position);
             }
         });
         initShowDate();
         initShowTime();
-        initEndShowTime();
+//        initEndShowTime();
     }
 
 
@@ -129,14 +143,20 @@ public class MyLwyerTimeActivity extends BaseActivity {
 
         switch (view.getId()) {
             case R.id.bar_iv_back:
+                if (barTvRight.getText().equals("确定")) {
+                    llAddTime.setVisibility(View.GONE);
+                    rvTimeData.setVisibility(View.VISIBLE);
+                    barTvRight.setText("添加");
+                } else {
+                    finish();
+                }
                 break;
             case R.id.bar_tv_right:
                 if (barTvRight.getText().equals("确定")) {
                     date = tvDateSelect.getText().toString();
-//                    time=tvTimeSelect.getText().toString();
-//                    llAddTime.setVisibility(View.GONE);
-//                    rvTimeData.setVisibility(View.VISIBLE);
-//                    barTvRight.setText("添加");
+                    llAddTime.setVisibility(View.GONE);
+                    rvTimeData.setVisibility(View.VISIBLE);
+                    barTvRight.setText("添加");
 //                    datalist.add(date+" "+startTime+"--"+endTime);
 //                    timeDataAdapter.notifyDataSetChanged();
                     try {
@@ -154,19 +174,14 @@ public class MyLwyerTimeActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_date_select:
-//                TimeUtils.INSTANCE.showDatePickerDialog(MyLwyerTimeActivity.this
-//                        , 1
-//                        , calendar, onDateSetListener);
-                if(pvDateTime!=null){
+                if (pvDateTime != null) {
                     pvDateTime.show();
                 }
                 break;
             case R.id.tv_time_select:
-//                TimeUtils.INSTANCE.showTimePickerDialog(MyLwyerTimeActivity.this
-//                        , 1
-//                        , calendar, onTimeSetListener);
-                if(pvTime!=null){
-                    pvTime.show();
+
+                if (pickerView != null) {
+                    pickerView.show();
                 }
                 break;
         }
@@ -188,19 +203,20 @@ public class MyLwyerTimeActivity extends BaseActivity {
         }
         return two.toString();
     }
-    public void initShowDate(){
-           pvDateTime = new TimePickerBuilder(mContext, new OnTimeSelectListener() {
+
+    public void initShowDate() {
+        pvDateTime = new TimePickerBuilder(mContext, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
 //                tvTime.setText(getTime(date));
-                Calendar calendar=Calendar.getInstance();
+                Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
-                int year=calendar.get(Calendar.YEAR);
-                int month=calendar.get(Calendar.MONTH)+1;
-                int day=calendar.get(Calendar.DAY_OF_MONTH);
-               Logger.i("year="+year);
-               Logger.i("month="+month);
-               Logger.i("day="+day);
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH) + 1;
+                int day = calendar.get(Calendar.DAY_OF_MONTH);
+                Logger.i("year=" + year);
+                Logger.i("month=" + month);
+                Logger.i("day=" + day);
                 tvDateSelect.setText(year + "-" + oneTotwo(month + "") + "-" + oneTotwo(day + ""));
             }
         })
@@ -219,74 +235,192 @@ public class MyLwyerTimeActivity extends BaseActivity {
                 .setBgColor(0xffffffff)//滚轮背景颜色 Night mode
 //                .setRangDate(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR) + 20)//默认是1900-2100年
 //                .setDate(new Date())// 默认是系统时间*/
-                .setLabel("年","月","日","时","分","秒")
+                .setLabel("年", "月", "日", "时", "分", "秒")
                 .build();
     }
-    public void initShowTime(){
-        pvTime = new TimePickerBuilder(mContext, new OnTimeSelectListener() {
-            @Override
-            public void onTimeSelect(Date date, View v) {//选中事件回调
-//                tvTime.setText(getTime(date));
-                Calendar calendar=Calendar.getInstance();
-                calendar.setTime(date);
-                int HH=calendar.get(Calendar.HOUR_OF_DAY);
-                int mm=calendar.get(Calendar.MINUTE);
 
-                if(pvTime!=null){
-                    if (isTime) {
-                        Logger.i("HH="+HH);
-                        Logger.i("mm="+mm);
-                        isTime = false;
-                        endTime = oneTotwo(HH + "") + ":" + oneTotwo(mm + "");
-                        tvTimeSelect.setText(startTime + "-" + endTime);
-                    } else {
-                        Logger.i("HH="+HH);
-                        Logger.i("mm="+mm);
-                        startTime = oneTotwo(HH + "") + ":" + oneTotwo(mm + "");
-                        pvEndTime.show();
-                        isTime = true;
-                    }
+    public void initShowTime() {
+//        pvTime = new TimePickerBuilder(mContext, new OnTimeSelectListener() {
+//            @Override
+//            public void onTimeSelect(Date date, View v) {//选中事件回调
+////                tvTime.setText(getTime(date));
+//                Calendar calendar = Calendar.getInstance();
+//                calendar.setTime(date);
+//                int HH = calendar.get(Calendar.HOUR_OF_DAY);
+//                int mm = calendar.get(Calendar.MINUTE);
+//
+//                if (pvTime != null) {
+//                    if (isTime) {
+//                        Logger.i("HH=" + HH);
+//                        Logger.i("mm=" + mm);
+//                        isTime = false;
+//                        endTime = oneTotwo(HH + "") + ":" + oneTotwo(mm + "");
+//                        tvTimeSelect.setText(startTime + "-" + endTime);
+//                    } else {
+//                        Logger.i("HH=" + HH);
+//                        Logger.i("mm=" + mm);
+//                        startTime = oneTotwo(HH + "") + ":" + oneTotwo(mm + "");
+//                        pvEndTime.show();
+//                        isTime = true;
+//                    }
+//                }
+//            }
+//        })
+//                .setType(new boolean[]{false, false, false, true, true, false})// 默认全部显示
+//                .setCancelText("取消")//取消按钮文字
+//                .setSubmitText("确认")//确认按钮文字
+//                .setContentTextSize(18)//滚轮文字大小
+//                .setTitleSize(20)//标题文字大小
+//                .setTitleText("")//标题文字
+//                .setOutSideCancelable(false)//点击屏幕，点在控件外部范围时，是否取消显示
+//                .isCyclic(true)//是否循环滚动
+//                .setTitleColor(Color.BLACK)//标题文字颜色
+//                .setSubmitColor(Color.BLACK)//确定按钮文字颜色
+//                .setCancelColor(Color.BLACK)//取消按钮文字颜色
+//                .setTitleBgColor(0xFFffffff)//标题背景颜色 Night mode
+//                .setBgColor(0xffffffff)//滚轮背景颜色 Night mode
+////                .setRangDate(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR) + 20)//默认是1900-2100年
+////                .setDate(new Date())// 默认是系统时间*/
+//                .setLabel("年", "月", "日", "时", "分", "秒")
+//                .build();
+        pickerView = new OptionsPickerBuilder(mContext, new OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                //返回的分别是三个级别的选中位置
+//                String tx = cardItem.get(options1).getPickerViewText();
+//                btn_CustomOptions.setText(tx);
+                Logger.i("options1=" + options1 + "-option2" + option2 + "-options3" + options3);
+                Logger.i("time=" + timeBuffer);
+                Logger.i("mm=" + timeHBuffer);
+                Logger.i("mm=" + timeMBuffer);
+                Logger.i("isTime=" + isTime);
+                int H = new Integer(timeHBuffer);
+                String showSTime = timeHBuffer + ":00";
+                String showETime = H + 1 + ":00";
+                if (timeBuffer.equals("下午")) {
+                    H += 12;
                 }
+                startTime = oneTotwo(H + "") + ":" + "00";
+                H += 1;
+                if(H==24){
+                    H=0;
+                }
+                endTime = oneTotwo(H + "") + ":" + "00";
+                tvTimeSelect.setText( startTime + "-" + endTime);
+                Logger.i("startTime=" + startTime + "-endTime=" + endTime);
+
             }
         })
-                .setType(new boolean[]{false, false, false, true, true, false})// 默认全部显示
-                .setCancelText("取消")//取消按钮文字
-                .setSubmitText("确认")//确认按钮文字
-                .setContentTextSize(18)//滚轮文字大小
-                .setTitleSize(20)//标题文字大小
-                .setTitleText("")//标题文字
-                .setOutSideCancelable(false)//点击屏幕，点在控件外部范围时，是否取消显示
-                .isCyclic(true)//是否循环滚动
-                .setTitleColor(Color.BLACK)//标题文字颜色
-                .setSubmitColor(Color.BLACK)//确定按钮文字颜色
-                .setCancelColor(Color.BLACK)//取消按钮文字颜色
+                .setLayoutRes(R.layout.wheel_view_layout, new CustomListener() {
+                    @Override
+                    public void customLayout(View v) {
+                        //自定义布局中的控件初始化及事件处理
+                        final WheelView wv_time = (WheelView) v.findViewById(R.id.options1);
+                        final WheelView wv_time_h = (WheelView) v.findViewById(R.id.options2);
+                        final WheelView wv_time_m = (WheelView) v.findViewById(R.id.options3);
+                        final TextView tv_time_cancel = (TextView) v.findViewById(R.id.tv_time_cancel);
+                        final TextView tv_time_ok = (TextView) v.findViewById(R.id.tv_time_ok);
+                        /**************************************/
+
+                        wv_time.setCyclic(false);
+
+                        final List<String> mOptionsItems = new ArrayList<>();
+                        mOptionsItems.add("上午");
+                        mOptionsItems.add("下午");
+
+                        wv_time.setAdapter(new ArrayWheelAdapter(mOptionsItems));
+                        wv_time.setOnItemSelectedListener(new OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(int index) {
+                                timeBuffer = mOptionsItems.get(index);
+                            }
+                        });
+                        /**************************************/
+
+                        wv_time_h.setCyclic(false);
+
+                        final List<String> mOptionsItemsH = new ArrayList<>();
+                        for (int i = 0; i < 12; i++) {
+                            mOptionsItemsH.add(i + "");
+                        }
+
+                        wv_time_h.setAdapter(new ArrayWheelAdapter(mOptionsItemsH));
+                        wv_time_h.setOnItemSelectedListener(new OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(int index) {
+                                timeHBuffer = mOptionsItemsH.get(index);
+                            }
+                        });
+                        /**************************************/
+                        wv_time_m.setCyclic(false);
+
+                        final List<String> mOptionsItemsM = new ArrayList<>();
+                        for (int i = 0; i < 61; i++) {
+                            mOptionsItemsM.add(i + "");
+                        }
+
+                        wv_time_m.setAdapter(new ArrayWheelAdapter(mOptionsItemsM));
+                        wv_time_m.setOnItemSelectedListener(new OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(int index) {
+                                timeMBuffer = mOptionsItemsM.get(index);
+                            }
+                        });
+
+                        /**************************************/
+
+                        tv_time_ok.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pickerView.returnData();
+                                pickerView.dismiss();
+                            }
+                        });
+                        tv_time_cancel.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                pickerView.dismiss();
+                            }
+                        });
+
+                    }
+                })
                 .setTitleBgColor(0xFFffffff)//标题背景颜色 Night mode
                 .setBgColor(0xffffffff)//滚轮背景颜色 Night mode
-//                .setRangDate(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR) + 20)//默认是1900-2100年
-//                .setDate(new Date())// 默认是系统时间*/
-                .setLabel("年","月","日","时","分","秒")
                 .build();
     }
-    public void initEndShowTime(){
+
+    @Override
+    public void onBackPressed() {
+        if (barTvRight.getText().equals("确定")) {
+            llAddTime.setVisibility(View.GONE);
+            rvTimeData.setVisibility(View.VISIBLE);
+            barTvRight.setText("添加");
+        } else {
+            finish();
+        }
+    }
+
+    public void initEndShowTime() {
         pvEndTime = new TimePickerBuilder(mContext, new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {//选中事件回调
 //                tvTime.setText(getTime(date));
-                Calendar calendar=Calendar.getInstance();
+                Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
-                int HH=calendar.get(Calendar.HOUR_OF_DAY);
-                int mm=calendar.get(Calendar.MINUTE);
+                int HH = calendar.get(Calendar.HOUR_OF_DAY);
+                int mm = calendar.get(Calendar.MINUTE);
 
-                if(pvTime!=null){
+                if (pvTime != null) {
                     if (isTime) {
-                        Logger.i("HH="+HH);
-                        Logger.i("mm="+mm);
+                        Logger.i("HH=" + HH);
+                        Logger.i("mm=" + mm);
                         isTime = false;
                         endTime = oneTotwo(HH + "") + ":" + oneTotwo(mm + "");
                         tvTimeSelect.setText(startTime + "-" + endTime);
                     } else {
-                        Logger.i("HH="+HH);
-                        Logger.i("mm="+mm);
+                        Logger.i("HH=" + HH);
+                        Logger.i("mm=" + mm);
                         startTime = oneTotwo(HH + "") + ":" + oneTotwo(mm + "");
                         isTime = true;
                     }
@@ -308,27 +442,10 @@ public class MyLwyerTimeActivity extends BaseActivity {
                 .setBgColor(0xffffffff)//滚轮背景颜色 Night mode
 //                .setRangDate(calendar.get(Calendar.YEAR) - 20, calendar.get(Calendar.YEAR) + 20)//默认是1900-2100年
 //                .setDate(new Date())// 默认是系统时间*/
-                .setLabel("年","月","日","时","分","秒")
+                .setLabel("年", "月", "日", "时", "分", "秒")
                 .build();
     }
-    TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//            tvTimeSelect
-            if (isTime) {
-                isTime = false;
-                endTime = oneTotwo(hourOfDay + "") + ":" + oneTotwo(minute + "");
-                tvTimeSelect.setText(startTime + "-" + endTime);
-            } else {
-                startTime = oneTotwo(hourOfDay + "") + ":" + oneTotwo(minute + "");
-                Calendar calendar = Calendar.getInstance();
-                TimeUtils.INSTANCE.showTimePickerDialog(MyLwyerTimeActivity.this
-                        , 1
-                        , calendar, onTimeSetListener);
-                isTime = true;
-            }
-        }
-    };
+
 
     public void subscribe(final String startTime, final String endTime) {
         Map<String, String> params = new HashMap<>();
@@ -391,7 +508,8 @@ public class MyLwyerTimeActivity extends BaseActivity {
             }
         });
     }
-    public void removeTime( String id,final int position) {
+
+    public void removeTime(String id, final int position) {
         Map<String, String> params = new HashMap<>();
         params.put("id", id);
         Gson gson = new Gson();

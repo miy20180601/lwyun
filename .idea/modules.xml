@@ -4,7 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" filepath="$PROJECT_DIR$/PhotoPicker/PhotoPicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lwyun.iml" filepath="$PROJECT_DIR$/lwyun.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lwyun.iml" filepath="$PROJECT_DIR$/.idea/lwyun.iml" />
+      <module fileurl="file://E:\Android_Project\lwyun\lwyun\lwyun.iml" filepath="E:\Android_Project\lwyun\lwyun\lwyun.iml" />
     </modules>
   </component>
 </project>

@@ -16,6 +16,7 @@
     <color name="black_color">#000000</color>
 
     <color name="colorGray">#CDCDCD</color>
+    <color name="main_top_col">#0091EA</color>
 
 
 </resources>
