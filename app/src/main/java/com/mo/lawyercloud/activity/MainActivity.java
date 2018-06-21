@@ -186,7 +186,7 @@ public class MainActivity extends BaseActivity {
             mPhone = null;
             mPwd = null;
         } else if (msg.type == 3) {
-            mRadioGroup.check(R.id.controller_tab2);
+            mRadioGroup.check(R.id.controller_tab4);
         } else if (msg.type == 4) {
             final AdvisoryMessage message = new AdvisoryMessage();
             message.type = 2;
