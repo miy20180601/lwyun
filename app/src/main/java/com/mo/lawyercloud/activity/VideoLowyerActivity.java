@@ -5,8 +5,10 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -60,12 +62,11 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
     AVRootView avRootView;
     @BindView(R.id.iv_end_call)
     ImageView ivEndCall;
-    @BindView(R.id.tv_time)
-    TextView tvTime;
+    @BindView(R.id.timer)
+    Chronometer mTimer;
 
 
     private int roomId;
-    private long callDurationc = 0;
 
 
     @Override
@@ -85,19 +86,6 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
 
         createRoom();
     }
-
-    private CountDownTimer timer = new CountDownTimer(1000*60*60*24, 1000) {
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-            tvTime.setText("通话时间："+ TimeUtils.dateFormatByType(callDurationc,"HH:mm:ss"));
-        }
-
-        @Override
-        public void onFinish() {
-
-        }
-    };
 
     private void setAvRoomView() {
         avRootView.renderMySelf(true);
@@ -146,7 +134,6 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
 
     // 加入房间
     private void createRoom() {
-
         ILVLiveRoomOption option = new ILVLiveRoomOption(ILiveLoginManager.getInstance().getMyUserId())
                 .autoCamera(true)
                 .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
@@ -156,11 +143,15 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
                 option, new ILiveCallBack() {
                     @Override
                     public void onSuccess(Object data) {
-                        timer.start();
+                        mTimer.setBase(SystemClock.elapsedRealtime());//计时器清零
+                        int hour = (int) ((SystemClock.elapsedRealtime() - mTimer.getBase()) / 1000 / 60);
+                        mTimer.setFormat("0" + String.valueOf(hour) + ":%s");
+                        mTimer.start();
                     }
 
                     @Override
                     public void onError(String module, int errCode, String errMsg) {
+                        DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" + errMsg);
                         finish();
 //                        if (module.equals(ILiveConstants.Module_IMSDK) && 10021 == errCode){
 //                            // 被占用，改加入
@@ -220,22 +211,12 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
     }
 
     private void quitLiveVideo() {
-        timer.cancel();
         ILiveSDK.getInstance().getAvVideoCtrl().setLocalVideoPreProcessCallback(null);
         ILVLiveManager.getInstance().quitRoom(new ILiveCallBack() {
             @Override
             public void onSuccess(Object data) {
-                ILVLiveManager.getInstance().quitRoom(new ILiveCallBack() {
-                    @Override
-                    public void onSuccess(Object data) {
-                        videoOrderEnd();
-                    }
-
-                    @Override
-                    public void onError(String module, int errCode, String errMsg) {
-
-                    }
-                });
+                mTimer.stop();
+                videoOrderEnd();
             }
 
             @Override
@@ -304,7 +285,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        timer.cancel();
+        mTimer.stop();
         MessageObservable.getInstance().deleteObserver(this);
         StatusObservable.getInstance().deleteObserver(this);
         ILVLiveManager.getInstance().onDestory();

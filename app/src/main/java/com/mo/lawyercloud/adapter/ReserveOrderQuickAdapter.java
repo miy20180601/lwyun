@@ -77,7 +77,11 @@ public class ReserveOrderQuickAdapter extends BaseQuickAdapter<ReserveOrderBean,
                 .getEndTime()) {
             helper.setGone(R.id.btn_open_video, true);
         } else {
-            helper.setGone(R.id.btn_open_video, false);
+            if (BuildConfig.DEBUG && item.getStatus() != 1 && item.getStatus() != 4){
+                helper.setGone(R.id.btn_open_video, true);
+            }else {
+                helper.setGone(R.id.btn_open_video, false);
+            }
         }
 
         helper.addOnClickListener(R.id.btn_open_video)

@@ -49,14 +49,13 @@ public class RegisterFragment extends BaseFragment {
             case R.id.btn_user_register:
                 if (mCb.isChecked()){
                     startActivity(new Intent(mContext, UserRegisterActivity.class));
-
                 }else {
                     showTips();
                 }
                 break;
             case R.id.btn_lowyer_register:
                 if (mCb.isChecked()){
-                    startActivity(new Intent(mContext, UserRegisterActivity.class));
+                    startActivity(new Intent(mContext, LowyerRegisterActivity.class));
                 }else {
                     showTips();
                 }

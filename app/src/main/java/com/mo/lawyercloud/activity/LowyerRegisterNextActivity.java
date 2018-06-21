@@ -105,7 +105,7 @@ public class LowyerRegisterNextActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.bar_iv_back, R.id.btn_register, R.id.tv_protocol})
+    @OnClick({R.id.bar_iv_back, R.id.btn_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
@@ -126,9 +126,6 @@ public class LowyerRegisterNextActivity extends BaseActivity {
                 }
                 register();
 
-                break;
-            case R.id.tv_protocol:
-                // TODO: 2018/5/14 协议
                 break;
         }
     }

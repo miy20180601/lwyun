@@ -95,8 +95,6 @@ public class LowyerRegisterActivity extends BaseActivity {
     EditText mEditResume;
     @BindView(R.id.iv_paperwork)
     ImageView mIvPaperwork;
-    @BindView(R.id.tv_protocol)
-    TextView mTvProtocol;
     @BindView(R.id.cb_pwd_eye)
     CheckBox mCbEye;
 

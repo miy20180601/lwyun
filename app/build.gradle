@@ -20,7 +20,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
-        ndk{
+        ndk {
             abiFilters 'armeabi', 'armeabi-v7a'
         }
     }
@@ -33,6 +33,7 @@ android {
 //    }
     android.applicationVariants.all { variant ->
         variant.outputs.all { output ->
+
             outputFileName = "lowyerCloud" + defaultConfig.versionName + ".apk"
         }
     }
