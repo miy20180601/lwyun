@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,6 +96,7 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
     private static final int MSG_LOAD_SUCCESS = 0x0002;
     private static final int MSG_LOAD_FAILED = 0x0003;
     private OptionsPickerView pvOptions;
+
 
 
     public static AdvisoryFragment getInstance() {
@@ -208,10 +210,17 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
                             @Override
                             protected void onHandleSuccess(BaseListEntity<SolicitorDetailBean> dataList, String msg) {
                                 if (pageNo == 1) {//第一次加载或者是下拉加载
-                                    mQuickAdapter.setNewData(dataList.getResult());
-                                    if (mQuickAdapter.getData().size() >= dataList.getTotalCount()) {
-                                        mQuickAdapter.loadMoreEnd();
+                                    if (dataList.getResult().size()>0){
+                                        mQuickAdapter.removeAllFooterView();
+                                        mQuickAdapter.setNewData(dataList.getResult());
+                                        if (mQuickAdapter.getData().size() >= dataList.getTotalCount()) {
+                                            mQuickAdapter.loadMoreEnd();
+                                        }
+                                    }else {
+                                        mQuickAdapter.setNewData(dataList.getResult());
+                                        mQuickAdapter.addFooterView(getFooterView());
                                     }
+
                                 } else {
                                     mQuickAdapter.addData(dataList.getResult());
                                     if (mQuickAdapter.getData().size() >= dataList.getTotalCount()) {
@@ -237,7 +246,8 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mQuickAdapter);
-        mQuickAdapter.setEmptyView(R.layout.empty_lowyer_list, recyclerView);
+        mQuickAdapter.addHeaderView(getHeaderView());
+//        mQuickAdapter.setEmptyView(R.layout.empty_lowyer_list, recyclerView);
         mQuickAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -252,7 +262,7 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
                 getSolicitorList();
             }
         },recyclerView);
-        mQuickAdapter.addHeaderView(getHeaderView());
+
     }
 
 
@@ -301,6 +311,12 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
         headerView.findViewById(R.id.fl_good_at).setOnClickListener(this);  //channel点击
 
         return headerView;
+    }
+
+    private View getFooterView() {
+        View footerView = getLayoutInflater().inflate(R.layout.empty_lowyer_list, (ViewGroup)
+                recyclerView.getParent(), false);
+        return footerView;
     }
 
     private void clearSelectedStatus() {
