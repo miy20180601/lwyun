@@ -33,6 +33,7 @@ import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
+import com.mo.lawyercloud.beans.apiBeans.FeeDescriptionlBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveTimeBean;
 import com.mo.lawyercloud.beans.apiBeans.UploadFileBean;
 import com.mo.lawyercloud.network.BaseObserver;
@@ -71,6 +72,8 @@ public class VideoAppointmentAcitivty extends BaseActivity {
     TextView barTitle;
     @BindView(R.id.bar_tv_right)
     TextView barTvRight;
+    @BindView(R.id.tv_fee_descriptionl)
+    TextView mTvFeeDescriptionl;
     @BindView(R.id.et_appointment_conetnt)
     EditText etAppointmentConetnt;
     @BindView(R.id.iv_appointment_accessory)
@@ -106,13 +109,21 @@ public class VideoAppointmentAcitivty extends BaseActivity {
         barTitle.setText("视频预约");
         rl_appointment_succeed.setVisibility(View.GONE);
         mSolicitorId = getIntent().getIntExtra("id", 0);
+        Observable<BaseEntity<FeeDescriptionlBean>> observable = RetrofitFactory
+                .getInstance().feeDescription();
+        observable.compose(this.<BaseEntity<FeeDescriptionlBean>>rxSchedulers()).subscribe(new BaseObserver<FeeDescriptionlBean>() {
+
+            @Override
+            protected void onHandleSuccess(FeeDescriptionlBean feeDescriptionlBean, String msg) {
+                mTvFeeDescriptionl.setText("3、"+feeDescriptionlBean.getContent());
+            }
+        });
         initRecycleView();
     }
 
 
     private void initRecycleView() {
         List<ChannelBean> channels = new ArrayList<>();
-
         mChannelQuickAdapter = new ReserveChannelQuickAdapter(channels);
         mRecyclerChannel.addItemDecoration(new UniversalItemDecoration() {
             @Override

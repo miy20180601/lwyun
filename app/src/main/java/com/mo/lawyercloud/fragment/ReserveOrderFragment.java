@@ -15,6 +15,7 @@ import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.activity.VideoLowyerActivity;
 import com.mo.lawyercloud.activity.VideoMemberActivity;
 import com.mo.lawyercloud.adapter.ReserveOrderQuickAdapter;
+import com.mo.lawyercloud.adapter.loadMoreView.CustomLoadMoreView;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
@@ -187,6 +188,7 @@ public class ReserveOrderFragment extends BaseFragment {
     private void initViews() {
         ArrayList<ReserveOrderBean> datas = new ArrayList<>();
         mQuickAdapter = new ReserveOrderQuickAdapter(type, datas);
+        mQuickAdapter.setLoadMoreView(new CustomLoadMoreView());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mQuickAdapter);
     }

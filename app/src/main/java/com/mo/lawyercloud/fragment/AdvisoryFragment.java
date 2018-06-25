@@ -30,6 +30,7 @@ import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.activity.LawyerDetailsActivity;
 import com.mo.lawyercloud.activity.MyContactAcitity;
 import com.mo.lawyercloud.adapter.LawyerProfileQuickAdapter;
+import com.mo.lawyercloud.adapter.loadMoreView.CustomLoadMoreView;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.ProvinceBean;
@@ -243,6 +244,7 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
         mDatas = new ArrayList<>();
         String[] channelArray = getResources().getStringArray(R.array.channel);
         mQuickAdapter = new LawyerProfileQuickAdapter(mDatas, channelArray);
+        mQuickAdapter.setLoadMoreView(new CustomLoadMoreView());
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(mQuickAdapter);

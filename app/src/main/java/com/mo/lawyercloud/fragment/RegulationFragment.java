@@ -11,6 +11,7 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.RegulationQuickAdapter;
+import com.mo.lawyercloud.adapter.loadMoreView.CustomLoadMoreView;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
@@ -107,6 +108,7 @@ public class RegulationFragment extends BaseFragment {
     private void initViews() {
         ArrayList<LegalBean> datas = new ArrayList<>();
         mQuickAdapter = new RegulationQuickAdapter(datas);
+        mQuickAdapter.setLoadMoreView(new CustomLoadMoreView());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mQuickAdapter);
     }

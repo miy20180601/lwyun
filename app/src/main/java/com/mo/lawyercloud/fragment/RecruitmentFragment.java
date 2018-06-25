@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.RecruitmentQuickAdapter;
+import com.mo.lawyercloud.adapter.loadMoreView.CustomLoadMoreView;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
@@ -113,6 +114,7 @@ public class RecruitmentFragment extends BaseFragment {
     private void initViews() {
         ArrayList<RecruitmentBean> datas = new ArrayList<>();
         mQuickAdapter = new RecruitmentQuickAdapter(datas);
+        mQuickAdapter.setLoadMoreView(new CustomLoadMoreView());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mQuickAdapter);
     }

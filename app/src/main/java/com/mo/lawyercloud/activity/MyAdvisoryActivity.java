@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.MineAdvisoryQuickAdapter;
+import com.mo.lawyercloud.adapter.loadMoreView.CustomLoadMoreView;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.AdvisoryOrderBean;
@@ -56,6 +57,7 @@ public class MyAdvisoryActivity extends BaseActivity {
         barTitle.setVisibility(View.VISIBLE);
         mDatas = new ArrayList<>();
         mQuickAdapter = new MineAdvisoryQuickAdapter(mDatas);
+        mQuickAdapter.setLoadMoreView(new CustomLoadMoreView());
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(mQuickAdapter);
 

@@ -23,10 +23,12 @@ public class BillingRecordsLowyerQuickAdapter extends BaseQuickAdapter<BillingRe
     protected void convert(BaseViewHolder helper, BillingRecordsBean item) {
         helper.setText(R.id.tv_name,item.getRealName());
         if (item.getType()==1){
+            helper.setGone(R.id.rl_name,true);
             helper.setText(R.id.tv_type,"收入");
             helper.setText(R.id.tv_price,""+item.getPrice());
             helper.setGone(R.id.rl_withdraw_status,false);
         } else if (item.getType() == 3){
+            helper.setGone(R.id.rl_name,false);
             helper.setText(R.id.tv_type,"提现");
             helper.setText(R.id.tv_price,""+item.getPrice());
             helper.setGone(R.id.rl_withdraw_status,true);
@@ -42,6 +44,6 @@ public class BillingRecordsLowyerQuickAdapter extends BaseQuickAdapter<BillingRe
             }
         }
         helper.setText(R.id.tv_date, TimeUtils.dateFormatByType(item.getCreateTime(),
-                "yyyy-MM-dd"));
+                "yyyy-MM-dd HH:mm:ss"));
     }
 }

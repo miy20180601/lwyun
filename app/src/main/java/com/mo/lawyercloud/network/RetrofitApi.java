@@ -4,9 +4,11 @@ package com.mo.lawyercloud.network;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.AdvisoryOrderBean;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
+import com.mo.lawyercloud.beans.apiBeans.BillDetailBean;
 import com.mo.lawyercloud.beans.apiBeans.BillingRecordsBean;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
 import com.mo.lawyercloud.beans.apiBeans.ContactBean;
+import com.mo.lawyercloud.beans.apiBeans.FeeDescriptionlBean;
 import com.mo.lawyercloud.beans.apiBeans.HomeBean;
 import com.mo.lawyercloud.beans.apiBeans.InvoiceListBean;
 import com.mo.lawyercloud.beans.apiBeans.LegalBean;
@@ -414,6 +416,20 @@ public interface RetrofitApi {
      */
     @GET("serviceAgreement")
     Observable<BaseEntity<WebViewBean>> serviceAgreement();
+
+    /**
+     * 账单详情与充值记录
+     * id   是
+     *
+     */
+    @GET("billRecord/detail")
+    Observable<BaseEntity<BillDetailBean>> billRecordDetail(@Query("id") int id);
+
+    /**
+     * 收费标准
+     */
+    @GET("feeDescription")
+    Observable<BaseEntity<FeeDescriptionlBean>> feeDescription();
 
 
 }

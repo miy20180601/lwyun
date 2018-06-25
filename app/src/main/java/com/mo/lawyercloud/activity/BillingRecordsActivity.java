@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.BillingRecordsQuickAdapter;
+import com.mo.lawyercloud.adapter.loadMoreView.CustomLoadMoreView;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
@@ -55,13 +56,15 @@ public class BillingRecordsActivity extends BaseActivity {
         barTitle.setText("账单记录");
         mData = new ArrayList<>();
         mQuickAdapter = new BillingRecordsQuickAdapter(mData);
+        mQuickAdapter.setLoadMoreView(new CustomLoadMoreView());
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(mQuickAdapter);
         mQuickAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 BillingRecordsBean billingRecordsBean = mQuickAdapter.getData().get(position);
-                startActivity(new Intent(mContext,BillDetailActivity.class).putExtra("type",billingRecordsBean.getType()));
+                startActivity(new Intent(mContext,BillDetailActivity.class).putExtra("type",billingRecordsBean.getType())
+                .putExtra("id",billingRecordsBean.getId()));
             }
         });
     }

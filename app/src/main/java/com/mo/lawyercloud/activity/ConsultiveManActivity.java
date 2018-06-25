@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.ConsultiveAdapter;
+import com.mo.lawyercloud.adapter.loadMoreView.CustomLoadMoreView;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.OrderAdvisoryBean;
@@ -55,6 +56,7 @@ public class ConsultiveManActivity extends BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         rvConData.setLayoutManager(linearLayoutManager);
         consultiveAdapter = new ConsultiveAdapter(dataList);
+        consultiveAdapter.setLoadMoreView(new CustomLoadMoreView());
         rvConData.setAdapter(consultiveAdapter);
     }
 

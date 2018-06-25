@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.InvoiceDataAdapter;
+import com.mo.lawyercloud.adapter.loadMoreView.CustomLoadMoreView;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.InvoiceListBean;
@@ -53,6 +54,7 @@ public class MyInvoiceActivity extends BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         rvInvoicData.setLayoutManager(linearLayoutManager);
         mQuickAdapter = new InvoiceDataAdapter(dataList);
+        mQuickAdapter.setLoadMoreView(new CustomLoadMoreView());
         rvInvoicData.setAdapter(mQuickAdapter);
         mQuickAdapter.setOnItemChildClickListener(new BaseQuickAdapter
                 .OnItemChildClickListener() {

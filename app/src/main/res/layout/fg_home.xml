@@ -77,18 +77,16 @@
     </RelativeLayout>
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="10dp"
-        android:src="@mipmap/img_logo"/>
+        android:src="@mipmap/index_img"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"
-        android:text="智能分析精准匹配资深律师专业解答"
+        android:text="智能分析 精准匹配资深律师专业解答"
         android:textColor="#9FA0A0"
         android:textSize="13sp"/>
 
