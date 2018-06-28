@@ -67,6 +67,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
 
 
     private int roomId;
+    private String mUserName;
 
 
     @Override
@@ -78,6 +79,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
     public void initViews(Bundle savedInstanceState) {
         initPermission();
         roomId = getIntent().getIntExtra("roomId", -1);
+        mUserName = getIntent().getStringExtra("userName");
         setAvRoomView();
 
         MessageObservable.getInstance().addObserver(this);
@@ -132,6 +134,26 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
                 );
     }
 
+    private void pushMessage(){
+        Map<String, Object> params = new HashMap<>();
+        params.put("alias", mUserName);
+        params.put("alert", "律师邀请视频");
+        params.put("content", "你的预约时间开始了，律师正在发起视频");
+        Gson gson = new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;" +
+                "charset=UTF-8"), strEntity);
+        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance()
+                .pushMessageToOne(body);
+        observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
+
+            @Override
+            protected void onHandleSuccess(Object o, String msg) {
+
+            }
+        });
+    }
+
     // 加入房间
     private void createRoom() {
         ILVLiveRoomOption option = new ILVLiveRoomOption(ILiveLoginManager.getInstance().getMyUserId())
@@ -147,6 +169,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
                         int hour = (int) ((SystemClock.elapsedRealtime() - mTimer.getBase()) / 1000 / 60);
                         mTimer.setFormat("0" + String.valueOf(hour) + ":%s");
                         mTimer.start();
+                        pushMessage();
                     }
 
                     @Override

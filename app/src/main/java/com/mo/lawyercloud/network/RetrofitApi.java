@@ -272,6 +272,7 @@ public interface RetrofitApi {
             @Body RequestBody params
     );
 
+
     /**
      * 咨询管理
      */
@@ -307,15 +308,6 @@ public interface RetrofitApi {
             @Query("status") int status
     );
 
-    /**
-     * 咨询管理
-     */
-    @Headers("Content-Type: application/json; charset=utf-8")
-    @GET("order/advisory")
-    Observable<BaseEntity<OrderAdvisoryBean>> getOrderAdvisory(
-            @Query("pageNo") int pageNo,
-            @Query("pageSize") int pageSize
-    );
 
     /**
      * 我的发票
@@ -404,6 +396,7 @@ public interface RetrofitApi {
     @POST("withdrawal/submit")
     Observable<BaseEntity<Object>> withdrawal(@Body RequestBody params);
 
+
     /**
      * 获取支付结果
      * id   是   支付订单id
@@ -420,7 +413,6 @@ public interface RetrofitApi {
     /**
      * 账单详情与充值记录
      * id   是
-     *
      */
     @GET("billRecord/detail")
     Observable<BaseEntity<BillDetailBean>> billRecordDetail(@Query("id") int id);
@@ -430,6 +422,16 @@ public interface RetrofitApi {
      */
     @GET("feeDescription")
     Observable<BaseEntity<FeeDescriptionlBean>> feeDescription();
+
+    /**
+     * 推送消息
+     * alias        是       用户别名（为username）
+     * alert         是      推送消息标题
+     * content      是       推送消息内容
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("push/messageToOne")
+    Observable<BaseEntity<Object>> pushMessageToOne(@Body RequestBody params);
 
 
 }

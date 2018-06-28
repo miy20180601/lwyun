@@ -2,12 +2,17 @@ package me.iwf.photopicker.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import java.io.File;
@@ -15,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import me.iwf.photopicker.R;
 import me.iwf.photopicker.utils.AndroidLifecycleUtils;
+import me.iwf.photopicker.utils.ImgUtil;
 
 /**
  * Created by donglua on 15/6/21.
@@ -27,6 +33,7 @@ public class PhotoPagerAdapter extends PagerAdapter {
   public PhotoPagerAdapter(RequestManager glide, List<String> paths) {
     this.paths = paths;
     this.mGlide = glide;
+
   }
 
   @Override public Object instantiateItem(ViewGroup container, int position) {
@@ -65,6 +72,29 @@ public class PhotoPagerAdapter extends PagerAdapter {
             ((Activity) context).onBackPressed();
           }
         }
+      }
+    });
+
+    imageView.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override
+      public boolean onLongClick(View v) {
+        final BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+        new AlertDialog.Builder(context).setMessage("是否保存图片").setPositiveButton("确定", new
+                DialogInterface
+                .OnClickListener() {
+
+          @Override
+          public void onClick(DialogInterface dialog, int which) {
+            boolean isSaveSuccess = ImgUtil.saveImageToGallery(context,drawable.getBitmap());
+            if (isSaveSuccess) {
+              Toast.makeText(context, "保存图片成功", Toast.LENGTH_SHORT).show();
+            } else {
+              Toast.makeText(context, "保存图片失败，请稍后重试", Toast.LENGTH_SHORT).show();
+            }
+          }
+        }).setNegativeButton("取消",null).show();
+
+        return false;
       }
     });
 

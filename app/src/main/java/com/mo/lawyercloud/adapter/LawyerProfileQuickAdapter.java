@@ -1,6 +1,7 @@
 package com.mo.lawyercloud.adapter;
 
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -56,8 +57,9 @@ public class LawyerProfileQuickAdapter extends BaseQuickAdapter<SolicitorDetailB
         }
         ProfessionQuickAdapter adapter = new ProfessionQuickAdapter(datas);
         RecyclerView recyclerView = helper.getView(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager
-                .HORIZONTAL, false));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager
+//                .HORIZONTAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(mContext,3));
         recyclerView.setAdapter(adapter);
     }
 }

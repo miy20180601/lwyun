@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.activity.RechargeResultActivity;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.eventbus.PayResultMessage;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
@@ -50,7 +51,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 			if (resp.errCode==0){
 				EventBus.getDefault().post(new PayResultMessage());
 			}else if (resp.errCode==-2){
-				Toast.makeText(this,"取消支付",Toast.LENGTH_LONG).show();
+				startActivity(new Intent(this,RechargeResultActivity.class).putExtra
+						(Constant.RECHARGE_RESULT,2));
 			}
 			finish();
 

@@ -1,7 +1,9 @@
 package com.mo.lawyercloud.adapter;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,10 +14,15 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mo.lawyercloud.BuildConfig;
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.activity.MainActivity;
+import com.mo.lawyercloud.beans.apiBeans.AttachmentsBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveOrderBean;
 import com.mo.lawyercloud.utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import me.iwf.photopicker.PhotoPreview;
 
 /**
  * Created by Mohaifeng on 18/6/11.
@@ -23,10 +30,12 @@ import java.util.List;
  */
 public class ReserveOrderQuickAdapter extends BaseQuickAdapter<ReserveOrderBean, BaseViewHolder> {
     int type;
-
-    public ReserveOrderQuickAdapter(int type, @Nullable List<ReserveOrderBean> data) {
+    private Activity activity;
+    public ReserveOrderQuickAdapter(int type, Activity activity,@Nullable List<ReserveOrderBean>
+            data) {
         super(R.layout.item_reserve_order, data);
         this.type = type;
+        this.activity = activity;
     }
 
     @Override
@@ -54,9 +63,23 @@ public class ReserveOrderQuickAdapter extends BaseQuickAdapter<ReserveOrderBean,
         if (item.getAttachments().size()>0){
             helper.setGone(R.id.ll_annex,true);
             RecyclerView recyclerView = helper.getView(R.id.recycler_img);
+            List<AttachmentsBean> attachments = item.getAttachments();
+            final ArrayList<String> paths = new ArrayList<>();
+            for (AttachmentsBean attachment : attachments) {
+                paths.add(attachment.getImage());
+            }
             AnnexImgQuickAdapter adapter = new AnnexImgQuickAdapter(item.getAttachments());
-            recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager
-                    .HORIZONTAL, false));
+            adapter.setOnItemClickListener(new OnItemClickListener() {
+                @Override
+                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                    PhotoPreview.builder()
+                            .setPhotos(paths)
+                            .setCurrentItem(position)
+                            .setShowDeleteButton(false)
+                            .start(activity);
+                }
+            });
+            recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setAdapter(adapter);
         }else {

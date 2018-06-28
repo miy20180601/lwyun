@@ -12,8 +12,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.activity.ChangePwdActivity;
-import com.mo.lawyercloud.activity.ConsultiveManActivity;
 import com.mo.lawyercloud.activity.FeedbackActivity;
+import com.mo.lawyercloud.activity.MyAdvisoryActivity;
 import com.mo.lawyercloud.activity.MyContactAcitity;
 import com.mo.lawyercloud.activity.MyLwyerActivity;
 import com.mo.lawyercloud.activity.MyLwyerTimeActivity;
@@ -102,7 +102,7 @@ public class MineLowyerFragment extends BaseFragment {
                 startActivity(new Intent(mContext,MyWalletActivity.class).putExtra("type",2));
                 break;
             case R.id.rl_mine_lwyer_advisory:
-                startActivity(ConsultiveManActivity.class);
+                startActivity(MyAdvisoryActivity.class);
 
                 break;
             case R.id.rl_mine_lwyer_change_password:

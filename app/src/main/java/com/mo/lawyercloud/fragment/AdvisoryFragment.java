@@ -128,12 +128,16 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
     public void onMessageEvent(AdvisoryMessage msg) {
         if (msg.type == 1) {
             solicitorName = null;
+            mLocation = null;
+            mTvLocation.setText("地区");
             mChannel = msg.channel;
             pageNo = 1;
             setSelectedStatus();
         } else if (msg.type == 2) {
             solicitorName = msg.name;
             mChannel = null;
+            mLocation = null;
+            mTvLocation.setText("地区");
             pageNo = 1;
             setSelectedStatus();
         }

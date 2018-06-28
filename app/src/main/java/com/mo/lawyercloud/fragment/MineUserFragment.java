@@ -36,6 +36,8 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.reactivex.Observable;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Mohaifeng on 18/5/27.
  * 我的页面-普通用户
@@ -51,6 +53,7 @@ public class MineUserFragment extends BaseFragment {
     TextView tvBalance;
 
     private MemberBean mMember;
+    public final static int REQUEST_UPDATEUSER = 0x11;
 
     private static MineUserFragment instance = null;
     public static MineUserFragment getInstance() {
@@ -76,7 +79,16 @@ public class MineUserFragment extends BaseFragment {
         }
     }
 
-    public void intoImg(String imgUrl,ImageView view){
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMember = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
+        if (mMember != null){
+            tvBalance.setText("¥ "+mMember.getBalance());
+        }
+    }
+
+    public void intoImg(String imgUrl, ImageView view){
         RequestOptions options = new RequestOptions();
         options.error(R.mipmap.data_button_avatar_n);
         Glide.with(mContext).load(imgUrl).apply(options).into(view);
@@ -88,7 +100,7 @@ public class MineUserFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_mine_data:
-                startActivity(new Intent(mContext, MyUserActivity.class));
+                startActivityForResult(new Intent(mContext, MyUserActivity.class),REQUEST_UPDATEUSER);
                 break;
             case R.id.rl_mine_advisory:
                 startActivity(new Intent(mContext, MyAdvisoryActivity.class));
@@ -114,6 +126,21 @@ public class MineUserFragment extends BaseFragment {
             case R.id.tv_logout:
                 logout();
                 break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK){
+            if (requestCode == REQUEST_UPDATEUSER){
+                mMember = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
+                if (mMember != null){
+                    intoImg(mMember.getAvatar(),ivAvatar);
+                    tvUserName.setText(mMember.getRealName() == null? "":mMember.getRealName());
+                    tvBalance.setText("¥ "+mMember.getBalance());
+                }
+            }
         }
     }
 

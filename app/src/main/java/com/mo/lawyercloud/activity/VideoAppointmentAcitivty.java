@@ -98,6 +98,7 @@ public class VideoAppointmentAcitivty extends BaseActivity {
     private ReserveTimeQuickAdapter mTimeQuickAdapter;
     private ReserveTimeBean mSelectTimeBean;
 
+    private static final int REQUEST_FILE = 0x11;
 
     @Override
     public int getLayoutId() {
@@ -115,7 +116,7 @@ public class VideoAppointmentAcitivty extends BaseActivity {
 
             @Override
             protected void onHandleSuccess(FeeDescriptionlBean feeDescriptionlBean, String msg) {
-                mTvFeeDescriptionl.setText("3、"+feeDescriptionlBean.getContent());
+                mTvFeeDescriptionl.setText(feeDescriptionlBean.getContent());
             }
         });
         initRecycleView();
@@ -239,6 +240,7 @@ public class VideoAppointmentAcitivty extends BaseActivity {
                 break;
             case R.id.iv_appointment_accessory:
                 initPermission();
+//                startActivityForResult(new Intent(mContext,FolderActivity.class),REQUEST_FILE);
                 PhotoPicker.builder()
                         .setPhotoCount(3)
                         .setShowCamera(false)
@@ -351,7 +353,7 @@ public class VideoAppointmentAcitivty extends BaseActivity {
     }
 
     /**
-     * 上传头像
+     * 上传图片
      */
     private void updateImage(final String path) {
         String imageToBase64 = Base64Util.imageToBase64(path);

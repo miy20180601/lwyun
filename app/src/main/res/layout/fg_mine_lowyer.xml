@@ -161,45 +161,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="#eeeeee"/>
         </RelativeLayout>
-        <!--我的钱包-->
-        <RelativeLayout
-            android:id="@+id/rl_mine_lwyer_wallet"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@color/white"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp">
 
-            <ImageView
-                android:id="@+id/iv4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/personal_icon_wallet"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@+id/iv4"
-                android:text="我的钱包"
-                android:textColor="@color/tv_high_light"
-                android:textSize="16sp"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/profile_button_back"/>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="#eeeeee"/>
-        </RelativeLayout>
         <!--咨询管理-->
         <RelativeLayout
             android:id="@+id/rl_mine_lwyer_advisory"
@@ -239,11 +201,52 @@
                 android:background="#eeeeee"/>
         </RelativeLayout>
 
+
+        <!--我的钱包-->
+        <RelativeLayout
+            android:id="@+id/rl_mine_lwyer_wallet"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <ImageView
+                android:id="@+id/iv4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/personal_icon_wallet"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/iv4"
+                android:text="我的钱包"
+                android:textColor="@color/tv_high_light"
+                android:textSize="16sp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/profile_button_back"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="#eeeeee"/>
+        </RelativeLayout>
         <!--修改密码-->
         <RelativeLayout
             android:id="@+id/rl_mine_lwyer_change_password"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginTop="10dp"
             android:background="@color/white"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
@@ -323,6 +326,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@color/white"
+            android:layout_marginTop="@dimen/dp_10"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 

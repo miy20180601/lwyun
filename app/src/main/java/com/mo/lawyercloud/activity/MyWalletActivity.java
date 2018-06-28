@@ -11,7 +11,13 @@ import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
+import com.mo.lawyercloud.eventbus.PayResultMessage;
+import com.mo.lawyercloud.eventbus.RechargeSuccessMessage;
 import com.mo.lawyercloud.network.RetrofitFactory;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,15 +52,22 @@ public class MyWalletActivity extends BaseActivity {
     @Override
     public void initViews(Bundle savedInstanceState) {
         barTitle.setText("我的钱包");
-        mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
+
         mType = getIntent().getIntExtra("type", 1);
         if (mType == 1) {
             rlWalletRecharge.setVisibility(View.VISIBLE);
         } else if (mType == 2) {
             rlWalletWithdraw.setVisibility(View.VISIBLE);
         }
-        mTvBalance.setText(mMemberBean.getBalance() + "元");
 
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
+        mTvBalance.setText(mMemberBean.getBalance() + "元");
     }
 
     @Override
@@ -97,10 +110,6 @@ public class MyWalletActivity extends BaseActivity {
         if (resultCode == RESULT_OK ) {
             if (requestCode == REQUEST_WITHDRAW){
                 updateBanlance(data);
-            }else if (requestCode == REQUEST_RECHARGE){
-                if(data != null){
-                    updateBanlance(data);
-                }
             }
         }
     }

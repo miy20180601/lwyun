@@ -191,6 +191,7 @@ public class MyUserActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
+                setResult(RESULT_OK);
                 finish();
                 break;
             case R.id.rl_avatar:

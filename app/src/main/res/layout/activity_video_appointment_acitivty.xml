@@ -72,23 +72,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="8dp"
-                    android:text="1、提交问题和上传资料；"
-                    android:textColor="@color/tv_high_light"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginTop="3dp"
-                    android:lineSpacingExtra="3dp"
-                    android:text="2、请提前两小时预约，如现在3：00pPM，建议选\n择5:00PM后律师发布的时间。上传完问题的资料就\n可以预约"
-                    android:textColor="@color/tv_high_light"/>
-
-                <TextView
                     android:id="@+id/tv_fee_descriptionl"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -16,6 +16,8 @@ import com.tencent.livesdk.ILVLiveConfig;
 import com.tencent.livesdk.ILVLiveManager;
 import com.tencent.qalsdk.sdk.MsfSdkUtils;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by Mohaifeng on 2018/2/2.
  */
@@ -34,6 +36,10 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         mAPPcontext = this;
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
+
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(true)  //（可选）是否显示线程信息。 默认值为true
 //                .methodCount(2)         // （可选）要显示的方法行数。 默认2

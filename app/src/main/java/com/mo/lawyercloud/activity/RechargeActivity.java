@@ -1,6 +1,7 @@
 package com.mo.lawyercloud.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -13,14 +14,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.mo.lawyercloud.BuildConfig;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.PayResultBean;
 import com.mo.lawyercloud.beans.apiBeans.WechatOrderBean;
 import com.mo.lawyercloud.eventbus.HomeClickMessage;
 import com.mo.lawyercloud.eventbus.PayResultMessage;
+import com.mo.lawyercloud.eventbus.RechargeSuccessMessage;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.NToast;
@@ -59,7 +63,7 @@ public class RechargeActivity extends BaseActivity {
     private int mAmount = 0;
     private WechatOrderBean mWechatOrderBean;
     private boolean mPayResult;
-
+    MemberBean mMemberBean;
     @Override
     public int getLayoutId() {
         return R.layout.activity_recharge;
@@ -67,7 +71,7 @@ public class RechargeActivity extends BaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
-
+        mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
         barTitle.setText("充值");
     }
 
@@ -101,10 +105,7 @@ public class RechargeActivity extends BaseActivity {
         });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(PayResultMessage msg) {
-        patymentResults();
-    }
+
 
     private void patymentResults() {
         Observable<BaseEntity<PayResultBean>> observable = RetrofitFactory
@@ -112,8 +113,9 @@ public class RechargeActivity extends BaseActivity {
         observable.compose(this.<BaseEntity<PayResultBean>>rxSchedulers()).subscribe(new BaseObserver<PayResultBean>() {
             @Override
             protected void onHandleSuccess(PayResultBean payResultBean, String msg) {
-                mPayResult = payResultBean.isPayResult();
                 if (payResultBean.isPayResult()){
+                    mMemberBean.setBalance(mMemberBean.getBalance()+mAmount);
+                    mACache.put(Constant.MEMBER_INFO,mMemberBean);
                     startActivity(new Intent(mContext,RechargeResultActivity.class).putExtra
                             (Constant.RECHARGE_RESULT,1));
                 }else {
@@ -124,6 +126,10 @@ public class RechargeActivity extends BaseActivity {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PayResultMessage msg) {
+        patymentResults();
+    }
     @Override
     public void onStart() {
         super.onStart();
@@ -141,11 +147,6 @@ public class RechargeActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
-                if (mPayResult){
-                    Intent intent = new Intent();
-                    intent.putExtra("amount",mAmount);
-                    setResult(RESULT_OK,intent);
-                }
                 finish();
                 break;
             case R.id.bt_recharge_apply:
@@ -161,7 +162,14 @@ public class RechargeActivity extends BaseActivity {
 
     private void rechargeWechat() {
         Map<String,Object> params = new HashMap<>();
+//        if (BuildConfig.DEBUG){
+//
+//        }else {
+//
+//        }
+//        params.put("amount","0.1");
         params.put("amount",mAmount);
+
         Gson gson=new Gson();
         String strEntity = gson.toJson(params);
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"),strEntity);

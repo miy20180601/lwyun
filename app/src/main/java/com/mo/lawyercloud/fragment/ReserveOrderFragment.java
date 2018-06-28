@@ -17,11 +17,13 @@ import com.mo.lawyercloud.activity.VideoMemberActivity;
 import com.mo.lawyercloud.adapter.ReserveOrderQuickAdapter;
 import com.mo.lawyercloud.adapter.loadMoreView.CustomLoadMoreView;
 import com.mo.lawyercloud.base.BaseFragment;
+import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ReserveOrderBean;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
+import com.mo.lawyercloud.utils.SPUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,7 +96,8 @@ public class ReserveOrderFragment extends BaseFragment {
                                   .putExtra("hostID", reserveOrderBean.getUserDTO().getUsername());
                         } else if (type == 2) { //律师用户
                             intent = new Intent(mContext, VideoLowyerActivity.class);
-                            intent.putExtra("roomId", reserveOrderBean.getId());
+                            intent.putExtra("roomId", reserveOrderBean.getId())
+                            .putExtra("userName",reserveOrderBean.getUserDTO().getUsername());
                         }
                         startActivity(intent);
                         break;
@@ -126,6 +129,27 @@ public class ReserveOrderFragment extends BaseFragment {
             protected void onHandleSuccess(Object o, String msg) {
                 mQuickAdapter.getData().get(position).setStatus(2);
                 mQuickAdapter.notifyDataSetChanged();
+//                pushMessage();
+            }
+        });
+    }
+
+    private void pushMessage(){
+        Map<String, Object> params = new HashMap<>();
+        params.put("alias", SPUtil.get(mContext, Constant.PHONE,""));
+        params.put("alert", "预约审核通过");
+        params.put("content", "你的预约审核已经通过了");
+        Gson gson = new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;" +
+                "charset=UTF-8"), strEntity);
+        Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance()
+                .pushMessageToOne(body);
+        observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
+
+            @Override
+            protected void onHandleSuccess(Object o, String msg) {
+
             }
         });
     }
@@ -187,7 +211,7 @@ public class ReserveOrderFragment extends BaseFragment {
 
     private void initViews() {
         ArrayList<ReserveOrderBean> datas = new ArrayList<>();
-        mQuickAdapter = new ReserveOrderQuickAdapter(type, datas);
+        mQuickAdapter = new ReserveOrderQuickAdapter(type,getActivity(), datas);
         mQuickAdapter.setLoadMoreView(new CustomLoadMoreView());
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mQuickAdapter);

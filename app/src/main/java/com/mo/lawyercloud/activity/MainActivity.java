@@ -21,6 +21,7 @@ import com.mo.lawyercloud.fragment.InformationFragment;
 import com.mo.lawyercloud.fragment.MineLowyerFragment;
 import com.mo.lawyercloud.fragment.MineUserFragment;
 import com.mo.lawyercloud.fragment.NoviceFragment;
+import com.mo.lawyercloud.jpush.TagAliasOperatorHelper;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.ACache;
@@ -76,6 +77,7 @@ public class MainActivity extends BaseActivity {
         if (!TextUtils.isEmpty(mPhone) && !TextUtils.isEmpty(mPwd)) {
             mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
             login(mPhone, mPwd);
+            setJpushAlias(TagAliasOperatorHelper.ACTION_SET);
         }
 
         if (savedInstanceState != null) {
@@ -103,6 +105,16 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**设置融云别名*/
+    protected void setJpushAlias(int action) {
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = new TagAliasOperatorHelper.TagAliasBean();
+        tagAliasBean.action = action;
+        TagAliasOperatorHelper.sequence++;
+        tagAliasBean.alias = mPhone;
+        tagAliasBean.isAliasAction = true;
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), TagAliasOperatorHelper.sequence, tagAliasBean);
+    }
+
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
@@ -116,6 +128,7 @@ public class MainActivity extends BaseActivity {
                 @Override
                 public void run() {
                     mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
+                    setJpushAlias(TagAliasOperatorHelper.ACTION_SET);
                 }
             }, 500);
 

@@ -7,6 +7,7 @@ import android.widget.Button;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mo.lawyercloud.R;
+import com.mo.lawyercloud.beans.apiBeans.AdvisoryOrderBean;
 import com.mo.lawyercloud.beans.apiBeans.OrderAdvisoryBean;
 import com.mo.lawyercloud.utils.TimeUtils;
 
@@ -17,14 +18,14 @@ import java.util.List;
  * @date 2018/6/9/009
  * @annotation
  */
-public class ConsultiveAdapter  extends BaseQuickAdapter<OrderAdvisoryBean.ResultBean,BaseViewHolder>{
+public class ConsultiveAdapter  extends BaseQuickAdapter<AdvisoryOrderBean,BaseViewHolder>{
 
-    public ConsultiveAdapter(@Nullable List<OrderAdvisoryBean.ResultBean> data) {
+    public ConsultiveAdapter(@Nullable List<AdvisoryOrderBean> data) {
         super(R.layout.item_consultive_layout, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, OrderAdvisoryBean.ResultBean item) {
+    protected void convert(BaseViewHolder helper, AdvisoryOrderBean item) {
         String name =item.getUserDTO().getRealName();
         String content =item.getProblem();
         String date = TimeUtils.INSTANCE.timetodate(item.getCreateTime()+"","yyyy/MM/dd");

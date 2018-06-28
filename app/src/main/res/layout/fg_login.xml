@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="7dp"
+            android:inputType="textPassword"
             android:background="@null"
             android:textSize="15sp"
             android:hint="请输入密码"/>

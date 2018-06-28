@@ -32,8 +32,9 @@
             android:layout_marginTop="10dp"
             android:background="@color/white"
             android:gravity="top"
-            android:hint="尊敬的用户：\n感谢使用我们的产品,如果再使用中遇到任何问题，或者任何的意见和建议。欢迎在这里告诉我们，您的每一条问题反馈对我们非常重要！"
-            android:padding="3dp"
+            android:hint="@string/feed_back_tips"
+            android:textSize="15sp"
+            android:padding="5dp"
             android:textColorHint="@color/tv_high_light" />
         <Button
             android:id="@+id/bt_feeback_feedback"

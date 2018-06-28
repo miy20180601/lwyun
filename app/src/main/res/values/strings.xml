@@ -10,6 +10,10 @@
     <string name="msg_title">提示</string>
 
     <string name="double_click_exit">再按一次退出程序</string>
+    <string name="feed_back_tips">尊敬的用户：
+感谢使用我们的产品，如果在使用中遇到任何问题，
+或者任何的意见和建议。欢迎在这里告诉我们，您的
+每一条问题反馈对我们非常重要！</string>
 
     <string-array name="channel">
         <item>全部</item>

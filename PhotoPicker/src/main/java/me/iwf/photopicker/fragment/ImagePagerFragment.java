@@ -26,6 +26,7 @@ public class ImagePagerFragment extends Fragment {
 
   public final static String ARG_PATH = "PATHS";
   public final static String ARG_CURRENT_ITEM = "ARG_CURRENT_ITEM";
+  public final static String ARG_LISTENER = "ARG_LISTENER";
 
   private ArrayList<String> paths;
   private ViewPager mViewPager;
@@ -82,6 +83,7 @@ public class ImagePagerFragment extends Fragment {
       }
 
       currentItem     = bundle.getInt(ARG_CURRENT_ITEM);
+
     }
 
     mPagerAdapter = new PhotoPagerAdapter(Glide.with(this), paths);
