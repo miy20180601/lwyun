@@ -144,6 +144,9 @@
         <activity
             android:name=".activity.PromotionImgActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BankCardActivity"
+            android:screenOrientation="portrait" />
 
         <!--多图选择控件-->
 

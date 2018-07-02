@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.RechargeActivity">
+
+    <include layout="@layout/common_titlebar" />
+
+
+    <EditText
+        android:id="@+id/edit_cardholder"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/shape_edit_gray_bg"
+        android:hint="请输入持卡人"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/edit_card_number"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/shape_edit_gray_bg"
+        android:hint="请输入卡号"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/edit_bank"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/shape_edit_gray_bg"
+        android:hint="请输入开户银行"
+        android:inputType="number"
+        android:paddingLeft="5dp"
+        android:textSize="14sp" />
+
+
+    <Button
+        android:id="@+id/bt_recharge_apply"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/shape_btn_bg"
+        android:text="添加"
+        android:textColor="@color/tv_high_light" />
+</LinearLayout>

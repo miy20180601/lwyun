@@ -44,6 +44,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center_vertical"
+        tools:visibility="visible"
         android:visibility="gone">
 
         <TextView
@@ -71,6 +72,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="center_vertical"
+        tools:visibility="visible"
         android:visibility="gone">
 
         <TextView
@@ -106,6 +108,33 @@
             android:drawableLeft="@mipmap/icon"
             android:drawablePadding="10dp"
             android:text="账单记录"
+            android:textColor="@color/tv_high_light"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="12dp"
+            android:src="@mipmap/register_input_btn_more"/>
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_bank_card"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:background="@color/white"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:drawableLeft="@mipmap/wallet_icon_bank_card"
+            android:drawablePadding="10dp"
+            android:text="银行卡"
             android:textColor="@color/tv_high_light"/>
 
         <ImageView

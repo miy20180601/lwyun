@@ -37,6 +37,8 @@ public class MyWalletActivity extends BaseActivity {
     RelativeLayout rlWalletRecharge;
     @BindView(R.id.rl_wallet_withdraw)
     RelativeLayout rlWalletWithdraw;
+@BindView(R.id.rl_bank_card)
+    RelativeLayout rlBankCard;
 
 
     private int mType;//1为普通用户，2为律师
@@ -58,9 +60,8 @@ public class MyWalletActivity extends BaseActivity {
             rlWalletRecharge.setVisibility(View.VISIBLE);
         } else if (mType == 2) {
             rlWalletWithdraw.setVisibility(View.VISIBLE);
+            rlBankCard.setVisibility(View.VISIBLE);
         }
-
-
     }
 
     @Override
@@ -82,7 +83,7 @@ public class MyWalletActivity extends BaseActivity {
 
 
     @OnClick({R.id.bar_iv_back, R.id.rl_wallet_recharge, R.id.rl_wallet_withdraw, R.id
-            .rl_billing_records})
+            .rl_billing_records,R.id.rl_bank_card})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
@@ -100,6 +101,9 @@ public class MyWalletActivity extends BaseActivity {
                 } else if (mType == 2) {
                     startActivity(BillingRecordsLowyerActivity.class);
                 }
+                break;
+            case R.id.rl_bank_card:
+                startActivity(BankCardActivity.class);
                 break;
         }
     }
