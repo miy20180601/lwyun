@@ -76,8 +76,6 @@ public class VideoAppointmentAcitivty extends BaseActivity {
     TextView mTvFeeDescriptionl;
     @BindView(R.id.et_appointment_conetnt)
     EditText etAppointmentConetnt;
-    @BindView(R.id.iv_appointment_accessory)
-    ImageView ivAppointmentAccessory;
     @BindView(R.id.rv_appointment_time)
     RecyclerView rvAppointmentTime;
     @BindView(R.id.bt_appointment_submit)
@@ -192,7 +190,8 @@ public class VideoAppointmentAcitivty extends BaseActivity {
         observable.compose(this.<BaseEntity<BaseListEntity<ReserveTimeBean>>>rxSchedulers())
                 .subscribe(new BaseObserver<BaseListEntity<ReserveTimeBean>>() {
                     @Override
-                    protected void onHandleSuccess(BaseListEntity<ReserveTimeBean> dataList, String msg) {
+                    protected void onHandleSuccess(BaseListEntity<ReserveTimeBean> dataList,
+                                                   String msg) {
                         mTimeQuickAdapter.setNewData(dataList.getResult());
                     }
                 });
@@ -232,15 +231,17 @@ public class VideoAppointmentAcitivty extends BaseActivity {
     }
 
 
-    @OnClick({R.id.bar_iv_back, R.id.iv_appointment_accessory, R.id.bt_appointment_submit})
+    @OnClick({R.id.bar_iv_back, R.id.iv_file_img, R.id.iv_file_word, R.id.bt_appointment_submit})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.bar_iv_back:
                 finish();
                 break;
-            case R.id.iv_appointment_accessory:
+            case R.id.iv_file_word:
+                startActivityForResult(new Intent(mContext, FolderActivity.class), REQUEST_FILE);
+                break;
+            case R.id.iv_file_img:
                 initPermission();
-//                startActivityForResult(new Intent(mContext,FolderActivity.class),REQUEST_FILE);
                 PhotoPicker.builder()
                         .setPhotoCount(3)
                         .setShowCamera(false)
@@ -270,23 +271,23 @@ public class VideoAppointmentAcitivty extends BaseActivity {
             params.put("problem", content);
         //预约类型
         Map<String, String> channel = new HashMap<>();
-        channel.put("id",mSelectChannel+"");
-        params.put("channel",channel);
+        channel.put("id", mSelectChannel + "");
+        params.put("channel", channel);
         //预约时间
         Map<String, String> timeMap = new HashMap<>();
-        timeMap.put("id",mSelectTimeBean.getId()+"");
-        params.put("timeMsg",timeMap);
+        timeMap.put("id", mSelectTimeBean.getId() + "");
+        params.put("timeMsg", timeMap);
         //律师id
         Map<String, String> solicitorMap = new HashMap<>();
-        solicitorMap.put("id", mSolicitorId+ "");
+        solicitorMap.put("id", mSolicitorId + "");
         params.put("solicitor", solicitorMap);
 
         //附件
-        if (mUploadFileBeans!=null&&mUploadFileBeans.size()>0){
+        if (mUploadFileBeans != null && mUploadFileBeans.size() > 0) {
             ArrayList<Map<String, String>> arrayList = new ArrayList<>();
             for (UploadFileBean uploadFileBean : mUploadFileBeans) {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("image",uploadFileBean.getName());
+                map.put("image", uploadFileBean.getName());
                 arrayList.add(map);
             }
             params.put("attachments", arrayList);
@@ -310,7 +311,7 @@ public class VideoAppointmentAcitivty extends BaseActivity {
             @Override
             protected void onHandleError(int statusCode, String msg) {
                 super.onHandleError(statusCode, msg);
-                NToast.shortToast(mContext,msg);
+                NToast.shortToast(mContext, msg);
             }
         });
     }
