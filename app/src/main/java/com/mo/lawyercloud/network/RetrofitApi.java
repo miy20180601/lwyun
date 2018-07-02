@@ -3,6 +3,7 @@ package com.mo.lawyercloud.network;
 
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.AdvisoryOrderBean;
+import com.mo.lawyercloud.beans.apiBeans.BankCardInfo;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.BillDetailBean;
 import com.mo.lawyercloud.beans.apiBeans.BillingRecordsBean;
@@ -433,6 +434,28 @@ public interface RetrofitApi {
     @POST("push/messageToOne")
     Observable<BaseEntity<Object>> pushMessageToOne(@Body RequestBody params);
 
+    /**
+     * 添加或修改银行卡信息
+     * alias        是       用户别名（为username）
+     * alert         是      推送消息标题
+     * content      是       推送消息内容
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @PUT("bankCard/modify")
+    Observable<BaseEntity<Object>> modifyBankCard(@Body RequestBody params);
+
+    /**
+     * 获取银行详情
+     */
+    @GET("bankCard/info")
+    Observable<BaseEntity<BankCardInfo>> bankCardInfo();
+
+    /**
+     * 上传文件
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("upload/file")
+    Observable<BaseEntity<Object>> uploadFile(@Body RequestBody params);
 
 }
 

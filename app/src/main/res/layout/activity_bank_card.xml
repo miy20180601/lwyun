@@ -11,15 +11,16 @@
 
 
     <EditText
-        android:id="@+id/edit_cardholder"
+        android:id="@+id/edit_account"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         android:layout_marginTop="7dp"
+        android:maxLength="20"
+        android:singleLine="true"
         android:background="@drawable/shape_edit_gray_bg"
         android:hint="请输入持卡人"
-        android:inputType="number"
         android:paddingLeft="5dp"
         android:textSize="14sp" />
 
@@ -32,6 +33,7 @@
         android:layout_marginTop="7dp"
         android:background="@drawable/shape_edit_gray_bg"
         android:hint="请输入卡号"
+        android:singleLine="true"
         android:inputType="number"
         android:paddingLeft="5dp"
         android:textSize="14sp" />
@@ -43,9 +45,9 @@
         android:layout_marginLeft="18dp"
         android:layout_marginRight="18dp"
         android:layout_marginTop="7dp"
+        android:singleLine="true"
         android:background="@drawable/shape_edit_gray_bg"
         android:hint="请输入开户银行"
-        android:inputType="number"
         android:paddingLeft="5dp"
         android:textSize="14sp" />
 
