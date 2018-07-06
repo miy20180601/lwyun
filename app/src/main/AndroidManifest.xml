@@ -86,8 +86,10 @@
             android:name=".activity.MyReserveOrderActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.VideoMemberActivity" />
-        <activity android:name=".activity.VideoLowyerActivity" />
+        <activity android:name=".activity.VideoMemberActivity"
+             android:screenOrientation="portrait"/>
+        <activity android:name=".activity.VideoLowyerActivity"
+                  android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.LawyerDetailsActivity"

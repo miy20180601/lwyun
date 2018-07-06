@@ -4,13 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.mo.lawyercloud.R;
@@ -19,12 +17,11 @@ import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
-import com.mo.lawyercloud.utils.DlgMgr;
 import com.mo.lawyercloud.utils.MessageObservable;
 import com.mo.lawyercloud.utils.NToast;
 import com.mo.lawyercloud.utils.SPUtil;
 import com.mo.lawyercloud.utils.StatusObservable;
-import com.mo.lawyercloud.utils.TimeUtils;
+import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.TIMMessage;
 import com.tencent.TIMUserProfile;
@@ -33,6 +30,7 @@ import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
 import com.tencent.ilivesdk.core.ILiveLoginManager;
+import com.tencent.ilivesdk.core.ILiveRoomManager;
 import com.tencent.ilivesdk.view.AVRootView;
 import com.tencent.livesdk.ILVCustomCmd;
 import com.tencent.livesdk.ILVLiveConfig;
@@ -45,8 +43,10 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
@@ -58,14 +58,15 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
 
     @BindView(R.id.av_root_view)
     AVRootView avRootView;
-    @BindView(R.id.iv_end_call)
-    ImageView ivEndCall;
     @BindView(R.id.timer)
     Chronometer mTimer;
+    @BindView(R.id.iv_camera)
+    ImageView ivCamera;
 
     private int roomId;
     private String hostID;
     private long callDurationc = 0;
+    private boolean isCameraOn = true;
 
     @Override
     public int getLayoutId() {
@@ -78,6 +79,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
         roomId = getIntent().getIntExtra("roomId", -1);
         hostID = getIntent().getStringExtra("hostID");
         //        avRootView = findViewById(R.id.av_root_view);
+        ivCamera.setSelected(isCameraOn);
         setAvRoomView();
 
         MessageObservable.getInstance().addObserver(this);
@@ -148,8 +150,10 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
 
             @Override
             public void onError(String module, int errCode, String errMsg) {
+                Logger.d("create failed:" + module + "|" + errCode + "|" + errMsg);
                 finish();
-                //                DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" + errMsg);
+                //                DlgMgr.showMsg(mContext, "create failed:" + module + "|" +
+                // errCode + "|" + errMsg);
             }
         });
     }
@@ -161,12 +165,6 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
 
     @Override
     public void onEvent() {
-        ivEndCall.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDialog();
-            }
-        });
     }
 
     private void showDialog() {
@@ -187,6 +185,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
                 mTimer.stop();
                 videoOrderEnd();
             }
+
             @Override
             public void onError(String module, int errCode, String errMsg) {
 
@@ -199,7 +198,8 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
         params.put("id", roomId);
         Gson gson = new Gson();
         String strEntity = gson.toJson(params);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),
+                strEntity);
         Observable<BaseEntity<Object>> observable = RetrofitFactory
                 .getInstance().videoOrderStart(body);
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
@@ -224,7 +224,8 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
         params.put("id", roomId);
         Gson gson = new Gson();
         String strEntity = gson.toJson(params);
-        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json;charset=UTF-8"), strEntity);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),
+                strEntity);
         Observable<BaseEntity<Object>> observable = RetrofitFactory
                 .getInstance().videoOrderEnd(body);
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
@@ -285,4 +286,19 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
     }
 
 
+
+    @OnClick({R.id.iv_camera, R.id.iv_end_call})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_camera:
+                isCameraOn = !isCameraOn;
+                ILiveRoomManager.getInstance().enableCamera(ILiveRoomManager.getInstance().getCurCameraId(),
+                        isCameraOn);
+                ivCamera.setSelected(isCameraOn);
+                break;
+            case R.id.iv_end_call:
+                showDialog();
+                break;
+        }
+    }
 }

@@ -2,34 +2,28 @@ package com.mo.lawyercloud.activity;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.adapter.ImageQuickAdapter;
 import com.mo.lawyercloud.adapter.ReserveTimeQuickAdapter;
-import com.mo.lawyercloud.adapter.itemDecoration.GridSpacingItemDecoration;
 import com.mo.lawyercloud.adapter.ReserveChannelQuickAdapter;
 import com.mo.lawyercloud.adapter.itemDecoration.UniversalItemDecoration;
 import com.mo.lawyercloud.base.BaseActivity;
-import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BaseListEntity;
 import com.mo.lawyercloud.beans.apiBeans.ChannelBean;
@@ -39,8 +33,8 @@ import com.mo.lawyercloud.beans.apiBeans.UploadFileBean;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.Base64Util;
+import com.mo.lawyercloud.utils.FileUtil;
 import com.mo.lawyercloud.utils.NToast;
-import com.mo.lawyercloud.utils.PhotoUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.io.File;
@@ -59,6 +53,8 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import me.iwf.photopicker.PhotoPicker;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import top.zibin.luban.Luban;
 
@@ -287,7 +283,11 @@ public class VideoAppointmentAcitivty extends BaseActivity {
             ArrayList<Map<String, String>> arrayList = new ArrayList<>();
             for (UploadFileBean uploadFileBean : mUploadFileBeans) {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("image", uploadFileBean.getName());
+                if (FileUtil.checkSuffix(uploadFileBean.getName(),new String[]{"png","jpg"})){
+                    map.put("image", uploadFileBean.getName());
+                }else {
+                    map.put("file", uploadFileBean.getName());
+                }
                 arrayList.add(map);
             }
             params.put("attachments", arrayList);
@@ -319,17 +319,27 @@ public class VideoAppointmentAcitivty extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE) {
-            if (data != null) {
-                ArrayList<String> photos = data.getStringArrayListExtra(PhotoPicker
-                        .KEY_SELECTED_PHOTOS);
-                for (String photo : photos) {
-                    compressWithRx(new File(photo));
-                }
+        if (resultCode == RESULT_OK ) {
+            if (requestCode == PhotoPicker.REQUEST_CODE){
+                if (data != null) {
+                    ArrayList<String> photos = data.getStringArrayListExtra(PhotoPicker
+                            .KEY_SELECTED_PHOTOS);
+                    for (String photo : photos) {
+                        compressWithRx(new File(photo));
+                    }
 
+                }
+            }else if (requestCode == REQUEST_FILE){
+                if (data != null){
+                    UploadFileBean uploadFileBean = (UploadFileBean) data.getSerializableExtra("file");
+                    mUploadFileBeans.add(uploadFileBean);
+                    mImageQuickAdapter.setNewData(mUploadFileBeans);
+                }
             }
+
         }
     }
+
 
     /**
      * 压缩图片

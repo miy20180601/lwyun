@@ -75,18 +75,28 @@ public class MineUserFragment extends BaseFragment {
         if (mMember != null){
             intoImg(mMember.getAvatar(),ivAvatar);
             tvUserName.setText(mMember.getRealName() == null? "":mMember.getRealName());
-            tvBalance.setText("¥ "+mMember.getBalance());
         }
     }
+
 
     @Override
     public void onResume() {
         super.onResume();
-        mMember = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
-        if (mMember != null){
-            tvBalance.setText("¥ "+mMember.getBalance());
-        }
+        getMemberInfo();
     }
+
+    protected void getMemberInfo() {
+        Observable<BaseEntity<MemberBean>> observable = RetrofitFactory.getInstance()
+                .getUserInfo();
+        observable.compose(this.<BaseEntity<MemberBean>>rxSchedulers()).subscribe(new BaseObserver<MemberBean>() {
+
+            @Override
+            protected void onHandleSuccess(MemberBean memberBean, String msg) {
+                tvBalance.setText("¥ "+memberBean.getBalance());
+            }
+        });
+    }
+
 
     public void intoImg(String imgUrl, ImageView view){
         RequestOptions options = new RequestOptions();

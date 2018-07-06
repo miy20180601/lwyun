@@ -80,6 +80,7 @@ public class RechargeActivity extends BaseActivity {
 
     }
 
+
     @Override
     public void onEvent() {
         mEditAmount.addTextChangedListener(new TextWatcher() {

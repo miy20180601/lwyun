@@ -47,6 +47,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
 import okhttp3.RequestBody;
@@ -65,9 +66,13 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
     @BindView(R.id.timer)
     Chronometer mTimer;
 
+    @BindView(R.id.iv_camera)
+    ImageView ivCamera;
+
 
     private int roomId;
     private String mUserName;
+    private boolean isCameraOn = true;
 
 
     @Override
@@ -80,6 +85,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
         initPermission();
         roomId = getIntent().getIntExtra("roomId", -1);
         mUserName = getIntent().getStringExtra("userName");
+        ivCamera.setSelected(isCameraOn);
         setAvRoomView();
 
         MessageObservable.getInstance().addObserver(this);
@@ -312,6 +318,21 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
         MessageObservable.getInstance().deleteObserver(this);
         StatusObservable.getInstance().deleteObserver(this);
         ILVLiveManager.getInstance().onDestory();
+    }
+
+    @OnClick({R.id.iv_camera, R.id.iv_end_call})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_camera:
+                isCameraOn = !isCameraOn;
+                ILiveRoomManager.getInstance().enableCamera(ILiveRoomManager.getInstance().getCurCameraId(),
+                        isCameraOn);
+                ivCamera.setSelected(isCameraOn);
+                break;
+            case R.id.iv_end_call:
+                showDialog();
+                break;
+        }
     }
 
 

@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.xhb:xbanner-1.3.8">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xbanner-1.3.8.aar/278d7e94d3aa266e1e09b50d40a9dd79/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/xbanner-1.3.8.aar/278d7e94d3aa266e1e09b50d40a9dd79/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.xhb/xbanner/1.3.8/ace3e5bcebaf9a8ea0b7c7e49906b5331180bac6/xbanner-1.3.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

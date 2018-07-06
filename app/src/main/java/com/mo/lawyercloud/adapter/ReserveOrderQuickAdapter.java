@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mo.lawyercloud.BuildConfig;
@@ -17,6 +18,7 @@ import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.activity.MainActivity;
 import com.mo.lawyercloud.beans.apiBeans.AttachmentsBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveOrderBean;
+import com.mo.lawyercloud.utils.FileUtil;
 import com.mo.lawyercloud.utils.TimeUtils;
 
 import java.util.ArrayList;
@@ -31,7 +33,8 @@ import me.iwf.photopicker.PhotoPreview;
 public class ReserveOrderQuickAdapter extends BaseQuickAdapter<ReserveOrderBean, BaseViewHolder> {
     int type;
     private Activity activity;
-    public ReserveOrderQuickAdapter(int type, Activity activity,@Nullable List<ReserveOrderBean>
+
+    public ReserveOrderQuickAdapter(int type, Activity activity, @Nullable List<ReserveOrderBean>
             data) {
         super(R.layout.item_reserve_order, data);
         this.type = type;
@@ -60,8 +63,8 @@ public class ReserveOrderQuickAdapter extends BaseQuickAdapter<ReserveOrderBean,
         helper.setText(R.id.tv_name, item.getUserDTO().getRealName());
         helper.setText(R.id.tv_channel, item.getChannel().getName());
         helper.setText(R.id.tv_problem, item.getProblem());
-        if (item.getAttachments().size()>0){
-            helper.setGone(R.id.ll_annex,true);
+        if (item.getAttachments().size() > 0) {
+            helper.setGone(R.id.ll_annex, true);
             RecyclerView recyclerView = helper.getView(R.id.recycler_img);
             List<AttachmentsBean> attachments = item.getAttachments();
             final ArrayList<String> paths = new ArrayList<>();
@@ -72,18 +75,24 @@ public class ReserveOrderQuickAdapter extends BaseQuickAdapter<ReserveOrderBean,
             adapter.setOnItemClickListener(new OnItemClickListener() {
                 @Override
                 public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                    PhotoPreview.builder()
-                            .setPhotos(paths)
-                            .setCurrentItem(position)
-                            .setShowDeleteButton(false)
-                            .start(activity);
+                    AttachmentsBean attachment = (AttachmentsBean) adapter.getData().get(position);
+                    if (FileUtil.checkSuffix(attachment.getImage(), new String[]{"png", "jpg"})) {
+                        PhotoPreview.builder()
+                                .setPhotos(paths)
+                                .setCurrentItem(position)
+                                .setShowDeleteButton(false)
+                                .start(activity);
+                    } else {
+
+                    }
+
                 }
             });
             recyclerView.setLayoutManager(new GridLayoutManager(mContext, 2));
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setAdapter(adapter);
-        }else {
-            helper.setGone(R.id.ll_annex,false);
+        } else {
+            helper.setGone(R.id.ll_annex, false);
         }
 
         helper.setText(R.id.tv_time, TimeUtils.dateFormatByType(timeMsg.getStartTime(),
@@ -100,9 +109,9 @@ public class ReserveOrderQuickAdapter extends BaseQuickAdapter<ReserveOrderBean,
                 .getEndTime()) {
             helper.setGone(R.id.btn_open_video, true);
         } else {
-            if (BuildConfig.DEBUG && item.getStatus() != 1 && item.getStatus() != 4){
+            if (BuildConfig.DEBUG && item.getStatus() != 1 && item.getStatus() != 4) {
                 helper.setGone(R.id.btn_open_video, true);
-            }else {
+            } else {
                 helper.setGone(R.id.btn_open_video, false);
             }
         }

@@ -10,9 +10,11 @@ import android.widget.TextView;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.base.Constant;
+import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.eventbus.PayResultMessage;
 import com.mo.lawyercloud.eventbus.RechargeSuccessMessage;
+import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,6 +24,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
 
 /**
  * 我的钱包
@@ -67,8 +70,20 @@ public class MyWalletActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mMemberBean = (MemberBean) mACache.getAsObject(Constant.MEMBER_INFO);
-        mTvBalance.setText(mMemberBean.getBalance() + "元");
+        getMemberInfo();
+
+    }
+
+    protected void getMemberInfo() {
+        Observable<BaseEntity<MemberBean>> observable = RetrofitFactory.getInstance()
+                .getUserInfo();
+        observable.compose(this.<BaseEntity<MemberBean>>rxSchedulers()).subscribe(new BaseObserver<MemberBean>() {
+
+            @Override
+            protected void onHandleSuccess(MemberBean memberBean, String msg) {
+                mTvBalance.setText(memberBean.getBalance() + "元");
+            }
+        });
     }
 
     @Override
@@ -108,15 +123,15 @@ public class MyWalletActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK ) {
-            if (requestCode == REQUEST_WITHDRAW){
-                updateBanlance(data);
-            }
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK ) {
+//            if (requestCode == REQUEST_WITHDRAW){
+//                updateBanlance(data);
+//            }
+//        }
+//    }
 
     private void updateBanlance(Intent data) {
         int amount = data.getIntExtra("amount", 0);

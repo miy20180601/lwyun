@@ -1,6 +1,7 @@
 package com.mo.lawyercloud.adapter;
 
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.beans.apiBeans.UploadFileBean;
+import com.mo.lawyercloud.utils.TimeUtils;
 
 import java.util.List;
 
@@ -24,7 +26,12 @@ public class ImageQuickAdapter extends BaseQuickAdapter<UploadFileBean,BaseViewH
     @Override
     protected void convert(BaseViewHolder helper, UploadFileBean item) {
         ImageView img = helper.getView(R.id.iv_img);
-        Glide.with(img.getContext()).load(item.getSrc()).into(img);
+        if (TextUtils.isEmpty(item.getSrc())){
+            Glide.with(img.getContext()).load(R.mipmap.word).into(img);
+
+        }else {
+            Glide.with(img.getContext()).load(item.getSrc()).into(img);
+        }
         helper.addOnClickListener(R.id.iv_delete);
     }
 }

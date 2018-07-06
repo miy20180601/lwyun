@@ -14,7 +14,6 @@ import com.mo.lawyercloud.beans.apiBeans.HomeBean;
 import com.mo.lawyercloud.beans.apiBeans.InvoiceListBean;
 import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
-import com.mo.lawyercloud.beans.apiBeans.OrderAdvisoryBean;
 import com.mo.lawyercloud.beans.apiBeans.OrderListBean;
 import com.mo.lawyercloud.beans.apiBeans.PayResultBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
@@ -28,15 +27,17 @@ import com.mo.lawyercloud.beans.apiBeans.RegisterResult;
 import com.mo.lawyercloud.beans.apiBeans.WechatOrderBean;
 
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 
@@ -453,9 +454,10 @@ public interface RetrofitApi {
     /**
      * 上传文件
      */
-    @Headers("Content-Type: application/json; charset=utf-8")
+//    @Headers("Content-Type: application/json; charset=utf-8")
+    @Multipart
     @POST("upload/file")
-    Observable<BaseEntity<Object>> uploadFile(@Body RequestBody params);
+    Observable<BaseEntity<UploadFileBean>> uploadFile(@Part List<MultipartBody.Part> files);
 
 }
 
