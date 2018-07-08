@@ -3,6 +3,7 @@ package com.mo.lawyercloud.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
@@ -141,6 +142,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
                 .getMyUserId())
                 .controlRole(Constant.ROLE_LIVEGUEST)
                 .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
+                .controlRole(Constant.ROLE_GUEST)
                 .autoFocus(true);
         ILVLiveManager.getInstance().joinRoom(roomId, option, new ILiveCallBack() {
             @Override
@@ -231,6 +233,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
             @Override
             protected void onHandleSuccess(Object o, String msg) {
+                startActivity(new Intent(mContext,ScoreActivity.class).putExtra("id",roomId));
                 finish();
             }
 

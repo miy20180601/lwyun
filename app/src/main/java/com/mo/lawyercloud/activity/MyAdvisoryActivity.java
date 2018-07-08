@@ -1,5 +1,6 @@
 package com.mo.lawyercloud.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,19 +54,37 @@ public class MyAdvisoryActivity extends BaseActivity {
 
     @Override
     public void initViews(Bundle savedInstanceState) {
+        int type = getIntent().getIntExtra("type", 1); //1为用户，2为律师
         barTitle.setText("我的咨询");
         barTitle.setVisibility(View.VISIBLE);
         mDatas = new ArrayList<>();
-        mQuickAdapter = new MineAdvisoryQuickAdapter(mDatas);
+        mQuickAdapter = new MineAdvisoryQuickAdapter(mDatas,type);
         mQuickAdapter.setLoadMoreView(new CustomLoadMoreView());
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setAdapter(mQuickAdapter);
+        mQuickAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                AdvisoryOrderBean advisoryOrderBean = mQuickAdapter.getData().get(position);
+                switch (view.getId()){
+                    case R.id.tv_btn_score:
+                        startActivity(new Intent(mContext,ScoreActivity.class).putExtra("id",
+                                advisoryOrderBean.getId()));
+                        break;
+                }
+            }
+        });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getMyAdvisoryOrder();
     }
 
     @Override
     public void initData() {
-        getMyAdvisoryOrder();
+
     }
 
     private void getMyAdvisoryOrder() {

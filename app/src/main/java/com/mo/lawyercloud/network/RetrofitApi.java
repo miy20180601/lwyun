@@ -435,6 +435,7 @@ public interface RetrofitApi {
     @POST("push/messageToOne")
     Observable<BaseEntity<Object>> pushMessageToOne(@Body RequestBody params);
 
+
     /**
      * 添加或修改银行卡信息
      * alias        是       用户别名（为username）
@@ -458,6 +459,22 @@ public interface RetrofitApi {
     @Multipart
     @POST("upload/file")
     Observable<BaseEntity<UploadFileBean>> uploadFile(@Part List<MultipartBody.Part> files);
+
+    /**
+     * 用户评价
+     * {
+     * "id":22,
+     * "comment":{
+     *      "score": 5,
+     *      "quickReply": "提供的法律建议合理适用",
+     *      "content": "不错不错"
+     *      }
+     * }
+     */
+    @Headers("Content-Type: application/json; charset=utf-8")
+    @POST("order/comment")
+    Observable<BaseEntity<Object>> orderComment(@Body RequestBody params);
+
 
 }
 

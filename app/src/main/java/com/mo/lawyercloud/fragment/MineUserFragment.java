@@ -113,7 +113,7 @@ public class MineUserFragment extends BaseFragment {
                 startActivityForResult(new Intent(mContext, MyUserActivity.class),REQUEST_UPDATEUSER);
                 break;
             case R.id.rl_mine_advisory:
-                startActivity(new Intent(mContext, MyAdvisoryActivity.class));
+                startActivity(new Intent(mContext, MyAdvisoryActivity.class).putExtra("type",1));
                 break;
             case R.id.rl_mine_reservation:
                 startActivity(new Intent(mContext,MyReserveOrderActivity.class).putExtra("type",1));

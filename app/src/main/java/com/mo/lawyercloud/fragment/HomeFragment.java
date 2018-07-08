@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.activity.MyContactAcitity;
+import com.mo.lawyercloud.activity.ScoreActivity;
 import com.mo.lawyercloud.base.BaseFragment;
 import com.mo.lawyercloud.beans.BaseEntity;
 import com.mo.lawyercloud.beans.apiBeans.BannerBean;
@@ -156,6 +157,7 @@ public class HomeFragment extends BaseFragment {
                 EventBus.getDefault().post(msg);
                 break;
             case R.id.btn_open_live:
+//                startActivity(ScoreActivity.class);
                 msg.type = 1;
                 msg.channel = null;
                 EventBus.getDefault().post(msg);

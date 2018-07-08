@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_titlebar"/>
+
+    <com.hedgehog.ratingbar.RatingBar
+        android:id="@+id/rating_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        app:clickable="true"
+        app:halfstart="false"
+        app:starCount="5"
+        app:starEmpty="@mipmap/service_evaluation_icon_star_n"
+        app:starFill="@mipmap/service_evaluation_icon_star_s"
+        app:starImageHeight="40dp"
+        app:starImageWidth="40dp"
+        app:starImagePadding="10dp"/>
+    <TextView
+        android:id="@+id/tv_satisfaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/tv_high_light"
+        android:textSize="18sp"
+        tools:text="满意"/>
+
+    <TextView
+        android:id="@+id/tv_reply1"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/selector_score_bg"
+        android:gravity="center"
+        android:text="耐心听取当事人叙述"
+        android:textColor="@drawable/selector_score_text_color"/>
+
+    <TextView
+        android:id="@+id/tv_reply2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/selector_score_bg"
+        android:gravity="center"
+        android:text="归纳分析问题准确"
+        android:textColor="@drawable/selector_score_text_color"/>
+
+    <TextView
+        android:id="@+id/tv_reply3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/selector_score_bg"
+        android:gravity="center"
+        android:text="法律分析精炼透彻、通俗易懂"
+        android:textColor="@drawable/selector_score_text_color"/>
+
+    <TextView
+        android:id="@+id/tv_reply4"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_10"
+        android:background="@drawable/selector_score_bg"
+        android:gravity="center"
+        android:text="提供的法律建议合理适用"
+        android:textColor="@drawable/selector_score_text_color"/>
+    <EditText
+        android:id="@+id/et_other"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="top"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"
+        android:padding="@dimen/dp_10"
+        android:hint="其他想说的"
+        android:background="@drawable/shape_score_edit"/>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:text="提交"
+        android:textSize="16sp"
+        android:textColor="@color/tv_high_light"
+        android:background="@drawable/shape_btn_bg"/>
+
+</LinearLayout>

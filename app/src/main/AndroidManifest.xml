@@ -152,6 +152,9 @@
         <activity
             android:name=".activity.FolderActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScoreActivity"
+            android:screenOrientation="portrait" />
 
         <!--多图选择控件-->
 

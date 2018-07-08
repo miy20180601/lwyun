@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class AdvisoryOrderBean {
 
+
     /**
      * id : 15
      * userDTO : {"id":6,"username":null,"password":null,"newPassword":null,"realName":"grin",
@@ -24,7 +25,9 @@ public class AdvisoryOrderBean {
      * timeMsg : {"id":11,"startTime":1527577200000,"endTime":1527580800000,"status":2}
      * channel : {"id":1,"name":"婚姻家事","icon":null}
      * realPrice : 0
-     * videoUrl : http://1256263304.vod2.myqcloud.com/106e5bffvodgzp1256263304/48f0812e7447398156310578344/GCcGMmcwztwA.mp4
+     * videoUrl : http://1256263304.vod2.myqcloud
+     * .com/106e5bffvodgzp1256263304/48f0812e7447398156310578344/GCcGMmcwztwA.mp4
+     * comment : {"id":4,"score":5,"quickReply":null,"content":"不错","isDefault":0}
      */
 
     private int id;
@@ -38,6 +41,7 @@ public class AdvisoryOrderBean {
     private ChannelBean channel;
     private int realPrice;
     private String videoUrl;
+    private CommentBean comment;
     private List<AttachmentsBean> attachments;
 
     public int getId() {
@@ -126,6 +130,14 @@ public class AdvisoryOrderBean {
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+    }
+
+    public CommentBean getComment() {
+        return comment;
+    }
+
+    public void setComment(CommentBean comment) {
+        this.comment = comment;
     }
 
     public List<AttachmentsBean> getAttachments() {
@@ -338,6 +350,97 @@ public class AdvisoryOrderBean {
         }
     }
 
+    public static class ChannelBean {
+        /**
+         * id : 1
+         * name : 婚姻家事
+         * icon : null
+         */
+
+        private int id;
+        private String name;
+        private Object icon;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Object getIcon() {
+            return icon;
+        }
+
+        public void setIcon(Object icon) {
+            this.icon = icon;
+        }
+    }
+
+    public static class CommentBean {
+        /**
+         * id : 4
+         * score : 5
+         * quickReply : null
+         * content : 不错
+         * isDefault : 0
+         */
+
+        private int id;
+        private int score;
+        private String quickReply;
+        private String content;
+        private int isDefault;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public int getScore() {
+            return score;
+        }
+
+        public void setScore(int score) {
+            this.score = score;
+        }
+
+        public String getQuickReply() {
+            return quickReply;
+        }
+
+        public void setQuickReply(String quickReply) {
+            this.quickReply = quickReply;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public void setContent(String content) {
+            this.content = content;
+        }
+
+        public int getIsDefault() {
+            return isDefault;
+        }
+
+        public void setIsDefault(int isDefault) {
+            this.isDefault = isDefault;
+        }
+    }
 
     public static class AttachmentsBean {
         /**

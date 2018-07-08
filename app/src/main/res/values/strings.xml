@@ -26,4 +26,11 @@
         <item>证券保险</item>
         <item>刑事及其他</item>
     </string-array>
+
+    <string-array name="quick_reply">
+        <item>耐心听取当事人叙述</item>
+        <item>归纳分析问题准确</item>
+        <item>法律分析精炼透彻、通俗易懂</item>
+        <item>提供的法律建议合理适用</item>
+    </string-array>
 </resources>
