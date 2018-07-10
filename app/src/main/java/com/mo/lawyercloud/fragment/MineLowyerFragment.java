@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +30,8 @@ import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.NToast;
 import com.mo.lawyercloud.utils.SPUtil;
+import com.tencent.ilivesdk.ILiveCallBack;
+import com.tencent.ilivesdk.core.ILiveLoginManager;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -69,6 +72,23 @@ public class MineLowyerFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    protected void getMemberInfo() {
+        Observable<BaseEntity<MemberBean>> observable = RetrofitFactory.getInstance()
+                .getUserInfo();
+        observable.compose(this.<BaseEntity<MemberBean>>rxSchedulers()).subscribe(new BaseObserver<MemberBean>() {
+
+            @Override
+            protected void onHandleSuccess(MemberBean memberBean, String msg) {
+                intoImg(memberBean.getAvatar(),ivLwyerAvatar);
+                tvLwyerUserName.setText(memberBean.getRealName() == null? "":memberBean.getRealName());
+            }
+        });
+    }
 
     @Override
     public int getLayoutId() {
@@ -117,9 +137,29 @@ public class MineLowyerFragment extends BaseFragment {
                 startActivity(PromotionImgActivity.class);
                 break;
             case R.id.tv_mine_lwyer_out:
-                logout();
+                iLiveLogout();
                 break;
         }
+    }
+
+    /**
+     * 退出imsdk <p> 退出成功会调用退出AVSDK
+     */
+    public void iLiveLogout() {
+        //TODO 新方式登出ILiveSDK
+        ILiveLoginManager.getInstance().iLiveLogout(new ILiveCallBack() {
+            @Override
+            public void onSuccess(Object data) {
+                //清除本地缓存
+                Log.d("iLive", "IMLogout success ");
+                logout();
+            }
+
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                Log.e("iLive", "IMLogout fail ：" + module + "|" + errCode + " msg " + errMsg);
+            }
+        });
     }
     public void logout(){
         Observable<BaseEntity<Object>> observable = RetrofitFactory.getInstance().logout();

@@ -1,6 +1,8 @@
 package com.mo.lawyercloud.adapter;
 
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.beans.apiBeans.AdvisoryOrderBean;
 import com.mo.lawyercloud.utils.TimeUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,9 +59,15 @@ public class MineAdvisoryQuickAdapter extends BaseQuickAdapter<AdvisoryOrderBean
             }else {
                 helper.setGone(R.id.tv_btn_score,false);
                 helper.setGone(R.id.rl_satisfaction,true);
-                RatingBar ratingBar = helper.getView(R.id.rating_bar);
-                ratingBar.setStarCount(comment.getScore());
-                ratingBar.setStar(comment.getScore());
+                RecyclerView recyclerView = helper.getView(R.id.recycler_view);
+                recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL,false));
+
+                ArrayList<String> stars = new ArrayList<>();
+                for (int i=0; i<comment.getScore();i++){
+                    stars.add("");
+                }
+                RatingBarQuickAdapter adapter = new RatingBarQuickAdapter(stars);
+                recyclerView.setAdapter(adapter);
                 if (comment.getIsDefault() == 1){ //是否默认系统好评 0否，1是
                     helper.setText(R.id.tv_satisfaction,"系统默认好评");
                 }else {

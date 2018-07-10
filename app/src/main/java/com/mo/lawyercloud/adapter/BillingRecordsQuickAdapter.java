@@ -29,6 +29,9 @@ public class BillingRecordsQuickAdapter extends BaseQuickAdapter<BillingRecordsB
         }else if (item.getType() == 3){
             helper.setText(R.id.tv_type,"提现");
             helper.setText(R.id.tv_price,"-"+item.getPrice());
+        }else if (item.getType() == 4){
+            helper.setText(R.id.tv_type,"退款");
+            helper.setText(R.id.tv_price,"+"+item.getPrice());
         }
         helper.setText(R.id.tv_date, TimeUtils.dateFormatByType(item.getCreateTime(),
                 "yyyy-MM-dd"));

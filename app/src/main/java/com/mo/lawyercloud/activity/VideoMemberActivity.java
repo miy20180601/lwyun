@@ -26,6 +26,7 @@ import com.orhanobut.logger.Logger;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.tencent.TIMMessage;
 import com.tencent.TIMUserProfile;
+import com.tencent.av.sdk.AVRoomMulti;
 import com.tencent.av.sdk.AVView;
 import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.ilivesdk.ILiveConstants;
@@ -138,13 +139,22 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
     // 加入房间
     private void joinRoom() {
 
-        ILVLiveRoomOption option = new ILVLiveRoomOption(ILiveLoginManager.getInstance()
-                .getMyUserId())
+        //加入房间配置项
+        ILVLiveRoomOption memberOption = new ILVLiveRoomOption("")
+                .autoCamera(true) //是否自动打开摄像头
+                .controlRole(Constant.ROLE_LIVEGUEST) //角色设置
+                .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
+                .authBits(AVRoomMulti.AUTH_BITS_JOIN_ROOM | AVRoomMulti.AUTH_BITS_RECV_AUDIO | AVRoomMulti.AUTH_BITS_RECV_CAMERA_VIDEO | AVRoomMulti.AUTH_BITS_RECV_SCREEN_VIDEO) //权限设置
+                .videoRecvMode(AVRoomMulti.VIDEO_RECV_MODE_SEMI_AUTO_RECV_CAMERA_VIDEO) //是否开始半自动接收
+                .autoFocus(true)
+                .autoMic(true);//是否自动打开 mic
+
+
+        ILVLiveRoomOption option = new ILVLiveRoomOption(ILiveLoginManager.getInstance().getMyUserId())
                 .controlRole(Constant.ROLE_LIVEGUEST)
                 .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
-                .controlRole(Constant.ROLE_GUEST)
                 .autoFocus(true);
-        ILVLiveManager.getInstance().joinRoom(roomId, option, new ILiveCallBack() {
+        ILVLiveManager.getInstance().joinRoom(roomId, memberOption, new ILiveCallBack() {
             @Override
             public void onSuccess(Object data) {
                 videoOrderStart();
