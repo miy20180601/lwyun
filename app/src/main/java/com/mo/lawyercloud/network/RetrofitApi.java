@@ -15,6 +15,7 @@ import com.mo.lawyercloud.beans.apiBeans.InvoiceListBean;
 import com.mo.lawyercloud.beans.apiBeans.LegalBean;
 import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.OrderListBean;
+import com.mo.lawyercloud.beans.apiBeans.OrderTimeoutBean;
 import com.mo.lawyercloud.beans.apiBeans.PayResultBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveOrderBean;
@@ -358,6 +359,12 @@ public interface RetrofitApi {
     );
 
     /**
+     * 视频超时订单，每隔一分钟访问一次
+     */
+    @GET("order/timeout")
+    Observable<BaseEntity<List<OrderTimeoutBean>>> orderTimeout();
+
+    /**
      * 视频聊天结束时调用
      * id   是   订单id
      */
@@ -451,6 +458,8 @@ public interface RetrofitApi {
      */
     @GET("bankCard/info")
     Observable<BaseEntity<BankCardInfo>> bankCardInfo();
+
+
 
     /**
      * 上传文件

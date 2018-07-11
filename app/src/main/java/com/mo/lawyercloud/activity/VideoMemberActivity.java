@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.base.BaseActivity;
 import com.mo.lawyercloud.base.Constant;
 import com.mo.lawyercloud.beans.BaseEntity;
+import com.mo.lawyercloud.beans.apiBeans.OrderTimeoutBean;
 import com.mo.lawyercloud.network.BaseObserver;
 import com.mo.lawyercloud.network.RetrofitFactory;
 import com.mo.lawyercloud.utils.MessageObservable;
@@ -31,6 +33,7 @@ import com.tencent.av.sdk.AVView;
 import com.tencent.ilivesdk.ILiveCallBack;
 import com.tencent.ilivesdk.ILiveConstants;
 import com.tencent.ilivesdk.ILiveSDK;
+import com.tencent.ilivesdk.core.ILiveCameraListener;
 import com.tencent.ilivesdk.core.ILiveLoginManager;
 import com.tencent.ilivesdk.core.ILiveRoomManager;
 import com.tencent.ilivesdk.view.AVRootView;
@@ -41,6 +44,7 @@ import com.tencent.livesdk.ILVLiveRoomOption;
 import com.tencent.livesdk.ILVText;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -107,6 +111,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
         // .small_area_marginbetween));
         avRootView.setSubWidth(getResources().getDimensionPixelSize(R.dimen.small_area_width));
         avRootView.setSubHeight(getResources().getDimensionPixelSize(R.dimen.small_area_height));
+        avRootView.setAutoOrientation(false);
         //        avRootView.setSubCreatedListener(new AVRootView.onSubViewCreatedListener() {
         //            @Override
         //            public void onSubViewCreated() {
@@ -140,21 +145,14 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
     private void joinRoom() {
 
         //加入房间配置项
-        ILVLiveRoomOption memberOption = new ILVLiveRoomOption("")
+        ILVLiveRoomOption option = new ILVLiveRoomOption(ILiveLoginManager.getInstance()
+                .getMyUserId())
                 .autoCamera(true) //是否自动打开摄像头
-                .controlRole(Constant.ROLE_LIVEGUEST) //角色设置
-                .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
-                .authBits(AVRoomMulti.AUTH_BITS_JOIN_ROOM | AVRoomMulti.AUTH_BITS_RECV_AUDIO | AVRoomMulti.AUTH_BITS_RECV_CAMERA_VIDEO | AVRoomMulti.AUTH_BITS_RECV_SCREEN_VIDEO) //权限设置
-                .videoRecvMode(AVRoomMulti.VIDEO_RECV_MODE_SEMI_AUTO_RECV_CAMERA_VIDEO) //是否开始半自动接收
-                .autoFocus(true)
-                .autoMic(true);//是否自动打开 mic
-
-
-        ILVLiveRoomOption option = new ILVLiveRoomOption(ILiveLoginManager.getInstance().getMyUserId())
                 .controlRole(Constant.ROLE_LIVEGUEST)
                 .videoMode(ILiveConstants.VIDEOMODE_NORMAL)
+                .autoMic(true)//是否自动打开 mic
                 .autoFocus(true);
-        ILVLiveManager.getInstance().joinRoom(roomId, memberOption, new ILiveCallBack() {
+        ILVLiveManager.getInstance().joinRoom(roomId, option, new ILiveCallBack() {
             @Override
             public void onSuccess(Object data) {
                 videoOrderStart();
@@ -195,6 +193,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
             @Override
             public void onSuccess(Object data) {
                 mTimer.stop();
+                mDownTimer.cancel();
                 videoOrderEnd();
             }
 
@@ -204,6 +203,39 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
             }
         });
     }
+
+    CountDownTimer mDownTimer = new CountDownTimer(60 * 1000 * 60 * 24, 1000 * 60) {
+        @Override
+        public void onTick(long millisUntilFinished) {
+            videoOrderTimeout();
+        }
+
+
+        @Override
+        public void onFinish() {
+
+        }
+    };
+
+    private void videoOrderTimeout() {
+        Observable<BaseEntity<List<OrderTimeoutBean>>> observable = RetrofitFactory
+                .getInstance().orderTimeout();
+        observable.compose(this.<BaseEntity<List<OrderTimeoutBean>>>rxSchedulers()).subscribe(
+                new BaseObserver<List<OrderTimeoutBean>>() {
+
+                    @Override
+                    protected void onHandleSuccess(List<OrderTimeoutBean> datas, String msg) {
+                        if(datas!=null&&datas.size()>0){
+                            for (OrderTimeoutBean data : datas) {
+                                if (data.getId() == roomId){
+                                    videoOrderEnd();
+                                }
+                            }
+                        }
+                    }
+                });
+    }
+
 
     private void videoOrderStart() {
         Map<String, Object> params = new HashMap<>();
@@ -221,6 +253,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
                 int hour = (int) ((SystemClock.elapsedRealtime() - mTimer.getBase()) / 1000 / 60);
                 mTimer.setFormat("0" + String.valueOf(hour) + ":%s");
                 mTimer.start();
+                mDownTimer.start();
             }
 
             @Override
@@ -243,7 +276,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
         observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
             @Override
             protected void onHandleSuccess(Object o, String msg) {
-                startActivity(new Intent(mContext,ScoreActivity.class).putExtra("id",roomId));
+                startActivity(new Intent(mContext, ScoreActivity.class).putExtra("id", roomId));
                 finish();
             }
 
@@ -272,6 +305,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
     protected void onDestroy() {
         super.onDestroy();
         mTimer.stop();
+        mDownTimer.cancel();
         MessageObservable.getInstance().deleteObserver(this);
         StatusObservable.getInstance().deleteObserver(this);
         ILVLiveManager.getInstance().onDestory();
@@ -299,13 +333,13 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
     }
 
 
-
     @OnClick({R.id.iv_camera, R.id.iv_end_call})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_camera:
                 isCameraOn = !isCameraOn;
-                ILiveRoomManager.getInstance().enableCamera(ILiveRoomManager.getInstance().getCurCameraId(),
+                ILiveRoomManager.getInstance().enableCamera(ILiveRoomManager.getInstance()
+                                .getCurCameraId(),
                         isCameraOn);
                 ivCamera.setSelected(isCameraOn);
                 break;

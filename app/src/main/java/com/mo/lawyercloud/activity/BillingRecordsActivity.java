@@ -63,8 +63,11 @@ public class BillingRecordsActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 BillingRecordsBean billingRecordsBean = mQuickAdapter.getData().get(position);
-                startActivity(new Intent(mContext,BillDetailActivity.class).putExtra("type",billingRecordsBean.getType())
-                .putExtra("id",billingRecordsBean.getId()));
+                if (billingRecordsBean.getType() !=4){
+                    startActivity(new Intent(mContext,BillDetailActivity.class).putExtra("type",billingRecordsBean.getType())
+                            .putExtra("id",billingRecordsBean.getId()));
+                }
+
             }
         });
     }
