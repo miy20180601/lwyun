@@ -161,7 +161,7 @@
         android:layout_marginBottom="10dp"
         android:padding="10dp"
         android:textSize="14sp"
-        android:text="进入直播间"/>
+        android:text="进入会客室"/>
     <RelativeLayout
         android:id="@+id/rl_buttom"
         android:layout_marginTop="10dp"
