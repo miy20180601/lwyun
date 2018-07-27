@@ -125,7 +125,7 @@
                 android:background="#f8f8f8"
                 android:gravity="top"
                 android:textSize="12sp"
-                android:hint="请简短输入您的咨询问题"
+                android:hint="请详细输入您的咨询问题，并把相关资料作为附件一并上传给律师。"
                 android:paddingTop="8dp"
                 android:paddingBottom="8dp"
                 android:paddingLeft="12dp"

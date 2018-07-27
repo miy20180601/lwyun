@@ -17,6 +17,7 @@ import com.mo.lawyercloud.beans.apiBeans.MemberBean;
 import com.mo.lawyercloud.beans.apiBeans.OrderListBean;
 import com.mo.lawyercloud.beans.apiBeans.OrderTimeoutBean;
 import com.mo.lawyercloud.beans.apiBeans.PayResultBean;
+import com.mo.lawyercloud.beans.apiBeans.PromotionImgBean;
 import com.mo.lawyercloud.beans.apiBeans.RecruitmentBean;
 import com.mo.lawyercloud.beans.apiBeans.ReserveOrderBean;
 import com.mo.lawyercloud.beans.apiBeans.TimeMsgBean;
@@ -460,7 +461,6 @@ public interface RetrofitApi {
     Observable<BaseEntity<BankCardInfo>> bankCardInfo();
 
 
-
     /**
      * 上传文件
      */
@@ -474,15 +474,25 @@ public interface RetrofitApi {
      * {
      * "id":22,
      * "comment":{
-     *      "score": 5,
-     *      "quickReply": "提供的法律建议合理适用",
-     *      "content": "不错不错"
-     *      }
+     * "score": 5,
+     * "quickReply": "提供的法律建议合理适用",
+     * "content": "不错不错"
+     * }
      * }
      */
     @Headers("Content-Type: application/json; charset=utf-8")
     @POST("order/comment")
     Observable<BaseEntity<Object>> orderComment(@Body RequestBody params);
+
+    /**
+     * 获取推广图
+     * 1、iOS推广图
+     * 2、Android推广图
+     * 3、H5推广图
+     * 4、PC推广图
+     */
+    @GET("promotion/list")
+    Observable<BaseEntity<PromotionImgBean>> getPromotionImg(@Query("type") int type);
 
 
 }
