@@ -41,9 +41,13 @@ public class LawyerProfileQuickAdapter extends BaseQuickAdapter<SolicitorDetailB
         Glide.with(mContext).load(item.getAvatar()).apply(options).into(ivAvatar);
 
         if (item.getGender() ==1){
+            helper.setVisible(R.id.iv_sex,true);
             helper.setImageResource(R.id.iv_sex,R.mipmap.common_icon_male);
-        } else {
+        } else if(item.getGender()==2){
+            helper.setVisible(R.id.iv_sex,true);
             helper.setImageResource(R.id.iv_sex,R.mipmap.common_icon_female);
+        }else {
+            helper.setVisible(R.id.iv_sex,false);
         }
 
 
