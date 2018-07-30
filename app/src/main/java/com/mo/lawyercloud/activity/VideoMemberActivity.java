@@ -260,6 +260,7 @@ public class VideoMemberActivity extends BaseActivity implements ILVLiveConfig
             protected void onHandleError(int statusCode, String msg) {
                 super.onHandleError(statusCode, msg);
                 NToast.shortToast(mContext, msg);
+                finish();
             }
         });
     }
