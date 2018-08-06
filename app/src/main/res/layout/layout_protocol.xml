@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="40dp"
     android:layout_marginTop="10dp"
@@ -9,22 +10,24 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="3dp"
         android:button="@drawable/selector_service_agreement"/>
     <TextView
+        android:id="@+id/tv_protocol"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="勾选，即表示已阅读并同意"
+        android:layout_marginRight="@dimen/dp_10"
+        tools:text="勾选，即表示已阅读并同意《平台用户注册服务协议》、《律师注册服务协议》、《平台规则》、《平台公约》"
         android:textColor="@color/tv_hint"
         android:textSize="11sp" />
 
-    <TextView
-        android:id="@+id/tv_protocol"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:layout_marginRight="@dimen/dp_10"
-        android:text="《平台用户注册服务协议》、《律师注册服务协议》、《平台规则》、《平台公约》"
-        android:textColor="@color/tv_high_light"
-        android:textSize="11sp" />
+    <!--<TextView-->
+        <!--android:id="@+id/tv_protocol"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:maxLines="2"-->
+        <!--android:layout_marginRight="@dimen/dp_10"-->
+        <!--android:text="《平台用户注册服务协议》、《律师注册服务协议》、《平台规则》、《平台公约》"-->
+        <!--android:textColor="@color/tv_high_light"-->
+        <!--android:textSize="11sp" />-->
 </LinearLayout>

@@ -1,15 +1,20 @@
 package com.mo.lawyercloud.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.mo.lawyercloud.R;
 import com.mo.lawyercloud.activity.LowyerRegisterActivity;
@@ -30,7 +35,8 @@ public class RegisterFragment extends BaseFragment {
 
     @BindView(R.id.cb_sevice_agreement)
     CheckBox mCb;
-
+    @BindView(R.id.tv_protocol)
+    TextView tvProtocol;
 
 
     @Override
@@ -41,6 +47,9 @@ public class RegisterFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        SpannableString spannableString = new SpannableString("勾选，即表示已阅读并同意《平台用户注册服务协议》、《律师注册服务协议》、《平台规则》、《平台公约》");
+        spannableString.setSpan(new ForegroundColorSpan(Color.parseColor("#b18147")), 12,spannableString.length(), Spanned.SPAN_EXCLUSIVE_INCLUSIVE);
+        tvProtocol.setText(spannableString);
     }
 
     @OnClick({R.id.btn_user_register, R.id.btn_lowyer_register, R.id.tv_protocol})
