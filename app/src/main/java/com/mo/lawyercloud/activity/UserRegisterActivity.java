@@ -1,5 +1,6 @@
 package com.mo.lawyercloud.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -201,7 +202,8 @@ public class UserRegisterActivity extends BaseActivity {
         observable.compose(this.<BaseEntity<RegisterResult>>rxSchedulers()).subscribe(new BaseObserver<RegisterResult>() {
             @Override
             protected void onHandleSuccess(RegisterResult s, String msg) {
-                startActivity(LoginActivity.class);
+                NToast.shortToast(mContext,msg);
+                startActivity(new Intent(mContext,LoginActivity.class).putExtra("type","1"));
             }
         });
     }

@@ -127,6 +127,7 @@
 
 #=============================================================================================================================
 
+#-ignorewarnings -keep class * { public private *; }
 
 #万能adapter
 -keep class com.chad.library.adapter.** {*;}
@@ -148,7 +149,7 @@
 }
 
 # for DexGuard only
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 # support-v7-appcompat
 -keep public class android.support.v7.widget.** { *; }
 -keep public class android.support.v7.internal.widget.** { *; }

@@ -16,7 +16,7 @@ import com.mo.lawyercloud.fragment.RegulationFragment;
 
 public class InformationPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] mTitles = new String[]{"关于我们", "人才招聘","法规常识"};
+    private String[] mTitles = new String[]{"关于我们", "人才招聘","每日资讯"};
 
     public InformationPagerAdapter(FragmentManager fm) {
         super(fm);

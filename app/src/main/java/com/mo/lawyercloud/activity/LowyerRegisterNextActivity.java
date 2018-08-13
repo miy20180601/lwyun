@@ -1,5 +1,6 @@
 package com.mo.lawyercloud.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -138,7 +139,8 @@ public class LowyerRegisterNextActivity extends BaseActivity {
         observable.compose(this.<BaseEntity<RegisterResult>>rxSchedulers()).subscribe(new BaseObserver<RegisterResult>() {
             @Override
             protected void onHandleSuccess(RegisterResult s, String msg) {
-                startActivity(LoginActivity.class);
+                NToast.shortToast(mContext,msg);
+                startActivity(new Intent(mContext,LoginActivity.class).putExtra("type","1"));
             }
 
             @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,9 +34,22 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
 
+    //是否注册跳转
+    private String type;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        super.onNewIntent(intent);
+        type = intent.getStringExtra("type");
+        if (!TextUtils.isEmpty(type) && type.equals("1")){
+            mViewPager.setCurrentItem(0);
+        }
     }
 
     @Override
@@ -45,6 +59,7 @@ public class LoginActivity extends BaseActivity {
         LoginPagerAdapter loginPagerAdapter = new LoginPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(loginPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -64,6 +79,10 @@ public class LoginActivity extends BaseActivity {
 
             }
         });
+        type = getIntent().getStringExtra("type");
+        if (!TextUtils.isEmpty(type) && type.equals("1")){
+            mViewPager.setCurrentItem(0);
+        }
     }
 
     @Override

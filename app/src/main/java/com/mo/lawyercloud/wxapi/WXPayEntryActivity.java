@@ -50,7 +50,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			if (resp.errCode==0){
 				EventBus.getDefault().post(new PayResultMessage());
-			}else if (resp.errCode==-2){
+			}else if (resp.errCode == -2){
 				startActivity(new Intent(this,RechargeResultActivity.class).putExtra
 						(Constant.RECHARGE_RESULT,2));
 			}

@@ -163,11 +163,7 @@ public class RechargeActivity extends BaseActivity {
 
     private void rechargeWechat() {
         Map<String,Object> params = new HashMap<>();
-//        if (BuildConfig.DEBUG){
-//
-//        }else {
-//
-//        }
+
 //        params.put("amount","0.1");
         params.put("amount",mAmount);
 

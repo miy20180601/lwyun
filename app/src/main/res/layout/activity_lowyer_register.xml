@@ -75,7 +75,7 @@
                     android:layout_weight="1"
                     android:inputType="number"
                     android:background="@null"
-                    android:hint="请输入密码"
+                    android:hint="请输入验证码"
                     android:paddingLeft="10dp"
                     android:textSize="14sp" />
 

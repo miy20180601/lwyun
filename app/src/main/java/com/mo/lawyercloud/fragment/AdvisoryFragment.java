@@ -223,6 +223,7 @@ public class AdvisoryFragment extends BaseFragment implements View.OnClickListen
                                         }
                                     }else {
                                         mQuickAdapter.setNewData(dataList.getResult());
+                                        mQuickAdapter.removeAllFooterView();
                                         mQuickAdapter.addFooterView(getFooterView());
                                     }
 
