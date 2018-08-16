@@ -53,6 +53,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.functions.Consumer;
+import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
@@ -142,7 +143,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
                 );
     }
 
-    private void pushMessage(){
+    private void pushMessage() {
         Map<String, Object> params = new HashMap<>();
         params.put("alias", mUserName);
         params.put("alert", "律师邀请视频");
@@ -161,6 +162,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
             }
         });
     }
+
 
     CountDownTimer mDownTimer = new CountDownTimer(60 * 1000 * 60 * 24, 1000 * 60) {
         @Override
@@ -183,9 +185,9 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
 
                     @Override
                     protected void onHandleSuccess(List<OrderTimeoutBean> datas, String msg) {
-                        if(datas!=null&&datas.size()>0){
+                        if (datas != null && datas.size() > 0) {
                             for (OrderTimeoutBean data : datas) {
-                                if (data.getId() == roomId){
+                                if (data.getId() == roomId) {
                                     videoOrderEnd();
                                 }
                             }
@@ -206,26 +208,22 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
                 .autoMic(true)
                 .autoFocus(true);
         ILVLiveManager.getInstance().createRoom(roomId, option, new ILiveCallBack() {
-                    @Override
-                    public void onSuccess(Object data) {
-                        mTimer.setBase(SystemClock.elapsedRealtime());//计时器清零
-                        int hour = (int) ((SystemClock.elapsedRealtime() - mTimer.getBase()) / 1000 / 60);
-                        mTimer.setFormat("0" + String.valueOf(hour) + ":%s");
-                        mTimer.start();
-//                        mDownTimer.start();
-                        pushMessage();
-                    }
+            @Override
+            public void onSuccess(Object data) {
 
-                    @Override
-                    public void onError(String module, int errCode, String errMsg) {
-                        DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" + errMsg);
-                        finish();
+                videoOrderStart();
+            }
 
-                    }
-                });
+            @Override
+            public void onError(String module, int errCode, String errMsg) {
+                DlgMgr.showMsg(mContext, "create failed:" + module + "|" + errCode + "|" + errMsg);
+                finish();
+
+            }
+        });
     }
 
-    private void showChoiceDlg(){
+    private void showChoiceDlg() {
         android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this)
                 .setTitle("提示")
                 .setMessage("房间已存在，是否加入房间？")
@@ -235,7 +233,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
                         dialogInterface.dismiss();
                     }
                 })
-                .setPositiveButton("确定", new DialogInterface.OnClickListener(){
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 //                        joinRoom();
@@ -267,7 +265,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
                     public void onClick(DialogInterface dialog, int which) {
                         quitLiveVideo();
                     }
-                }).setPositiveButton("取消",null).show();
+                }).setPositiveButton("取消", null).show();
     }
 
     private void quitLiveVideo() {
@@ -286,6 +284,34 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
         });
     }
 
+    private void videoOrderStart() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", roomId);
+        Gson gson = new Gson();
+        String strEntity = gson.toJson(params);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),
+                strEntity);
+        Observable<BaseEntity<Object>> observable = RetrofitFactory
+                .getInstance().videoOrderStart(body);
+        observable.compose(this.<BaseEntity<Object>>rxSchedulers()).subscribe(new BaseObserver<Object>() {
+            @Override
+            protected void onHandleSuccess(Object o, String msg) {
+                mTimer.setBase(SystemClock.elapsedRealtime());//计时器清零
+                int hour = (int) ((SystemClock.elapsedRealtime() - mTimer.getBase()) / 1000 / 60);
+                mTimer.setFormat("0" + String.valueOf(hour) + ":%s");
+                mTimer.start();
+//                        mDownTimer.start();
+                pushMessage();
+            }
+
+            @Override
+            protected void onHandleError(int statusCode, String msg) {
+                super.onHandleError(statusCode, msg);
+                NToast.shortToast(mContext, msg);
+                finish();
+            }
+        });
+    }
 
     private void videoOrderEnd() {
         Map<String, Object> params = new HashMap<>();
@@ -304,7 +330,7 @@ public class VideoLowyerActivity extends BaseActivity implements ILVLiveConfig
             @Override
             protected void onHandleError(int statusCode, String msg) {
                 super.onHandleError(statusCode, msg);
-                NToast.shortToast(mContext,msg);
+                NToast.shortToast(mContext, msg);
                 finish();
             }
         });

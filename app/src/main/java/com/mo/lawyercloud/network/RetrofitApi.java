@@ -495,5 +495,7 @@ public interface RetrofitApi {
     Observable<BaseEntity<PromotionImgBean>> getPromotionImg(@Query("type") int type);
 
 
+
+
 }
 
